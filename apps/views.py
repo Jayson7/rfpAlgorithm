@@ -10,20 +10,20 @@ jaysontechsolutions@gmail.com
 '''
 
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
 
 # login here 
 def login_page(request):
-    pass 
+    context = {}
+    return redirect(request, 'auth_pages/login.html', context)
 
 # 404 here 
 def page_not_found(request):
     pass 
 
-# login here 
-def login_page(request):
-    pass 
+def register_mail(request):
+    pass
 
