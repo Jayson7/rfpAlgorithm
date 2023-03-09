@@ -4,9 +4,14 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+'''
+Author == "Jayson"
+jaysontechsolutions@gmail.com
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+
+#################  All Rights Reserved ###########
+
+'''
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-(((#46fb3s7x@w7&85f@vdhovj085du@ue0%q9@*0b8=!8oqiv'
@@ -26,6 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'authenticator',
+    'apps',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +66,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'rfp_main.wsgi.application'
 
 
+# main datebase for authentication
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -68,6 +76,12 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# user data storage database
+
+
+
+
 
 
 # Password validation
@@ -105,6 +119,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
