@@ -24,6 +24,7 @@ def login_page(request):
 def page_not_found(request):
     pass 
 
+# register mail here
 def register_mail(request):
     pass
 
