@@ -24,7 +24,7 @@ All right reserved
 />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- static files -->
-<link rel="stylesheet" href="{% static 'user/user_login.css' %}">
+<link rel="stylesheet" href="{% static 'css/user/user_login.css' %}">
 
     <title>RFP Algorithm - Login</title>
   </head>
@@ -54,15 +54,15 @@ All right reserved
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item p-2">
+          <li class="nav-item p-2 ">
             <a class="nav-link" href="#"
               > <span class="nav-icon"> </span>    Admin </span></a
             >
           </li>
-          <li class="nav-item p-2">
+          <li class="nav-item p-2 ">
             <a class="nav-link" href="#">About us</a>
           </li>
-          <li class="nav-item p-2">
+          <li class="nav-item p-2 ">
             <a class="nav-link" href="#">Contact us</a>
           </li>
         
@@ -73,17 +73,45 @@ All right reserved
 
   <body>
 
-<div class="container-fluid bg-dark">
+<div class="container-fluid ">
 
-<div class="d-flex flex-row justify-content-around bg-info align-items-center flex-wrap">
+<div class="login-wrapper">
   
-  <div class="box1 col-md-5 m-2">
+  <div class="box1 col-md-5">
 <div class="image-wrapper">
-  <img src="{% static 'images/woman.jpg'%}" alt="" srcset="">
+  <img id="img" src="{% static 'images/woman.jpg'%}" alt="" srcset="">
 </div>
   
   </div>
-  <div class="box2 col-md-5 m-2 bg-danger">Flex item 2</div>
+  <div class="box2 col-md-5"> <h2>Form Validation</h2>
+  <p>In this example, we use <code>.was-validated</code> to indicate what's missing before submitting the form:</p>
+  <form action="/action_page.php" class="was-validated">
+    <div class="form-group">
+      <label for="uname">Username:</label>
+      <input type="text" class="form-control" id="uname" placeholder="Enter username" name="uname" required>
+      <div class="valid-feedback">Valid.</div>
+      <div class="invalid-feedback">Please fill out this field.</div>
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required>
+      <div class="valid-feedback">Valid.</div>
+      <div class="invalid-feedback">Please fill out this field.</div>
+    </div>
+    <div class="form-group form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" name="remember" required> I agree on blabla.
+        <div class="valid-feedback">Valid.</div>
+        <div class="invalid-feedback">Check this checkbox to continue.</div>
+      </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form></div>
+</div>
+<div class="footer">
+  <div class="text-center">Copyright @ RFP-Algorithm 2023
+
+</div>
 </div>
 
 
