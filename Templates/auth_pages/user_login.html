@@ -17,7 +17,8 @@ All right reserved
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- bootstrap -->
-<link
+
+    <link
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
 />
@@ -76,14 +77,18 @@ All right reserved
 
 <div class="d-flex flex-row justify-content-around bg-info align-items-center flex-wrap">
   
-  <div class="box1 col-md-5 m-2 bg-success">Flex item 1</div>
+  <div class="box1 col-md-5 m-2">
+<div class="image-wrapper">
+  <img src="{% static 'images/woman.jpg'%}" alt="" srcset="">
+</div>
+  
+  </div>
   <div class="box2 col-md-5 m-2 bg-danger">Flex item 2</div>
 </div>
 
 
 
 </div>
-
 
   </body>
 
