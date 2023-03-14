@@ -3,11 +3,12 @@ from django.shortcuts import render, redirect
 # Create your views here.
 
 
+
 # login here 
 def login_page(request):
     context = {}
     
-    return redirect(request, 'auth_pages/login.html', context)
+    return render(request, 'auth_pages/user_login.html', context)
 
 
 
