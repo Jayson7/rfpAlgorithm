@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-
+from .auth_forms import *
 # Create your views here.
 
 
@@ -7,9 +7,16 @@ from django.shortcuts import render, redirect
 # login here 
 def login_page(request):
     context = {}
+    forms = ''
+    if request.method == "POST":
+        pass
+    
     
     return render(request, 'auth_pages/user_login.html', context)
 
+def register_client(request):
+    context = {}
+    pass
 
 
 # register mail here
