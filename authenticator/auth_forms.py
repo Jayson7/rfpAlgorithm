@@ -1,6 +1,11 @@
 from django.forms import ModelForm
+from .models import *
 
 
-
-class TakeMAil(ModelForm):
-    pass 
+class ResgisterUser(ModelForm):
+    class Meta:
+        model = RegisterClient
+        fields = ['usage_permission_count', 'client_name',
+                  'client_location'
+                  ]
+        
