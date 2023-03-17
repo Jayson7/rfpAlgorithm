@@ -7,7 +7,8 @@ from .auth_forms import *
 # login here 
 def login_page(request):
     context = {}
-    forms = ''
+    forms = RegisterClient()
+    
     if request.method == "POST":
         pass
     

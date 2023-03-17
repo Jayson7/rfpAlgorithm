@@ -3,6 +3,7 @@ from .models import *
 
 
 class ResgisterUser(ModelForm):
+
     class Meta:
         model = RegisterClient
         fields = ['usage_permission_count', 'client_name',
