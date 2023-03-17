@@ -10,3 +10,11 @@ class ResgisterUser(ModelForm):
                   'client_location'
                   ]
         
+class LoginUser(ModelForm):
+
+    class Meta:
+        model = RegisterClient
+        fields = ['usage_permission_count', 'client_name',
+                  'client_location'
+                  ]
+        
