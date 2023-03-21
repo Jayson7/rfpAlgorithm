@@ -9,7 +9,7 @@ def login_page(request):
     context = {}
     
     if request.method == "POST":
-        forms = RegisterClient(request.POST)
+        forms = RegisterClientForm(request.POST)
         password = request.POST.get
         
     
