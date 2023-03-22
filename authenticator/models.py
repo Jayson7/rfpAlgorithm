@@ -2,6 +2,13 @@ from django.db import models
 
 # Create your models here.
 
+# take charge of usage of password by user 
+class PasswordLog_on_User(models.Model):
+    Full_name = models.CharField(max_length=40)
+    age = models.DateField()
+    height = models.FloatField()
+    weight = models.FloatField()
+    
 
 # register client on the platform - admin only
 class RegisterClient(models.Model):
@@ -14,8 +21,9 @@ class RegisterClient(models.Model):
 
 # This will generate password for user - action by admin only
 class GeneratedPassword(models.Model):
-    pass  
-
+    app_password = models.CharField(max_length=15)
+    client = models.ForeignKey(RegisterClient, on_delete=models.CASCADE)  
+    usage_count = models.IntegerField()
 
 # where password will be accessed 
 class PassWordSafe(models.Model):
