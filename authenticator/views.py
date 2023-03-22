@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from .auth_forms import *
+from .models import *
+from django.contrib import messages
 # Create your views here.
 
 
@@ -10,9 +12,18 @@ def login_page(request):
     
     if request.method == "POST":
         forms = RegisterClientForm(request.POST)
-        password = request.POST.get
-        
-    
+        password = request.POST.get['password']
+        print(password)
+        if password == '':
+            
+            return redirect('login')
+        else:
+            password_check = PassWordSafe.objects.filter(password=password)[0]
+            if password_check.exists():
+                pass
+            else:
+                return redirect('user_info')
+                
     return render(request, 'auth_pages/user_login.html', context)
 
 def register_client(request):
