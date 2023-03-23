@@ -20,8 +20,13 @@ def login_page(request):
         else:
             password_check = PassWordSafe.objects.filter(password=password)[0]
             if password_check.exists():
-                # check password access count 
-                
+                # check password usage count 
+                usage_count_password = password_check.usage_count
+                if usage_count_password >= 1:
+                    pass 
+                else:
+                    messages.warning(request, 'password is exhausted')
+                    return redirect('login')
                 # if count limit isn't reached add 1 
                 
                 # generate token for user login using org username + count

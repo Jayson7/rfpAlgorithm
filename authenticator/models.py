@@ -21,6 +21,9 @@ class RegisterClient(models.Model):
     client_location = models.CharField(max_length=50) 
     date_registered = models.DateTimeField(auto_now_add=True)
     username = models.CharField(max_length=20)
+    email = models.EmailField()
+    
+    
     
 
     
@@ -31,7 +34,6 @@ class RegisterClient(models.Model):
 # This will generate password for user - action by admin only
 
 class GeneratedPassword(models.Model):
-    app_password = models.CharField(max_length=15)
     client = models.ForeignKey(RegisterClient, on_delete=models.CASCADE)  
     usage_count = models.IntegerField()
     username = models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='org_username')
