@@ -20,6 +20,14 @@ def login_page(request):
         else:
             password_check = PassWordSafe.objects.filter(password=password)[0]
             if password_check.exists():
+                # check password access count 
+                
+                # if count limit isn't reached add 1 
+                
+                # generate token for user login using org username + count
+                
+                
+                # send user to info page
                 pass 
             else:
                 messages.warning(request, 'password incorrect')
@@ -32,7 +40,5 @@ def register_client(request):
     pass
 
 
-# register mail here
-def register_mail(request):
-    pass
+
 
