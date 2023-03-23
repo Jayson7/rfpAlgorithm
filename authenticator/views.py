@@ -15,14 +15,15 @@ def login_page(request):
         password = request.POST.get['password']
         print(password)
         if password == '':
-            
+            messages.warning(request, 'Password incorrect')
             return redirect('login')
         else:
             password_check = PassWordSafe.objects.filter(password=password)[0]
             if password_check.exists():
-                pass
+                pass 
             else:
-                return redirect('user_info')
+                messages.warning(request, 'password incorrect')
+                return redirect('login')
                 
     return render(request, 'auth_pages/user_login.html', context)
 
