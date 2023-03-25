@@ -22,6 +22,7 @@ def login_page(request):
             if password_check:
                 # check password usage count 
                 usage_count_password = PassWordSafe.objects.filter(password=password).usage_count
+                print(usage_count_password)
                 if usage_count_password >= 1:
                     pass 
                 else:

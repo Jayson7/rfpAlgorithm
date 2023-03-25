@@ -2,57 +2,82 @@ from django.db import models
 
 # Create your models here.
 
-# take charge of usage of password by user 
-class PasswordLog_on_User(models.Model):
-    Full_name = models.CharField(max_length=40)
-    age = models.DateField()
-    height = models.FloatField()
-    weight = models.FloatField()
-    email = models.EmailField()
-    
-    
-    def __str__(self) -> str:
-        return self.full_name
 
 
 # register client on the platform - admin only
 class RegisterClient(models.Model):
     client_name = models.CharField(max_length=30)
     client_location = models.CharField(max_length=50) 
-    date_registered = models.DateTimeField(auto_now_add=True)
-    username = models.CharField(max_length=20)
     email = models.EmailField()
     
+    # auto generated
+    date_registered = models.DateTimeField(auto_now_add=True)
+    username = models.CharField(max_length=20)
     
-    
-
     
     def __str__(self) -> str:
         return self.client_name
+
+
+
+
+# monitor password usage for api
+class PasswordStorage(models.Model):
+    client = models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='password_owner')
+    password = models.CharField(max_length=12)
+    date_generated = models.DateTimeField(auto_now_add=True)
+    
+    # hidden, will only be populated if password expires
+    date_exhausted = models.DateTimeField(null=True, blank=True)
+    
+    def __str__(self) -> str:
+        return self.client
+
+
+
+# count password access 
+class Usage_Monitor(models.Model):
+    client = models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='password_used_owner')
+    usage_count = models.PositiveIntegerField(default=0)
+    password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_involved')
+     
+
 
 
 # This will generate password for user - action by admin only
 
 class GeneratedPassword(models.Model):
     client = models.ForeignKey(RegisterClient, on_delete=models.CASCADE)  
-    usage_count = models.IntegerField()
-    password = models.CharField(max_length=12)
+    usage_count = models.ForeignKey(Usage_Monitor,on_delete=models.CASCADE, related_name='password_count')
+    # auto generated
+    password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_expected')
     
     
     def __str__(self) -> str:
         return self.client
 
-# where password will be accessed by api only
-class PassWordSafe(models.Model):
-    usage_count = models.PositiveIntegerField()
-    client = models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='client_registered_password')
-    password = models.ForeignKey(GeneratedPassword, on_delete=models.CASCADE, related_name='password_saved')
+
+
+
+
+
     
+
+
+
+# take charge of usage of password by user 
+# when a user uses the password
+
+class Password_log_on_user(models.Model):
+    Full_name = models.CharField(max_length=40)
+    age = models.DateField()
+    height = models.FloatField()
+    weight = models.FloatField()
+    email = models.EmailField()
     
+    # hidden, will be populated by api
+    
+    password = models.CharField(max_length=20)
     def __str__(self) -> str:
-        return self.client
-
+        return self.full_name
     
-
-
-
