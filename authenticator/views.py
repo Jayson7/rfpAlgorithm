@@ -27,7 +27,7 @@ def login_page(request):
                 if usage_count_password >= 1:
                     pass 
                 else:
-                 
+                    messages.warning(request, 'Your password has expired!')
                     return redirect('login')
                 # if count limit isn't reached add 1 
                 
@@ -37,7 +37,8 @@ def login_page(request):
                 # send user to info page
                 pass 
             else:
-               
+                messages.warning(request, 'Incorrect Password')
+                
                 print('lost')
                 return redirect('login')
 

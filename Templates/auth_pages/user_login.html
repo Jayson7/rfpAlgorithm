@@ -31,6 +31,19 @@ All right reserved
   </head>
 
   <body>
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message }}
+    </div>
+    {% endfor %}
     <section class="h-100 gradient-form" style="background-color: #eee">
       <div class="container-fluid py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
