@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,500&display=swap");
 .gradient-custom-2 {
   /* fallback for old browsers */
   background: #fccb90;
@@ -25,4 +26,19 @@
     border-top-right-radius: 0.3rem;
     border-bottom-right-radius: 0.3rem;
   }
+}
+
+.alert {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: max-content;
+  height: max-content;
+  z-index: 10;
+  display: flex;
+  flex-direction: column !important;
+  text-align: center;
+  font-size: 1rem;
+  font-family: "Poppins";
 }
