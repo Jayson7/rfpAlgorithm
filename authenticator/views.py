@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .auth_forms import *
 from .models import *
 from django.contrib import messages
+
 # Create your views here.
 
 
@@ -18,15 +19,15 @@ def login_page(request):
             messages.warning(request, 'Password incorrect')
             return redirect('login')
         else:
-            password_check = GeneratedPassword.objects.filter(password=password).first()
+            password_check = PasswordStorage.objects.filter(password=password).first()
             if password_check:
                 # check password usage count 
-                usage_count_password = PassWordSafe.objects.filter(password=password).usage_count
+                usage_count_password = PasswordStorage.objects.filter(password=password).usage_count
                 print(usage_count_password)
                 if usage_count_password >= 1:
                     pass 
                 else:
-                    messages.warning(request, 'password is exhausted')
+                 
                     return redirect('login')
                 # if count limit isn't reached add 1 
                 
@@ -36,15 +37,29 @@ def login_page(request):
                 # send user to info page
                 pass 
             else:
-                messages.warning(request, 'password incorrect')
+               
+                print('lost')
                 return redirect('login')
 
     return render(request, 'auth_pages/user_login.html', context)
 
-def register_client(request):
-    context = {}
+
+
+
+# update models for password count on login
+
+def UpdatePassword(request):
     pass
 
 
 
+# generate a new password for new client
+def generate_password_new_user(request):
+    pass 
+
+
+
+# generate a new password for existing client
+def generate_password_old_user(request):
+    pass 
 

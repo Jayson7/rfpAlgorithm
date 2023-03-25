@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authenticator',
     'apps',
-    'sweetify'
+
 ]
 
 MIDDLEWARE = [
@@ -132,8 +132,6 @@ STATIC_ROOT = "/static/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 # messaging platform
 
-# possible options: 'sweetalert', 'sweetalert2' - default is 'sweetalert2'
-
-SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'
