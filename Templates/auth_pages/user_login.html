@@ -50,7 +50,7 @@ All right reserved
                       </h4>
                     </div>
 
-                    <form>
+                    <form method="POST">
                       <p>Please provide a pass code</p>
 
                       <div class="form-outline mb-4">
@@ -60,7 +60,9 @@ All right reserved
                           id="exampleInputPassword1"
                           placeholder="Password"
                           required
+                          name="password1"
                         />
+                        {% csrf_token %}
                         <label class="mt-2" for="exampleInputPassword1"
                           >Password</label
                         >
@@ -73,7 +75,7 @@ All right reserved
                         >
                           Log in
                         </button>
-                        <a class="text-muted" href="#!">Having issues?</a>
+                        <a class="text-muted" href="#">Having issues?</a>
                       </div>
                     </form>
                   </div>

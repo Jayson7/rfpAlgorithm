@@ -11,17 +11,17 @@ def login_page(request):
     context = {}
     
     if request.method == "POST":
-        forms = RegisterClientForm(request.POST)
-        password = request.POST.get['password']
-        print(password)
+    
+        password = request.POST['password1']
+       
         if password == '':
             messages.warning(request, 'Password incorrect')
             return redirect('login')
         else:
-            password_check = PassWordSafe.objects.filter(password=password)[0]
-            if password_check.exists():
+            password_check = GeneratedPassword.objects.filter(password=password).first()
+            if password_check:
                 # check password usage count 
-                usage_count_password = password_check.usage_count
+                usage_count_password = PassWordSafe.objects.filter(password=password).usage_count
                 if usage_count_password >= 1:
                     pass 
                 else:
@@ -37,7 +37,7 @@ def login_page(request):
             else:
                 messages.warning(request, 'password incorrect')
                 return redirect('login')
-                
+
     return render(request, 'auth_pages/user_login.html', context)
 
 def register_client(request):

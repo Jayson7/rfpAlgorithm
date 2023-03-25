@@ -36,7 +36,7 @@ class RegisterClient(models.Model):
 class GeneratedPassword(models.Model):
     client = models.ForeignKey(RegisterClient, on_delete=models.CASCADE)  
     usage_count = models.IntegerField()
-    username = models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='org_username')
+    password = models.CharField(max_length=12)
     
     
     def __str__(self) -> str:
