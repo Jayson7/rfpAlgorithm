@@ -77,7 +77,7 @@ class Password_log_on_user(models.Model):
     
     # hidden, will be populated by api
     
-    password = models.CharField(max_length=20)
+    password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_patient_used')
     def __str__(self) -> str:
         return self.full_name
     
