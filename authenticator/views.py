@@ -52,7 +52,7 @@ def login_page(request):
                              )
                             token_create.save()
                             return redirect('user_info')
-                        
+
                         else:
                             messages.warning(request, 'Password is invalid')
                             return redirect('login')
@@ -92,7 +92,7 @@ def UpdatePassword(request):
 
 # generate a new password for new client
 def generate_password_new_user(request):
-    pass 
+    pass
 
 
 
@@ -100,3 +100,6 @@ def generate_password_new_user(request):
 def generate_password_old_user(request):
     pass 
 
+
+def complete_user_info(request):
+    pass 
