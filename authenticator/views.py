@@ -3,6 +3,8 @@ from .auth_forms import *
 from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+import string
+import random
 
 # Create your views here.
 
@@ -15,9 +17,10 @@ def login_page(request):
     if request.method == "POST":
     
         password = request.POST['password1']
-       
-        if password == '':
-            messages.warning(request, 'Password incorrect')
+        full_name = request.POST['fullname']
+        # validate credentials
+        if password == '' or full_name == '':
+            messages.warning(request, 'Incorrect credentials')
             return redirect('login')
         else:
             password_check = PasswordStorage.objects.filter(password=password).first()
@@ -33,8 +36,21 @@ def login_page(request):
                     if client_username:
                         authenticate_user = authenticate(client_username, password)
                         if authenticate_user.is_authenticated:
-                            pass
-                         
+                            
+                            # create login token for user 
+                                # choose from all lowercase letter
+                            letters = string.ascii_lowercase
+                            result_str = ''.join(random.choice(letters) for i in range(4))
+                            random_num = random.randint(1000, 9999)
+                            token_generated = f'{result_str} + {random_num} + {result_str}'
+                            print(token_generated)
+                            
+                            token_create = UserLoginToken.create(
+                                 token = token_generated,
+                                 password = password_check,
+                                 full_name = full_name
+                             )
+                            token_create.save()
                         else:
                             messages.warning(request, 'Password is invalid')
                             return redirect('login')
