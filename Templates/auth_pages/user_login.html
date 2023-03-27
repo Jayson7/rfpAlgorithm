@@ -59,14 +59,27 @@ All right reserved
                         style="width: 185px"
                         alt="logo"
                       />
-                      <h4 class="mt-1 mb-5 pb-1">RFP Algorithm</h4>
+                      <h4 class="mt-1 mb-3 pb-1">RFP Algorithm</h4>
                     </div>
 
                     <form method="POST" autocomplete="off">
                       <p class="text-center text-info">
                         Please provide a pass code
                       </p>
-
+                      <div class="form-outline mb-2">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="exampleInputText"
+                          placeholder="Full name"
+                          required
+                          name="fullname"
+                        />
+                        {% csrf_token %}
+                        <label class="mt-2" for="exampleInputPassword1"
+                          >Full name</label
+                        >
+                      </div>
                       <div class="form-outline mb-4">
                         <input
                           type="password"
