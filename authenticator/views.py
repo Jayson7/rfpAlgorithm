@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .auth_forms import *
 from .models import *
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 
 # Create your views here.
 
@@ -22,10 +23,27 @@ def login_page(request):
             password_check = PasswordStorage.objects.filter(password=password).first()
             if password_check:
                 # check password usage count 
-                usage_count_password = PasswordStorage.objects.filter(password=password).usage_count
+                usage_count_password = Usage_Monitor.objects.filter(password=password_check).usage_count
                 print(usage_count_password)
                 if usage_count_password >= 1:
-                    pass 
+                    usage_count_password - 1
+                    usage_count_password.save()
+                    # get client details and authenticate
+                    client_username = password_check.client.username 
+                    if client_username:
+                        authenticate_user = authenticate(client_username, password)
+                        if authenticate_user.is_authenticated:
+                            pass
+                         
+                        else:
+                            messages.warning(request, 'Password is invalid')
+                            return redirect('login')
+                            
+                    else:
+                        
+                        messages.warning(request, 'Account access is denied, contact Admin')
+                        return redirect('login')
+                        
                 else:
                     messages.warning(request, 'Your password has expired!')
                     return redirect('login')
