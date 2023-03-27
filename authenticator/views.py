@@ -51,6 +51,8 @@ def login_page(request):
                                  full_name = full_name
                              )
                             token_create.save()
+                            return redirect('user_info')
+                        
                         else:
                             messages.warning(request, 'Password is invalid')
                             return redirect('login')
