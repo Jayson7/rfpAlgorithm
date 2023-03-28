@@ -11,5 +11,7 @@ class RegisterClientForm(ModelForm):
         ]
         
 
+class CompeteProfileForm(ModelForm):
+    pass 
         
 
