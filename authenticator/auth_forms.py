@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import RegisterClient
+from .models import *
 
 
 class RegisterClientForm(ModelForm):
@@ -12,6 +12,12 @@ class RegisterClientForm(ModelForm):
         
 
 class CompeteProfileForm(ModelForm):
-    pass 
+    
+    class Meta:
+        model = Password_log_on_user
+        fields = [
+            'age', 'height', 'weight', 'email', 'date_of_birth' 
+        ]
+        exclude = ['full_name', 'password']
         
 
