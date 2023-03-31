@@ -89,11 +89,9 @@ def UpdatePassword(request):
     pass
 
 
-
 # generate a new password for new client
 def generate_password_new_user(request):
     pass
-
 
 
 # generate a new password for existing client
@@ -101,5 +99,19 @@ def generate_password_old_user(request):
     pass 
 
 
+
+
+# complete user profile 
 def complete_user_info(request):
-    pass 
+    
+    context = {}
+    forms = CompeteProfileForm(request.POST)
+    if forms.is_valid():
+        pass 
+    
+    else:
+        forms = CompeteProfileForm(request.POST)
+    
+    context['forms'] = forms
+    
+    return render(request, 'auth_pages/complete_profile.html', context)

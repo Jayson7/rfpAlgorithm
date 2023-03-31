@@ -58,23 +58,16 @@ class GeneratedPassword(models.Model):
 
 
 
-
-
-
-    
-
-
-
 # take charge of usage of password by user 
 # when a user uses the password
 
 class Password_log_on_user(models.Model):
-    Full_name = models.CharField(max_length=40)
-    Age = models.DateField()
-    Height = models.FloatField()
-    Weight = models.FloatField()
-    Email = models.EmailField()
-    Date_of_birth = models.DateField()
+    full_name = models.CharField(max_length=40)
+    age = models.DateField()
+    height = models.FloatField()
+    weight = models.FloatField()
+    email = models.EmailField()
+    date_of_birth = models.DateField()
     
     # hidden, will be populated by api
     
@@ -86,8 +79,6 @@ class Password_log_on_user(models.Model):
         return self.full_name
     
     
-
-
 class UserLoginToken(models.Model):
     token = models.CharField(max_length=10)
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_used_login')
