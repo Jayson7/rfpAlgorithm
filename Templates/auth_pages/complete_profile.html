@@ -1,4 +1,4 @@
-{% load static %} {% load crispy_form_tags %}
+{% load static %} {% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +16,9 @@
     <!-- style -->
     <link rel="stylesheet" href="{% static 'user/complete_profile.css' %}" />
   </head>
-  <body></body>
+  <body>
+    {{ forms | crispy}}
+  </body>
   <!-- jQuery library -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
 

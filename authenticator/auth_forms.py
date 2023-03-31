@@ -17,7 +17,7 @@ class DateInput(forms.DateInput):
 # Form class in forms.py
 
 
-class CompeteProfileForm(forms.Form):
+class CompeteProfileForm(forms.ModelForm):
     
     age = forms.DateField(widget=DateInput)
     
