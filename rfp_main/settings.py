@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'authenticator',
     'apps',
     'crispy_forms',
+    'crispy_bootstrap4'
 
 ]
 

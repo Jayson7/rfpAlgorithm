@@ -63,7 +63,7 @@ class GeneratedPassword(models.Model):
 
 class Password_log_on_user(models.Model):
     full_name = models.CharField(max_length=40)
-    age = models.DateField()
+    
     height = models.FloatField()
     weight = models.FloatField()
     email = models.EmailField()

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .auth_forms import *
 from .models import *
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 import string
 import random
 
@@ -105,12 +105,14 @@ def generate_password_old_user(request):
 def complete_user_info(request):
     
     context = {}
-    forms = CompeteProfileForm(request.POST)
-    if forms.is_valid():
+    forms = CompeteProfileForm()
+    if request.method == 'POST':
         pass 
+        if forms.is_valid():
+            pass 
     
     else:
-        forms = CompeteProfileForm(request.POST)
+        forms = CompeteProfileForm()
     
     context['forms'] = forms
     

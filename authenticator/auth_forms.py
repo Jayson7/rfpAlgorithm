@@ -19,12 +19,12 @@ class DateInput(forms.DateInput):
 
 class CompeteProfileForm(forms.ModelForm):
     
-    age = forms.DateField(widget=DateInput)
+    date_of_birth = forms.DateField(widget=DateInput)
     
     class Meta:
         model = Password_log_on_user
         fields = [
-            'age', 'height', 'weight', 'email', 'date_of_birth' 
+             'height', 'weight', 'email', 'date_of_birth' 
         ]
         exclude = ['full_name', 'password']
         

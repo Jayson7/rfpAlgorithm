@@ -14,10 +14,16 @@
     />
 
     <!-- style -->
-    <link rel="stylesheet" href="{% static 'user/complete_profile.css' %}" />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'css/user/complete_profile.css' %}"
+    />
   </head>
   <body>
-    {{ forms|crispy }}
+    <div class="form-container">
+      <form method="post">{{ forms|crispy }}</form>
+    </div>
   </body>
   <!-- jQuery library -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
