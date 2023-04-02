@@ -69,6 +69,7 @@ class Password_log_on_user(models.Model):
     weight = models.FloatField()
     email = models.EmailField()
     date_of_birth = models.DateField()
+    BMI = models.FloatField()
     
     # hidden, will be populated by api
     
@@ -85,7 +86,8 @@ class UserLoginToken(models.Model):
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_used_login')
     full_name =  models.CharField(max_length=30)
     username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sign_on_user')
-    
+    verified = models.BooleanField(default=False)
+    date_verified = models.DateTimeField(blank=True, null=True)
     
     def __str__(self) -> str:
         return self.token 
