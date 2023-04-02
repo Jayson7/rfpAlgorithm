@@ -88,6 +88,7 @@ class UserLoginToken(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sign_on_user')
     verified = models.BooleanField(default=False)
     date_verified = models.DateTimeField(blank=True, null=True)
+    date_token_generated = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:
         return self.token 
