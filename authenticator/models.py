@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+# =========================================================================
 
 # register client on the platform - admin only
 class RegisterClient(models.Model):
@@ -20,6 +21,7 @@ class RegisterClient(models.Model):
         return self.client_name
 
 
+# =========================================================================
 
 
 # monitor password usage for api
@@ -35,6 +37,7 @@ class PasswordStorage(models.Model):
         return self.client
 
 
+# =========================================================================
 
 # count password access 
 class Usage_Monitor(models.Model):
@@ -44,6 +47,7 @@ class Usage_Monitor(models.Model):
      
 
 
+# =========================================================================
 
 # This will generate password for user - action by admin only
 
@@ -58,29 +62,28 @@ class GeneratedPassword(models.Model):
         return self.client
 
 
-
+# =========================================================================
 # take charge of usage of password by user 
 # when a user uses the password
 
+
 class Password_log_on_user(models.Model):
     full_name = models.CharField(max_length=40)
-    
     height = models.FloatField()
     weight = models.FloatField()
     email = models.EmailField()
     date_of_birth = models.DateField()
-    BMI = models.FloatField()
-    
     # hidden, will be populated by api
-    
+    BMI = models.FloatField(blank=True, null=True)
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_patient_used')
-    
+    age = models.PositiveIntegerField(null = True, blank=True)
     
     
     def __str__(self) -> str:
         return self.full_name
     
-    
+
+# ============================================================================
 class UserLoginToken(models.Model):
     token = models.CharField(max_length=10)
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_used_login')

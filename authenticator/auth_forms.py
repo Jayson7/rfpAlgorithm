@@ -26,6 +26,6 @@ class CompeteProfileForm(forms.ModelForm):
         fields = [
              'height', 'weight', 'email', 'date_of_birth' 
         ]
-        exclude = ['full_name', 'password']
+        exclude = ['full_name', 'password', 'BMI', 'age']
         
 

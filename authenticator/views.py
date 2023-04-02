@@ -3,17 +3,23 @@ from .auth_forms import *
 from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 import string
 import random
 
 # Create your views here.
 
 
-
+# ==================================== Basic functions and Algorithms =========================
 # login here 
 def login_page(request):
     context = {}
-    
+    if request.user.is_authenticated:
+        # cleanup any leftover from user profile
+        
+        logout()
+    else:
+        pass 
     if request.method == "POST":
     
         password = request.POST['password1']
@@ -48,7 +54,8 @@ def login_page(request):
                             token_create = UserLoginToken.create(
                                  token = token_generated,
                                  password = password_check,
-                                 full_name = full_name
+                                 full_name = full_name,
+                                 username = client_username
                              )
                             token_create.save()
                             return redirect('user_info')
@@ -83,37 +90,63 @@ def login_page(request):
 
 
 
-# update models for password count on login
-
-def UpdatePassword(request):
-    pass
-
-
-# generate a new password for new client
-def generate_password_new_user(request):
-    pass
-
-
-# generate a new password for existing client
-def generate_password_old_user(request):
-    pass 
-
-
-
-
 # complete user profile 
+@login_required
 def complete_user_info(request):
     
+    
+    try:
+        access_token = UserLoginToken.objects.filter(username = request.user).token.first()
+    except:
+        messages.warning(request, 'Authentication failed')
+        return redirect('login')
+
+    current_user = request.user
     context = {}
     forms = CompeteProfileForm()
     if request.method == 'POST':
         pass 
         if forms.is_valid():
-            pass 
-    
+            new_profile = forms.save(commit=False)
+            
+            # load full name and password
+            full_name = access_token.full_name 
+            password = access_token.password
+            #  trigger other left out details
+            new
+            # submit and start questions
+
     else:
         forms = CompeteProfileForm()
     
     context['forms'] = forms
     
     return render(request, 'auth_pages/complete_profile.html', context)
+
+
+
+
+
+
+
+# ========================================= Admin functions ===================================================
+
+
+# update models for password count on login
+
+@login_required
+def UpdatePassword(request):
+    pass
+
+
+# generate a new password for new client
+@login_required
+def generate_password_new_user(request):
+    pass
+
+
+# generate a new password for existing client
+@login_required
+def generate_password_old_user(request):
+    pass 
+
