@@ -84,7 +84,7 @@ class UserLoginToken(models.Model):
     token = models.CharField(max_length=10)
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_used_login')
     full_name =  models.CharField(max_length=30)
-    username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sign on user')
+    username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sign_on_user')
     
     
     def __str__(self) -> str:
