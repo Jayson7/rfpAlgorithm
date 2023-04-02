@@ -21,8 +21,13 @@
     />
   </head>
   <body>
-    <div class="form-container">
-      <form method="post">{{ forms|crispy }}</form>
+    <div class="form-container py-5">
+      <div class="form-header">We need more information</div>
+      <form method="post" class="px-2">
+        {{ forms|crispy }}
+
+        <button type="submit" class="btn btn-success">Start</button>
+      </form>
     </div>
   </body>
   <!-- jQuery library -->

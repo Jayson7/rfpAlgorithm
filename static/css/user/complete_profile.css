@@ -8,4 +8,21 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
+  font-family: "Poppins";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.form-header {
+  text-align: center;
+  font-size: 1.3rem;
+  color: rgb(255, 255, 255) !important;
+}
+
+.form-container {
+  width: 450px;
+  height: max-content;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  color: wheat;
 }
