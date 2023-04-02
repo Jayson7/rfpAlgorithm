@@ -22,7 +22,17 @@ body {
 .form-container {
   width: 450px;
   height: max-content;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 10;
   color: wheat;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  /* Firefox */
+}
+
+/* query  */
+
+@media screen and max-width {
 }
