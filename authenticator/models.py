@@ -31,7 +31,7 @@ class PasswordStorage(models.Model):
     date_generated = models.DateTimeField(auto_now_add=True)
     
     # hidden, will only be populated if password expires
-    date_exhausted = models.DateTimeField(null=True, blank=True)
+    date_exhausted = models.DateTimeField(blank=True)
     
     def __str__(self) -> str:
         return self.client
@@ -68,15 +68,16 @@ class GeneratedPassword(models.Model):
 
 
 class Password_log_on_user(models.Model):
-    full_name = models.CharField(max_length=40)
-    height = models.FloatField()
-    weight = models.FloatField()
-    email = models.EmailField()
+    height = models.FloatField(help_text='in meters, e.g 1.67')
+    weight = models.FloatField(help_text='in kilograms e.g 90kg')
+    email = models.EmailField(help_text='abc@efg.com')
     date_of_birth = models.DateField()
+    
     # hidden, will be populated by api
-    BMI = models.FloatField(blank=True, null=True)
+    full_name = models.CharField(max_length=40)
+    BMI = models.FloatField(blank=True )
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_patient_used')
-    age = models.PositiveIntegerField(null = True, blank=True)
+    age = models.PositiveIntegerField( blank=True)
     
     
     def __str__(self) -> str:
@@ -90,7 +91,7 @@ class UserLoginToken(models.Model):
     full_name =  models.CharField(max_length=30)
     username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sign_on_user')
     verified = models.BooleanField(default=False)
-    date_verified = models.DateTimeField(blank=True, null=True)
+    date_verified = models.DateTimeField(blank=True )
     date_token_generated = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:
