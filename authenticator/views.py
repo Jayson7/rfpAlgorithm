@@ -91,16 +91,21 @@ def login_page(request):
 
 
 # complete user profile 
-@login_required
-def complete_user_info(request):
-    
-    
-    try:
-        access_token = UserLoginToken.objects.filter(username = request.user).token.first()
-    except:
-        messages.warning(request, 'Authentication failed')
-        return redirect('login')
 
+def complete_user_info(request):
+    # confirm authentication status    
+    # if request.user.is_authenticated:
+    #     pass 
+    # else:
+    #     return redirect('login')
+    
+    # try:
+    #     access_token = UserLoginToken.objects.filter(username = request.user).token.first()
+    # except:
+    #     messages.warning(request, 'Authentication failed')
+    #     return redirect('login')
+    
+    # access_token = UserLoginToken.objects.filter(username = request.user).token.first()
     current_user = request.user
     context = {}
     forms = CompeteProfileForm()
@@ -113,7 +118,12 @@ def complete_user_info(request):
             full_name = access_token.full_name 
             password = access_token.password
             #  trigger other left out details
-            new
+            new_profile.full_name = full_name
+            new_profile.password = password
+            # calculate BMI
+            print(new_profile.height)
+            print(new_profile.weight)
+            
             # submit and start questions
 
     else:

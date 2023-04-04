@@ -152,5 +152,5 @@ MESSAGE_TAGS = {
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # django_project/settings.py
-# LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "login"
 LOGOUT_REDIRECT_URL = "login"  
