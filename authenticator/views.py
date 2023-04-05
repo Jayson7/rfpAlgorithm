@@ -105,7 +105,7 @@ def complete_user_info(request):
     #     messages.warning(request, 'Authentication failed')
     #     return redirect('login')
     
-    # access_token = UserLoginToken.objects.filter(username = request.user).token.first()
+    # access_token = True 
     current_user = request.user
     context = {}
     forms = CompeteProfileForm()
@@ -123,6 +123,30 @@ def complete_user_info(request):
             # calculate BMI
             print(new_profile.height)
             print(new_profile.weight)
+            new_profile.BMI =float(new_profile.height) * float(new_profile.height) / float(new_profile. width)
+            profile_score = float(new_profile.BMI)
+            
+            
+            # define classification
+            
+            if profile_score < 18.5:
+                new_profile.classification = 'Under Weight'
+            elif profile_score  >= 18.5 and profile_score <= 24.9:
+                new_profile.classification = 'normal'
+            
+            elif profile_score  >= 25 and profile_score <= 29.9:
+                new_profile.classification = 'Over Weight'
+            
+            elif profile_score  >= 30 and profile_score <= 34.9:
+                new_profile.classification = 'Obesity (Class I)'
+            
+            elif profile_score  >= 35 and profile_score <= 39.9:
+                new_profile.classification = 'Obesity (Class II)'
+            
+            else:
+                new_profile.classification = 'Extreme Obesity'
+       
+            new_profile.save()
             
             # submit and start questions
 

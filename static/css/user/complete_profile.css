@@ -20,7 +20,7 @@ body {
 }
 
 .form-container {
-  width: 450px;
+  width: 550px;
   height: max-content;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 10;
@@ -34,5 +34,5 @@ input[type="number"] {
 
 /* query  */
 
-@media screen and max-width {
-}
+/* @media screen and max-width {
+} */

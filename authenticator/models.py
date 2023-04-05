@@ -78,6 +78,7 @@ class Password_log_on_user(models.Model):
     BMI = models.FloatField(blank=True )
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_patient_used')
     age = models.PositiveIntegerField( blank=True)
+    classification = models.CharField(max_length=30)
     
     
     def __str__(self) -> str:
