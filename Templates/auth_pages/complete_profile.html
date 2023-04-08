@@ -21,6 +21,20 @@
     />
   </head>
   <body>
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+      <br />
+      <button
+        type="button"
+        class="btn close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message }}
+    </div>
+    {% endfor %}
     <div class="form-container py-5">
       <div class="form-header">We need more information</div>
       <form method="post" class="px-4">

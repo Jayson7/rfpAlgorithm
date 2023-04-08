@@ -5,7 +5,11 @@ from .views import *
 
 
 urlpatterns = [
+    # user functions 
     path('', login_page, name='login'),
     path('complete_info', complete_user_info, name='user_info'),
+    
+    # admin functions
+    path('admin_login', admin_login, name='admin_login'),
     
 ]

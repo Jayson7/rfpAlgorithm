@@ -165,7 +165,10 @@ def complete_user_info(request):
 
 # ========================================= Admin functions ===================================================
 
-
+def admin_login(request):
+    context = {}
+    
+    return render(request, 'admin_pages/admin_auth_pages/admin_login.html', context)
 
 def admin_dashbord(request):
     if request.user.is_authenticated:
