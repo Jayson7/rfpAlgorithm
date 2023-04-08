@@ -166,11 +166,31 @@ def complete_user_info(request):
 # ========================================= Admin functions ===================================================
 
 
+
+def admin_dashbord(request):
+    if request.user.is_authenticated:
+        # check super user status 
+        if request.use.is_superuser:
+            pass      
+        else:
+            messages.warning(request, 'Trying to access that wont work')
+            return redirect('login')
+    else:
+        messages.waning(request, 'Login please')
+        return redirect('admin_login')
+
+
+
 # update models for password count on login
 
-@login_required
+
 def UpdatePassword(request):
-    pass
+    if request.user.is_authenticated:
+        pass 
+    else:
+        return redirect('login')
+    
+    
 
 
 # generate a new password for new client
