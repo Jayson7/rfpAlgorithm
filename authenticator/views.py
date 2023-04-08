@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from .auth_forms import *
 from .models import *
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
 import string
 import random
 
@@ -167,10 +169,25 @@ def complete_user_info(request):
 
 def admin_login(request):
     context = {}
+    if request.method == 'POST':
+        username = request.POST.get['username'] 
+        password = request.POST.get['password'] 
+        # verify credentials 
+        try:
+            verified_username = User.objects.filter(username=username).first()
+            if verified_username:
+                pass 
+        except:
+            messages.warning(request, 'authentication failed')
+            return redirect('admin_login')
+    else:
+        pass 
     
     return render(request, 'admin_pages/admin_auth_pages/admin_login.html', context)
 
 def admin_dashbord(request):
+    # check login status
+
     if request.user.is_authenticated:
         # check super user status 
         if request.use.is_superuser:
