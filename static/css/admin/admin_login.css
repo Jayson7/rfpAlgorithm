@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,500&display=swap");
+
 body {
   background: #222d32;
   font-family: "Roboto", sans-serif;
@@ -141,7 +143,6 @@ label {
   height: max-content;
   z-index: 10;
   display: flex;
-  flex-direction: column !important;
   text-align: center;
   font-size: 1rem;
   font-family: "Poppins";

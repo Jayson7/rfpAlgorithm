@@ -18,8 +18,16 @@ def login_page(request):
     context = {}
     if request.user.is_authenticated:
         # cleanup any leftover from user profile
-        
-        logout()
+        try:
+            access_token = UserLoginToken.objects.filter(username = request.user).token.first()
+            if access_token:
+                access_token.delete() 
+                logout(request)
+            else:
+                logout(request)
+        except:
+            logout(request)
+            
     else:
         pass 
     if request.method == "POST":
@@ -123,30 +131,30 @@ def complete_user_info(request):
             new_profile.full_name = full_name
             new_profile.password = password
             # calculate BMI
-            print(new_profile.height)
-            print(new_profile.weight)
-            new_profile.BMI =float(new_profile.height) * float(new_profile.height) / float(new_profile. width)
-            profile_score = float(new_profile.BMI)
+            # print(new_profile.height)
+            # print(new_profile.weight)
+            # new_profile.BMI =float(new_profile.height) * float(new_profile.height) / float(new_profile. width)
+            # profile_score = float(new_profile.BMI)
             
             
             # define classification
             
-            if profile_score < 18.5:
-                new_profile.classification = 'Under Weight'
-            elif profile_score  >= 18.5 and profile_score <= 24.9:
-                new_profile.classification = 'normal'
+            # if profile_score < 18.5:
+            #     new_profile.classification = 'Under Weight'
+            # elif profile_score  >= 18.5 and profile_score <= 24.9:
+            #     new_profile.classification = 'normal'
             
-            elif profile_score  >= 25 and profile_score <= 29.9:
-                new_profile.classification = 'Over Weight'
+            # elif profile_score  >= 25 and profile_score <= 29.9:
+            #     new_profile.classification = 'Over Weight'
             
-            elif profile_score  >= 30 and profile_score <= 34.9:
-                new_profile.classification = 'Obesity (Class I)'
+            # elif profile_score  >= 30 and profile_score <= 34.9:
+            #     new_profile.classification = 'Obesity (Class I)'
             
-            elif profile_score  >= 35 and profile_score <= 39.9:
-                new_profile.classification = 'Obesity (Class II)'
+            # elif profile_score  >= 35 and profile_score <= 39.9:
+            #     new_profile.classification = 'Obesity (Class II)'
             
-            else:
-                new_profile.classification = 'Extreme Obesity'
+            # else:
+            #     new_profile.classification = 'Extreme Obesity'
        
             new_profile.save()
             
@@ -168,35 +176,56 @@ def complete_user_info(request):
 # ========================================= Admin functions ===================================================
 
 def admin_login(request):
+    if request.user.is_authenticated:
+        logout(request)
+    else:
+        pass 
+    
     context = {}
     if request.method == 'POST':
         username = request.POST.get['username'] 
         password = request.POST.get['password'] 
         # verify credentials 
+        
         try:
             verified_username = User.objects.filter(username=username).first()
             if verified_username:
-                pass 
+                authenticate(username, password)
+                if request.user.is_authenticated:
+                    # check superuser status 
+                    if request.user.is_superuser:
+                        return redirect('admin_dashboard')
+                    else:
+                        messages.warning(request, 'Trying to access that wont work')
+                        return redirect('login')
+                else:
+                    messages.warning(request, 'Wrong username and password')
+                    return redirect('admin_login')
+            else:
+                messages.warning(request, 'Username incorrect')
+                return redirect('admin_login')
+                
         except:
             messages.warning(request, 'authentication failed')
             return redirect('admin_login')
     else:
         pass 
     
-    return render(request, 'admin_pages/admin_auth_pages/admin_login.html', context)
+    return render(request, 'admin_pages/admin_login.html', context)
 
-def admin_dashbord(request):
+def admin_dashboard(request):
+    context = {}
     # check login status
 
     if request.user.is_authenticated:
         # check super user status 
         if request.use.is_superuser:
-            pass      
+            return render(request, 'admin_dashboard.html', context)      
         else:
             messages.warning(request, 'Trying to access that wont work')
             return redirect('login')
     else:
-        messages.waning(request, 'Login please')
+        messages.warning(request, 'Login please')
         return redirect('admin_login')
 
 
@@ -214,13 +243,30 @@ def UpdatePassword(request):
 
 
 # generate a new password for new client
-@login_required
-def generate_password_new_user(request):
-    pass
 
+def generate_password_new_user(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+             pass 
+        
+        else:
+            return redirect('login')        
+    
+    else:
+        return redirect('admin_login')
 
 # generate a new password for existing client
-@login_required
+
+
 def generate_password_old_user(request):
-    pass 
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+             pass 
+        
+        else:
+            return redirect('login')        
+    
+    else:
+        return redirect('admin_login')
+    
 

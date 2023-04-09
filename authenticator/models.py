@@ -68,17 +68,17 @@ class GeneratedPassword(models.Model):
 
 
 class Password_log_on_user(models.Model):
-    height = models.FloatField(help_text='in meters, e.g 1.67')
-    weight = models.FloatField(help_text='in kilograms e.g 90kg')
+    # height = models.FloatField(help_text='in meters, e.g 1.67')
+    # weight = models.FloatField(help_text='in kilograms e.g 90kg')
     email = models.EmailField(help_text='abc@efg.com')
-    date_of_birth = models.DateField()
+    # date_of_birth = models.DateField()
     
     # hidden, will be populated by api
     full_name = models.CharField(max_length=40)
-    BMI = models.FloatField(blank=True )
+    # BMI = models.FloatField(blank=True )
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_patient_used')
-    age = models.PositiveIntegerField( blank=True)
-    classification = models.CharField(max_length=30)
+    # age = models.PositiveIntegerField( blank=True)
+    # classification = models.CharField(max_length=30)
     
     
     def __str__(self) -> str:

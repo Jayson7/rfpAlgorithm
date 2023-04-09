@@ -11,5 +11,6 @@ urlpatterns = [
     
     # admin functions
     path('admin_login', admin_login, name='admin_login'),
+    path('admin_dashboard', admin_dashboard, name='admin_dashboard'),
     
 ]
