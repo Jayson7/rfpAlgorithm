@@ -18,6 +18,7 @@ from django.shortcuts import render, redirect
 
 
 def questions_page(request):
+    
     pass
 
 
