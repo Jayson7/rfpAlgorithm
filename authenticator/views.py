@@ -122,7 +122,7 @@ def complete_user_info(request):
     context = {}
     forms = CompeteProfileForm()
     if request.method == 'POST':
-        pass 
+         
         if forms.is_valid():
             new_profile = forms.save(commit=False)
             
@@ -159,8 +159,13 @@ def complete_user_info(request):
             #     new_profile.classification = 'Extreme Obesity'
        
             new_profile.save()
+            # verify user by adding verification to token
+            access_token.verfied = True 
+            access_token.save()
             
-            # submit and start questions
+            # start questions 
+            return redirect('question_controller')
+            
 
     else:
         forms = CompeteProfileForm()

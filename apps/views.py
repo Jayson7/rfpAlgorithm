@@ -29,3 +29,13 @@ def page_not_found(request):
     pass 
 
 
+def question_controller(request):
+    user = request.user 
+    
+    # check authentication 
+    
+    # check verification status 
+    
+    # controll questions 
+    
+    
