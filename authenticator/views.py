@@ -2,12 +2,14 @@ from django.shortcuts import render, redirect
 from .auth_forms import *
 from .models import *
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 import string
 import random
+
+
 
 # Create your views here.
 
@@ -183,19 +185,23 @@ def admin_login(request):
     
     context = {}
     if request.method == 'POST':
-        username = request.POST.get['username'] 
-        password = request.POST.get['password'] 
+        username = request.POST['username'] 
+        password = request.POST['password'] 
         # verify credentials 
         
         try:
             verified_username = User.objects.filter(username=username).first()
+            print(verified_username)
+           
             if verified_username:
-                authenticate(username, password)
-                if request.user.is_authenticated:
+                user = authenticate(username=username, password=password)  
+                if user.is_active:
                     # check superuser status 
-                    if request.user.is_superuser:
+                    if user.is_superuser:
+                        login(request, user)
                         return redirect('admin_dashboard')
                     else:
+                        logout(request, user)
                         messages.warning(request, 'Trying to access that wont work')
                         return redirect('login')
                 else:
@@ -213,14 +219,15 @@ def admin_login(request):
     
     return render(request, 'admin_pages/admin_login.html', context)
 
+
 def admin_dashboard(request):
     context = {}
     # check login status
 
     if request.user.is_authenticated:
         # check super user status 
-        if request.use.is_superuser:
-            return render(request, 'admin_dashboard.html', context)      
+        if request.user.is_superuser:
+            return render(request, 'admin_pages/admin_dashboard.html', context)      
         else:
             messages.warning(request, 'Trying to access that wont work')
             return redirect('login')
@@ -231,7 +238,6 @@ def admin_dashboard(request):
 
 
 # update models for password count on login
-
 
 def UpdatePassword(request):
     if request.user.is_authenticated:
@@ -254,6 +260,7 @@ def generate_password_new_user(request):
     
     else:
         return redirect('admin_login')
+    
 
 # generate a new password for existing client
 
