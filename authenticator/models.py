@@ -96,4 +96,4 @@ class UserLoginToken(models.Model):
     date_token_generated = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:
-        return self.token 
+        return self.full_name 
