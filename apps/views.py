@@ -47,7 +47,7 @@ def question1(request):
                 context['answers'] = answers 
                 # send question and answer to view
                 context['question'] = question1
-                return render(request, '', context)
+                return render(request, 'questions/question1.html', context)
                 
         except:
             return redirect('login')     
