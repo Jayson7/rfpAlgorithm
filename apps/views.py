@@ -8,13 +8,6 @@ from django.shortcuts import render, redirect
 
 
 
-def questions_page(request):
-    
-    pass
-
-
-
-
 # 404 here 
 def page_not_found(request):
     pass 
@@ -22,6 +15,7 @@ def page_not_found(request):
 
 def question_controller(request):
     user = request.user 
+    
     
     # check authentication 
     

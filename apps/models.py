@@ -32,3 +32,16 @@ class Answer(models.Model):
     def __str__(self) -> str:
         return self.user_print
     
+
+class Stopped_answering(models.Model):
+    user = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='user_taking_questions')
+    current_stop = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='last_question')
+    
+class Unanswered_questions(models.Model):
+    all_questions = models.ManyToManyField(Questions, related_name='all_unanswered_questions') 
+    user = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='the_user')
+    
+class Answered_questions(models.Model):
+    questions = models.ManyToManyField(Questions, related_name='all_answered_questions') 
+    user = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='the_user_answered')
+    
