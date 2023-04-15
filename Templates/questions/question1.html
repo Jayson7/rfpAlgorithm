@@ -40,9 +40,16 @@
       </div>
     </div>
     <footer class="footer col-12 text-center mt-5">
-      <span class="text-dark font-italic">&copy; RFP-Algotithm 2023</span>
+      <span class="text-dark font-italic"
+        >&copy; RFP-Algotithm <span id="date"></span>
+      </span>
     </footer>
   </body>
+
+  <script>
+    let date = new Date().getFullYear();
+    document.getElementById("date").innerHTML = date;
+  </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <!-- Popper JS -->

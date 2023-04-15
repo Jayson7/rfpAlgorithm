@@ -58,7 +58,11 @@
     <div class="pre-loader">
       <div class="pre-loader-box">
         <div class="loader-logo">
-          <img src="{% static 'images/logo3.png' %}" alt="" />
+          <img
+            style="width: 100px; height: 100px"
+            src="{% static 'images/logo3.png' %}"
+            alt=""
+          />
         </div>
         <div class="loader-progress" id="progress_div">
           <div class="bar" id="bar1"></div>
@@ -125,7 +129,10 @@
             </li>
 
             <li>
-              <a href="sitemap.html" class="dropdown-toggle no-arrow">
+              <a
+                href="{% url 'create_user' %}"
+                class="dropdown-toggle no-arrow"
+              >
                 <span class="micon bi bi-diagram-3"></span
                 ><span class="mtext">Create Profile</span>
               </a>

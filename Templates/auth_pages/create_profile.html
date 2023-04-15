@@ -58,7 +58,11 @@
     <div class="pre-loader">
       <div class="pre-loader-box">
         <div class="loader-logo">
-          <img src="{% static 'images/logo3.png' %}" alt="" />
+          <img
+            style="width: 100px; height: 100px"
+            src="{% static 'images/logo3.png' %}"
+            alt=""
+          />
         </div>
         <div class="loader-progress" id="progress_div">
           <div class="bar" id="bar1"></div>
@@ -223,44 +227,52 @@
             </div>
           </div>
         </div>
-
-        <div class="row pb-10">
-          <div class="col-md-8 mb-20">
-            <div class="card-box height-100-p pd-20">
-              <div class="h5 mb-md-0">User Activities</div>
-
-              <div class="table-responsive">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">*</th>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+        <!-- Default Basic Forms Start -->
+        <div class="pd-20 card-box mb-30">
+          <div class="clearfix">
+            <div class="pull-left">
+              <h4 class="text-blue h4">Give Access To a New User</h4>
+              <p class="mb-30"></p>
             </div>
           </div>
-          <div class="col-md-4 mb-20"></div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-4 col-md-6 mb-20"></div>
-          <div class="col-lg-4 col-md-6 mb-20">
-            <div class="card-box height-100-p pd-20 min-height-200px">
-              <div class="d-flex justify-content-between">
-                <div class="h5 mb-0">Diseases Report</div>
+          <form>
+            <div class="form-group row">
+              <label class="col-sm-12 col-md-2 col-form-label">Full Name</label>
+              <div class="col-sm-12 col-md-10">
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Johnny Brown"
+                />
               </div>
-
-              <div id="diseases-chart"></div>
             </div>
+            <div class="form-group row">
+              <label class="col-sm-12 col-md-2 col-form-label">Address</label>
+              <div class="col-sm-12 col-md-10">
+                <input
+                  class="form-control"
+                  placeholder="Search Here"
+                  type="search"
+                />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-12 col-md-2 col-form-label">Email</label>
+              <div class="col-sm-12 col-md-10">
+                <input
+                  class="form-control"
+                  value="bootstrap@example.com"
+                  type="email"
+                />
+              </div>
+            </div>
+           <br />
+           <button class="btn btn-success px-5" type="submit">Submit</button>
+
+						
           </div>
-          <div class="col-lg-4 col-md-12 mb-20"></div>
         </div>
+        <!-- Default Basic Forms End -->
 
         <div class="footer-wrap pd-20 mb-20 card-box">
           RFP Algorithm -Developed by

@@ -282,3 +282,11 @@ def generate_password_old_user(request):
         return redirect('admin_login')
     
 
+
+# admin function to create a user on the platform 
+def create_user(request):
+    context={}
+    user = request.user 
+    if user.is_authenticated:
+        pass
+    return render(request, 'auth_pages/create_profile.html', context)
