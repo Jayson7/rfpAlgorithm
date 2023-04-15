@@ -105,19 +105,20 @@ def login_page(request):
 # complete user profile 
 
 def complete_user_info(request):
+    
     # confirm authentication status    
-    # if request.user.is_authenticated:
-    #     pass 
-    # else:
-    #     return redirect('login')
+    if request.user.is_authenticated:
+        pass 
+    else:
+        return redirect('login')
     
-    # try:
-    #     access_token = UserLoginToken.objects.filter(username = request.user).token.first()
-    # except:
-    #     messages.warning(request, 'Authentication failed')
-    #     return redirect('login')
+    try:
+        access_token = UserLoginToken.objects.filter(username = request.user).token.first()
+    except:
+        messages.warning(request, 'Authentication failed')
+        return redirect('login')
     
-    # access_token = True 
+
     current_user = request.user
     context = {}
     forms = CompeteProfileForm()
@@ -132,31 +133,7 @@ def complete_user_info(request):
             #  trigger other left out details
             new_profile.full_name = full_name
             new_profile.password = password
-            # calculate BMI
-            # print(new_profile.height)
-            # print(new_profile.weight)
-            # new_profile.BMI =float(new_profile.height) * float(new_profile.height) / float(new_profile. width)
-            # profile_score = float(new_profile.BMI)
-            
-            
-            # define classification
-            
-            # if profile_score < 18.5:
-            #     new_profile.classification = 'Under Weight'
-            # elif profile_score  >= 18.5 and profile_score <= 24.9:
-            #     new_profile.classification = 'normal'
-            
-            # elif profile_score  >= 25 and profile_score <= 29.9:
-            #     new_profile.classification = 'Over Weight'
-            
-            # elif profile_score  >= 30 and profile_score <= 34.9:
-            #     new_profile.classification = 'Obesity (Class I)'
-            
-            # elif profile_score  >= 35 and profile_score <= 39.9:
-            #     new_profile.classification = 'Obesity (Class II)'
-            
-            # else:
-            #     new_profile.classification = 'Extreme Obesity'
+
        
             new_profile.save()
             # verify user by adding verification to token
@@ -288,5 +265,12 @@ def create_user(request):
     context={}
     user = request.user 
     if user.is_authenticated:
-        pass
+        # confirm superuser status
+        if user.is_superuser:
+            if request.method == 'POST':
+                pass 
+        
+        
+    else:
+        return redirect('admin_login')
     return render(request, 'auth_pages/create_profile.html', context)
