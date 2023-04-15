@@ -14,6 +14,7 @@ class Questions(models.Model):
     def __str__(self) -> str:
         return self.question
     
+    
 class Disease(models.Model):
     disease = models.CharField(max_length=100)
     user_diagonised = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='user_disease')
@@ -22,6 +23,7 @@ class Disease(models.Model):
     
     def __str__(self) -> str:
         return self.user_diagonised
+    
 
 class Answer(models.Model):
     question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_to_ask')
@@ -45,3 +47,16 @@ class Answered_questions(models.Model):
     questions = models.ManyToManyField(Questions, related_name='all_answered_questions') 
     user = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='the_user_answered')
     
+    
+
+#  ========================================== All questions model =============
+
+
+class Question1Model(models.Model):
+    question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_storage')
+    user = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='questioned_user' )
+    date_answered = models.DateTimeField(auto_now_add=True)
+    answer = models.IntegerField()
+    
+    def __str__(self):
+        return self.user
