@@ -268,9 +268,34 @@ def create_user(request):
         # confirm superuser status
         if user.is_superuser:
             if request.method == 'POST':
-                pass 
-        
-        
+                name = request.POST['full_name']
+                address = request.POST['address']
+                email = request.POST['email']
+
+                # verify credentials 
+                
+                # check name 
+                try:
+                    name_check = RegisterClient.objects.filter(client_name=name).first
+                    email_check = RegisterClient.objects.filter(email=email).first
+                    if name_check.exists or email_check.exists:
+                        messages.warning(request, 'user already exist')
+                        return redirect('create_user')
+                    else:
+                        new_user= RegisterClient.create(
+                            client_name = name, 
+                            client_location = address,
+                            email = email,
+                            username = f"{random.randint(1,100)}+ name.replace(' ', '')"
+                        )
+                        new_user.save()
+                        messages.success(request, 'User created successfully')
+                        return redirect('manage_users')
+                    
+                except:
+                    messages.warning(request, 'Error occured while verifying credentials')
+                    return redirect('create_user')
     else:
         return redirect('admin_login')
     return render(request, 'auth_pages/create_profile.html', context)
+
