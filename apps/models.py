@@ -57,6 +57,7 @@ class Question1Model(models.Model):
     user = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='questioned_user' )
     date_answered = models.DateTimeField(auto_now_add=True)
     answer = models.IntegerField()
+    token = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='questioned_user' )
     
     def __str__(self):
         return self.user

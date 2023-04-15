@@ -42,9 +42,11 @@ def question1(request):
         
         print(question1.question) 
         # get answers ans send form to frontend
-        # form = Question1Form()
-
-        # send question and answer to view
+        form = Question1Form()
+        if request.method =='POST':
+            if form.is_valid():
+                pass 
+                            # send question and answer to view
         context['question'] = question1
                 
     except:
