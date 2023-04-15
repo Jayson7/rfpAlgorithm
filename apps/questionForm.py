@@ -13,8 +13,8 @@ Each question are configured based on the nature of such question
 class Question1Form(ModelForm):
     class Meta:
         model = Question1Model
-        fields = ['answer']
-        exclude = ['user', 'question', 'date_answered']
+        fields = ['age']
+        exclude = ['mom', 'question', 'date_answered', 'username_used', 'token']
         
 class Question2Form(ModelForm):
     pass 

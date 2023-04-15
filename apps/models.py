@@ -54,10 +54,12 @@ class Answered_questions(models.Model):
 
 class Question1Model(models.Model):
     question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_storage')
-    user = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='questioned_user' )
+    mom = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='questioned_user' )
     date_answered = models.DateTimeField(auto_now_add=True)
-    answer = models.IntegerField()
-    token = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='questioned_user' )
+    age = models.IntegerField()
+    token = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='token_questioned_user' )
+    username_used = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='token_owner' )
+    
     
     def __str__(self):
         return self.user
