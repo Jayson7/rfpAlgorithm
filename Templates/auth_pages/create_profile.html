@@ -242,7 +242,9 @@
                 <input
                   class="form-control"
                   type="text"
-                  placeholder="Johnny Brown"
+                  required
+                  placeholder="John Doe"
+                  name="full_name"
                 />
               </div>
             </div>
@@ -251,8 +253,9 @@
               <div class="col-sm-12 col-md-10">
                 <input
                   class="form-control"
-                  placeholder="Search Here"
-                  type="search"
+                  required    name="address"
+                  placeholder="Address"
+                  type="text"
                 />
               </div>
             </div>
@@ -261,11 +264,14 @@
               <div class="col-sm-12 col-md-10">
                 <input
                   class="form-control"
-                  value="bootstrap@example.com"
+                  required
+                  placeholder="Email"    
+                  name="email"
                   type="email"
                 />
               </div>
             </div>
+
            <br />
            <button class="btn btn-success px-5" type="submit">Submit</button>
 
