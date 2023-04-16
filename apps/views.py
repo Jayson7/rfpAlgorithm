@@ -1,6 +1,6 @@
 # all views here are fort the main page functions 
 
-
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from authenticator.models import UserLoginToken
 from .models import *
@@ -25,6 +25,22 @@ def question_controller(request):
     # check verification status 
     
     # controll questions 
+    
+    
+# admin priviledges needed for managing users 
+def manage_user(request):
+    user = request.user 
+    context = {}
+    if user.is_authenticated:
+        if user.is_superuser:
+            pass 
+            
+            
+    else:
+        messages.warning(request, 'Access denied')
+        return redirect('admin_login')        
+
+    return render (request, 'admin_pages/manage_user', context)
     
 
 # question 1
@@ -156,3 +172,5 @@ def question2(request):
     #     return redirect('login')
     return render(request, 'questions/question1.html', context)
 
+
+     
