@@ -138,7 +138,10 @@
               </a>
             </li>
             <li>
-              <a href="chat.html" class="dropdown-toggle no-arrow">
+              <a
+                href="{% url 'manage_user' %}"
+                class="dropdown-toggle no-arrow"
+              >
                 <span class="micon bi bi-chat-right-dots"></span
                 ><span class="mtext">Edit Access</span>
               </a>
@@ -147,6 +150,12 @@
               <a href="invoice.html" class="dropdown-toggle no-arrow">
                 <span class="micon bi bi-receipt-cutoff"></span
                 ><span class="mtext">Revolke Access</span>
+              </a>
+            </li>
+            <li>
+              <a href="invoice.html" class="dropdown-toggle no-arrow">
+                <span class="micon bi bi-receipt-cutoff"></span
+                ><span class="mtext">Generate Password</span>
               </a>
             </li>
           </ul>

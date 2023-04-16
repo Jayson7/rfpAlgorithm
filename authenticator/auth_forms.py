@@ -11,8 +11,8 @@ class RegisterClientForm(ModelForm):
         ]
         
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
+# class DateInput(forms.DateInput):
+#     input_type = 'date'
 
 # Form class in forms.py
 
@@ -28,4 +28,12 @@ class CompeteProfileForm(forms.ModelForm):
         ]
         exclude = ['full_name', 'password']
         
+class GeneratePAsswordForm(ModelForm):
+    
+    class Meta:
+        
+        model = GeneratedPassword
+        fields = []
+        exclude = []
+
 

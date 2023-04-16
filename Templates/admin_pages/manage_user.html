@@ -4,7 +4,7 @@
   <head>
     <!-- Basic Page Info -->
     <meta charset="utf-8" />
-    <title>RFP Algorithm Give Access</title>
+    <title>RFP Algorithm - Manage Access</title>
 
     <!-- Site favicon -->
     <link
@@ -129,15 +129,21 @@
             </li>
 
             <li>
-              <a href="sitemap.html" class="dropdown-toggle no-arrow">
+              <a
+                href="{% url 'create_user' %}"
+                class="dropdown-toggle no-arrow"
+              >
                 <span class="micon bi bi-diagram-3"></span
                 ><span class="mtext">Create Profile</span>
               </a>
             </li>
             <li>
-              <a href="chat.html" class="dropdown-toggle no-arrow">
+              <a
+                href="{% url 'manage_user' %}"
+                class="dropdown-toggle no-arrow"
+              >
                 <span class="micon bi bi-chat-right-dots"></span
-                ><span class="mtext">Edit Access</span>
+                ><span class="mtext">Manage Access</span>
               </a>
             </li>
             <li>
@@ -227,58 +233,77 @@
             </div>
           </div>
         </div>
-        <!-- Default Basic Forms Start -->
+
+        <!-- Responsive tables Start -->
         <div class="pd-20 card-box mb-30">
-          <div class="clearfix">
+          <div class="clearfix mb-20">
             <div class="pull-left">
-              <h4 class="text-blue h4">Give Access To a New User</h4>
-              <p class="mb-30"></p>
+              <h4 class="text-blue h4">All Registered Users</h4>
             </div>
           </div>
-          <form>
-            <div class="form-group row">
-              <label class="col-sm-12 col-md-2 col-form-label">Full Name</label>
-              <div class="col-sm-12 col-md-10">
-                <input
-                  class="form-control"
-                  type="text"
-                  required
-                  placeholder="John Doe"
-                  name="full_name"
-                />
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-sm-12 col-md-2 col-form-label">Address</label>
-              <div class="col-sm-12 col-md-10">
-                <input
-                  class="form-control"
-                  required    name="address"
-                  placeholder="Address"
-                  type="text"
-                />
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-sm-12 col-md-2 col-form-label">Email</label>
-              <div class="col-sm-12 col-md-10">
-                <input
-                  class="form-control"
-                  required
-                  placeholder="Email"    
-                  name="email"
-                  type="email"
-                />
-              </div>
-            </div>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Address</th>
+                  <th scope="col">Email</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in user %}
 
-           <br />
-           <button class="btn btn-success px-5" type="submit">Submit</button>
-
-						
+                <tr>
+                  <th scope="row">#</th>
+                  <td>{{i.client_name}}</td>
+                  <td>{{i.client_location}}</td>
+                  <td>{{i.date_registered}}</td>
+                  <td><a href="#" class="badge badge-primary">Details</a></td>
+                </tr>
+              </tbody>
+              {% endfor %}
+            </table>
+          </div>
+          <div class="collapse collapse-box" id="responsive-table">
+            <div class="code-box">
+              <div class="clearfix">
+                <a
+                  href="javascript:;"
+                  class="btn btn-primary btn-sm code-copy pull-left"
+                  data-clipboard-target="#responsive-table-code"
+                  ><i class="fa fa-clipboard"></i> Copy Code</a
+                >
+                <a
+                  href="#responsive-table"
+                  class="btn btn-primary btn-sm pull-right"
+                  rel="content-y"
+                  data-toggle="collapse"
+                  role="button"
+                  ><i class="fa fa-eye-slash"></i> Hide Code</a
+                >
+              </div>
+              <pre><code class="xml copy-pre" id="responsive-table-code">
+<div class="table-responsive">
+	<table class="table table-striped">
+	  <thead>
+	    <tr>
+	      <th scope="col">#</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr>
+	      <th scope="row">1</th>
+	    </tr>
+	  </tbody>
+	</table>
+</div>
+							</code></pre>
+            </div>
           </div>
         </div>
-        <!-- Default Basic Forms End -->
+        <!-- Responsive tables End -->
 
         <div class="footer-wrap pd-20 mb-20 card-box">
           RFP Algorithm - Developed by

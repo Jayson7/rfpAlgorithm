@@ -232,12 +232,13 @@ def UpdatePassword(request):
 
 # generate a new password for new client
 
-def generate_password_new_user(request):
+def generate_password(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-             pass 
+            form = GeneratePAsswordForm()
         
         else:
+            messages.warning(request, 'You dont have that access')
             return redirect('login')        
     
     else:
@@ -246,18 +247,6 @@ def generate_password_new_user(request):
 
 # generate a new password for existing client
 
-
-def generate_password_old_user(request):
-    if request.user.is_authenticated:
-        if request.user.is_superuser:
-             pass 
-        
-        else:
-            return redirect('login')        
-    
-    else:
-        return redirect('admin_login')
-    
 
 
 # admin function to create a user on the platform 

@@ -2,7 +2,7 @@
 
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from authenticator.models import UserLoginToken
+from authenticator.models import *
 from .models import *
 from .questionForm import *
 # Create your views here.
@@ -33,14 +33,17 @@ def manage_user(request):
     context = {}
     if user.is_authenticated:
         if user.is_superuser:
-            pass 
+            all_user = RegisterClient.objects.all() 
+            context['user'] = all_user
             
-            
+        else:
+            messages.warning(request, 'That will not work')
+            return redirect('login')
     else:
         messages.warning(request, 'Access denied')
         return redirect('admin_login')        
 
-    return render (request, 'admin_pages/manage_user', context)
+    return render (request, 'admin_pages/manage_user.html', context)
     
 
 # question 1
