@@ -279,10 +279,10 @@ def create_user(request):
                         )
                         new_user.save()
                         messages.success(request, 'User created successfully')
-                        return redirect('manage_users')
+                        return redirect('manage_access')
                     
                 except:
-                    messages.warning(request, 'Error occured while verifying credentials')
+                    messages.warning(request, 'Error occurred while verifying credentials')
                     return redirect('create_user')
     else:
         return redirect('admin_login')

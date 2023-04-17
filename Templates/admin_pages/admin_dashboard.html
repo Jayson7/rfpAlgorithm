@@ -143,17 +143,20 @@
                 class="dropdown-toggle no-arrow"
               >
                 <span class="micon bi bi-chat-right-dots"></span
-                ><span class="mtext">Edit Access</span>
+                ><span class="mtext">Manage Access</span>
               </a>
             </li>
             <li>
-              <a href="invoice.html" class="dropdown-toggle no-arrow">
+              <a href="" class="dropdown-toggle no-arrow">
                 <span class="micon bi bi-receipt-cutoff"></span
-                ><span class="mtext">Revolke Access</span>
+                ><span class="mtext">Remove Access</span>
               </a>
             </li>
             <li>
-              <a href="invoice.html" class="dropdown-toggle no-arrow">
+              <a
+                href="{% url 'generate_password' %}"
+                class="dropdown-toggle no-arrow"
+              >
                 <span class="micon bi bi-receipt-cutoff"></span
                 ><span class="mtext">Generate Password</span>
               </a>
