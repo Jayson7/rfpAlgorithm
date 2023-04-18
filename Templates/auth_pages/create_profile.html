@@ -140,12 +140,7 @@
                 ><span class="mtext">Manage Access</span>
               </a>
             </li>
-            <li>
-              <a href="invoice.html" class="dropdown-toggle no-arrow">
-                <span class="micon bi bi-receipt-cutoff"></span
-                ><span class="mtext">Remove Access</span>
-              </a>
-            </li>
+         
                 <li>
               <a
                 href="{% url 'generate_password' %}"
@@ -266,6 +261,7 @@
                   placeholder="Address"
                   type="text"
                 />
+                {% csrf_token %}
               </div>
             </div>
             <div class="form-group row">

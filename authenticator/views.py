@@ -250,13 +250,17 @@ def generate_password(request):
 
 
 # admin function to create a user on the platform 
+
 def create_user(request):
     context={}
     user = request.user 
     if user.is_authenticated:
         # confirm superuser status
+        
         if user.is_superuser:
+            
             if request.method == 'POST':
+                
                 name = request.POST['full_name']
                 address = request.POST['address']
                 email = request.POST['email']
@@ -264,26 +268,37 @@ def create_user(request):
                 # verify credentials 
                 
                 # check name 
+             
+                
                 try:
-                    name_check = RegisterClient.objects.filter(client_name=name).first
-                    email_check = RegisterClient.objects.filter(email=email).first
-                    if name_check.exists or email_check.exists:
+                    
+                    name_check = RegisterClient.objects.filter(client_name=name).exists()
+                    email_check = RegisterClient.objects.filter(email=email).exists()
+                    print(email)
+                    if name_check and email_check:
+                      
                         messages.warning(request, 'user already exist')
                         return redirect('create_user')
+                    
                     else:
-                        new_user= RegisterClient.create(
+                       
+                        
+                        new_user= RegisterClient(
                             client_name = name, 
                             client_location = address,
                             email = email,
-                            username = f"{random.randint(1,100)}+ name.replace(' ', '')"
+                            username = f"{random.randint(1,100)}{name.replace(' ', '')}"
                         )
+                    
                         new_user.save()
                         messages.success(request, 'User created successfully')
+                                        
                         return redirect('manage_access')
-                    
                 except:
+                    
                     messages.warning(request, 'Error occurred while verifying credentials')
                     return redirect('create_user')
+    
     else:
         return redirect('admin_login')
     return render(request, 'auth_pages/create_profile.html', context)

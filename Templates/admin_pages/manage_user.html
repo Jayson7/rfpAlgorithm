@@ -147,9 +147,12 @@
               </a>
             </li>
             <li>
-              <a href="invoice.html" class="dropdown-toggle no-arrow">
-                <span class="micon bi bi-receipt-cutoff"></span
-                ><span class="mtext">Remove Access</span>
+              <a
+                href="{% url 'manage_access' %}"
+                class="dropdown-toggle no-arrow"
+              >
+                <span class="micon bi bi-chat-right-dots"></span
+                ><span class="mtext"></span>
               </a>
             </li>
           </ul>
@@ -260,7 +263,11 @@
                   <td>{{i.client_name}}</td>
                   <td>{{i.client_location}}</td>
                   <td>{{i.date_registered}}</td>
-                  <td><a href="#" class="badge badge-primary">Details</a></td>
+                  <td>
+                    <a href="#" class="badge badge-primary px-2 py-3"
+                      >Retract Access</a
+                    >
+                  </td>
                 </tr>
               </tbody>
               {% endfor %}
