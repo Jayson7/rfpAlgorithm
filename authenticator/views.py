@@ -8,7 +8,8 @@ from django.contrib.auth.models import User
 
 import string
 import random
-
+import secrets
+import datetime
 
 
 # Create your views here.
@@ -47,6 +48,11 @@ def login_page(request):
                 usage_count_password = Usage_Monitor.objects.filter(password=password_check).usage_count
                 print(usage_count_password)
                 if usage_count_password >= 1:
+                    if usage_count_password == 1:
+                        password_check.date_exhausted = datetime.datetime.now()
+                        password_check.save()
+                    else:
+                        pass 
                     usage_count_password - 1
                     usage_count_password.save()
                     # get client details and authenticate
@@ -244,7 +250,29 @@ def generate_password(request, pk):
                     context['form'] = form
                     if request.method =="POST":
                         if form.is_valid():
-                            pass 
+                            form.save(commit=False)
+                            client = user_in_question.client_name
+                            form.client = client
+                            # generate password for user 
+                    
+                            # define the alphabet
+                            letters = string.ascii_letters
+                            digits = string.digits
+                            special_chars = string.punctuation
+
+                            alphabet = letters + digits + special_chars
+
+                            # fix password length
+                            pwd_length = 12
+
+                            # generate a password string
+                            pwd = ''
+                            for i in range(pwd_length):
+                                pwd += ''.join(secrets.choice(alphabet))
+
+                            form.password = pwd 
+                      
+                            form.save() 
                         
                         else:
                             messages.warning(request, 'Error')
