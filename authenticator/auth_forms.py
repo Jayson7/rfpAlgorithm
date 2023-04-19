@@ -32,8 +32,8 @@ class GeneratePAsswordForm(ModelForm):
     
     class Meta:
         
-        model = GeneratedPassword
-        fields = []
-        exclude = []
+        model = PasswordStorage
+        fields = ['usage_count']
+        exclude = ['client','date_generated', 'date_exhausted','password' ]
 
 

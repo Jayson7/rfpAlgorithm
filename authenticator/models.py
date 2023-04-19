@@ -24,7 +24,8 @@ class RegisterClient(models.Model):
 # =========================================================================
 
 
-# monitor password usage for api
+
+# This will generate password for client  - action by admin only
 class PasswordStorage(models.Model):
     client = models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='password_owner')
     password = models.CharField(max_length=12)
@@ -32,6 +33,7 @@ class PasswordStorage(models.Model):
     
     # hidden, will only be populated if password expires
     date_exhausted = models.DateTimeField(blank=True)
+    usage_count = models.PositiveIntegerField(default=0)
     
     def __str__(self) -> str:
         return self.client
@@ -40,26 +42,14 @@ class PasswordStorage(models.Model):
 # =========================================================================
 
 # count password access 
+# monitor password usage for api
+
 class Usage_Monitor(models.Model):
     client = models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='password_used_owner')
-    usage_count = models.PositiveIntegerField(default=0)
+    usage_count = models.ForeignKey(PasswordStorage,on_delete=models.CASCADE, related_name='password_count')
+
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_involved')
-     
 
-
-# =========================================================================
-
-# This will generate password for user - action by admin only
-
-class GeneratedPassword(models.Model):
-    client = models.ForeignKey(RegisterClient, on_delete=models.CASCADE)  
-    usage_count = models.ForeignKey(Usage_Monitor,on_delete=models.CASCADE, related_name='password_count')
-    # auto generated
-    password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_expected')
-    
-    
-    def __str__(self) -> str:
-        return self.client
 
 
 # =========================================================================

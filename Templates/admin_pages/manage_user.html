@@ -268,6 +268,13 @@
                       >Retract Access</a
                     >
                   </td>
+                  <td>
+                    <a
+                      href="{% url 'generate_password' i.id %}"
+                      class="badge badge-success px-2 py-3"
+                      >Generate password</a
+                    >
+                  </td>
                 </tr>
               </tbody>
               {% endfor %}

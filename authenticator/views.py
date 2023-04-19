@@ -232,11 +232,27 @@ def UpdatePassword(request):
 
 # generate a new password for new client
 
-def generate_password(request):
+def generate_password(request, pk):
+    context={}
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            form = GeneratePAsswordForm()
-        
+            try:
+                user_in_question = RegisterClient.objects.filter(id=pk).first()
+                if user_in_question.exists():
+                    
+                    form = GeneratePAsswordForm()
+                    context['form'] = form
+                    if request.method =="POST":
+                        if form.is_valid():
+                            pass 
+                        
+                        else:
+                            messages.warning(request, 'Error')
+                            form = GeneratePAsswordForm(request.POST)
+                            
+            except:
+                messages.warning(request, 'No user found')
+                return redirect('admin_dashboard')
         else:
             messages.warning(request, 'You dont have that access')
             return redirect('login')        
