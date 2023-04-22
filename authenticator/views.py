@@ -244,7 +244,8 @@ def generate_password(request, pk):
     if request.user.is_authenticated:
         if request.user.is_superuser:
             try:
-                user_in_question = RegisterClient.objects.filter(id=pk)
+                user_in_question = RegisterClient.objects.filter(id=pk).first()
+                context['client'] = user_in_question
                 if user_in_question:
                     if request.method =="POST":
                             count = request.POST['count']
