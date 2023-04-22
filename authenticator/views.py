@@ -246,46 +246,62 @@ def generate_password(request, pk):
             try:
                 user_in_question = RegisterClient.objects.filter(id=pk).first()
                 context['client'] = user_in_question
+                print('pass')
                 if user_in_question:
+                    
                     if request.method =="POST":
                             count = request.POST['count']
                             if int(count) == 0:
                                 messages.warning(request, 'A zero access count wont work')
                                 return HttpResponseRedirect(request.path_info)
                             else:
-                                client = user_in_question.client_name
-                                
-                                
-                                # generate password for user 
-                        
-                                # define the alphabet
-                                letters = string.ascii_letters
-                                digits = string.digits
-                                special_chars = string.punctuation
-
-                                alphabet = letters + digits + special_chars
-
-                                # fix password length
-                                pwd_length = 12
-
-                                # generate a password string
-                                pwd = ''
-                                for i in range(pwd_length):
-                                    pwd += ''.join(secrets.choice(alphabet))
-
-                                app_password = pwd
-                                
-                                created_password = PasswordStorage(
-                                    client = client,
-                                    password = app_password,
-                                    usage_count = int(count),
+                                # get previous count total
+                                try:
+                                    password_prev = PasswordStorage.objects.get(client=user_in_question)
+                                    if password_prev:
+                                        print(password_prev.usage_count)
+                                        return HttpResponseRedirect(request.path_info)
+                                        
+                                    else:
+                                        print('none')
+                                        return HttpResponseRedirect(request.path_info)
                                     
-                                )
-                                created_password.save()
-                                
-                                messages.success(request, 'Access updated successfully')
-                                
-                                return redirect('manage_access')
+                                except:
+                                    
+                                    
+                                    client = user_in_question.client_name
+                                    
+                                    
+                                    # generate password for user 
+                            
+                                    # define the alphabet
+                                    letters = string.ascii_letters
+                                    digits = string.digits
+                                    special_chars = string.punctuation
+
+                                    alphabet = letters + digits + special_chars
+
+                                    # fix password length
+                                    pwd_length = 12
+
+                                    # generate a password string
+                                    pwd = ''
+                                    for i in range(pwd_length):
+                                        pwd += ''.join(secrets.choice(alphabet))
+
+                                    app_password = pwd
+                                    
+                                    created_password = PasswordStorage(
+                                        client = client,
+                                        password = app_password,
+                                        usage_count = int(count),
+                                        
+                                    )
+                                    created_password.save()
+                                    
+                                    messages.success(request, 'Access updated successfully')
+                                    
+                                    return redirect('manage_access')
                          
             except:
                 messages.warning(request, 'No user found')
