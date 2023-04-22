@@ -243,7 +243,7 @@ def generate_password(request, pk):
     context={}
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            try:
+            # try:
                 user_in_question = RegisterClient.objects.filter(id=pk).first()
                 context['client'] = user_in_question
                 print('pass')
@@ -255,57 +255,56 @@ def generate_password(request, pk):
                                 messages.warning(request, 'A zero access count wont work')
                                 return HttpResponseRedirect(request.path_info)
                             else:
+                                print('pass')
+                                
                                 # get previous count total
                                 try:
-                                    password_prev = PasswordStorage.objects.get(client=user_in_question)
+                                    password_prev = PasswordStorage.objects.filter(client=user_in_question)
                                     if password_prev:
                                         print(password_prev.usage_count)
-                                        return HttpResponseRedirect(request.path_info)
-                                        
+                                        prev_count = password_prev.usage_count 
+                                        count = int(count) + int(prev_count)    
                                     else:
-                                        print('none')
-                                        return HttpResponseRedirect(request.path_info)
-                                    
+                                        pass
                                 except:
-                                    
-                                    
-                                    client = user_in_question.client_name
-                                    
-                                    
+                                    pass
                                     # generate password for user 
                             
                                     # define the alphabet
-                                    letters = string.ascii_letters
-                                    digits = string.digits
-                                    special_chars = string.punctuation
+                                client = RegisterClient.objects.get(client_name=user_in_question.client_name)
+                                letters = string.ascii_letters
+                                digits = string.digits
+                                special_chars = string.punctuation
 
-                                    alphabet = letters + digits + special_chars
+                                alphabet = letters + digits + special_chars
 
                                     # fix password length
-                                    pwd_length = 12
+                                pwd_length = 10
 
                                     # generate a password string
-                                    pwd = ''
-                                    for i in range(pwd_length):
-                                        pwd += ''.join(secrets.choice(alphabet))
+                                pwd = ''
+                                for i in range(pwd_length):
+                                    pwd += ''.join(secrets.choice(alphabet))
 
-                                    app_password = pwd
+                                app_password = pwd
                                     
-                                    created_password = PasswordStorage(
+                                print('pass')
+                                created_password = PasswordStorage(
                                         client = client,
                                         password = app_password,
                                         usage_count = int(count),
                                         
                                     )
-                                    created_password.save()
+                                print('pass')
+                                created_password.save()
                                     
-                                    messages.success(request, 'Access updated successfully')
+                                messages.success(request, 'Access updated successfully')
                                     
-                                    return redirect('manage_access')
+                                return redirect('manage_access')
                          
-            except:
-                messages.warning(request, 'No user found')
-                return redirect('manage_access')
+            # except:
+            #     messages.warning(request, 'No user found')
+            #     return redirect('manage_access')
         else:
             messages.warning(request, 'You dont have that access')
             return redirect('login')        

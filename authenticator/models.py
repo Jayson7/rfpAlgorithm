@@ -34,8 +34,9 @@ class PasswordStorage(models.Model):
     date_generated = models.DateTimeField(auto_now_add=True)
     
     # hidden, will only be populated if password expires
-    date_exhausted = models.DateTimeField(blank=True)
+    date_exhausted = models.DateTimeField(blank=True, null=True)
     usage_count = models.PositiveIntegerField(default=0)
+    
     
     def __str__(self) -> str:
         return self.client
