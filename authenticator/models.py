@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 # =========================================================================
 
 # register client on the platform - admin only
+
 class RegisterClient(models.Model):
     client_name = models.CharField(max_length=30)
     client_location = models.CharField(max_length=50) 
@@ -27,6 +28,7 @@ class RegisterClient(models.Model):
 
 # This will generate password for client  - action by admin only
 class PasswordStorage(models.Model):
+    
     client = models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='password_owner')
     password = models.CharField(max_length=12)
     date_generated = models.DateTimeField(auto_now_add=True)

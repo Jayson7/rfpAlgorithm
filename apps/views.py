@@ -158,7 +158,7 @@ def question2(request):
             # token_of_user = UserLoginToken.objects.filter(username=user).first()
             
                 # prepare question
-        question1 = Questions.object.filter(pk = 1)
+        question1 = Questions.objects.filter(pk = 1)
         print = question1.question 
         question_view = question1.question 
 

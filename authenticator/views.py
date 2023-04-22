@@ -244,7 +244,7 @@ def generate_password(request, pk):
         if request.user.is_superuser:
             try:
                 user_in_question = RegisterClient.objects.filter(id=pk).first()
-                if user_in_question.exists():
+                if user_in_question:
                     
                     form = GeneratePAsswordForm()
                     context['form'] = form
@@ -273,14 +273,16 @@ def generate_password(request, pk):
                             form.password = pwd 
                       
                             form.save() 
-                        
+                            messages.success(request, 'Access updated successfully')
+                            
+                            return redirect('manage_access')
                         else:
                             messages.warning(request, 'Error')
                             form = GeneratePAsswordForm(request.POST)
                             
             except:
                 messages.warning(request, 'No user found')
-                return redirect('admin_dashboard')
+                return redirect('manage_access')
         else:
             messages.warning(request, 'You dont have that access')
             return redirect('login')        
@@ -288,6 +290,7 @@ def generate_password(request, pk):
     else:
         return redirect('admin_login')
     
+    return render(request, 'auth_pages/generatePassword.html', context)
 
 # generate a new password for existing client
 
@@ -336,7 +339,7 @@ def create_user(request):
                     
                         new_user.save()
                         messages.success(request, 'User created successfully')
-                                        
+                        
                         return redirect('manage_access')
                 except:
                     

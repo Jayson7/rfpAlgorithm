@@ -13,7 +13,7 @@ urlpatterns = [
     path('admin_login', admin_login, name='admin_login'),
     path('admin_dashboard', admin_dashboard, name='admin_dashboard'),
     path('create_user', create_user, name='create_user'),
-    path('generate_password/<int:pk>', PasswordStorage, name='generate_password'),
+    path('generate_password/<int:pk>', generate_password, name='generate_password'),
 
   
 
