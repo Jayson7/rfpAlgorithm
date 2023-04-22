@@ -15,6 +15,4 @@ urlpatterns = [
     path('create_user', create_user, name='create_user'),
     path('generate_password/<int:pk>', generate_password, name='generate_password'),
 
-  
-
 ]

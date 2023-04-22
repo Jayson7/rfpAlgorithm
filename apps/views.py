@@ -24,10 +24,10 @@ def question_controller(request):
     
     # check verification status 
     
-    # controll questions 
+    # control questions 
     
     
-# admin priviledges needed for managing users 
+# admin privileges needed for managing users 
 def manage_user(request):
     user = request.user 
     context = {}
@@ -46,13 +46,17 @@ def manage_user(request):
     return render (request, 'admin_pages/manage_user.html', context)
     
 
+
+
+
+
 # question 1
 
 def question1(request):
     context = {}
     if request.user.is_authenticated:
         user = request.user 
-            # loctate user on token 
+            # locate user on token 
         try:
             token_of_user = UserLoginToken.objects.filter(username=user).first()
             if token_of_user:
@@ -76,7 +80,7 @@ def question1(request):
                                 if x <= 19:
                                     disease = Disease.create(
                                         disease = 'anaemia',
-                                        user_diagonised = 'token.full_name',
+                                        user_diagnosed = 'token.full_name',
                                         points = 1
                                     )
                                     disease.save()
@@ -89,14 +93,14 @@ def question1(request):
                                 elif x > 35 and x < 40:
                                     disease = Disease.create(
                                         disease = 'thrombosis',
-                                        user_diagonised = 'token.full_name',
+                                        user_diagnosed = 'token.full_name',
                                         points = 1
                                     )
                                     disease.save()
                                     
                                     disease2 = Disease.create(
                                         disease = 'intrahepatic cholestasis',
-                                        user_diagonised = 'token.full_name',
+                                        user_diagnosed = 'token.full_name',
                                         points = 1
                                     )
                                     disease2.save()
@@ -104,14 +108,14 @@ def question1(request):
                                 elif x >=40:
                                     disease = Disease.create(
                                         disease = 'Diabetes Mellitus',
-                                        user_diagonised = 'token.full_name',
+                                        user_diagnosed = 'token.full_name',
                                         points = 1
                                     )
                                     disease.save()
                                     
                                     disease2 = Disease.create(
                                         disease = 'preeclampsia',
-                                        user_diagonised = 'token.full_name',
+                                        user_diagnosed = 'token.full_name',
                                         points = 1
                                     )
                                     
@@ -119,14 +123,14 @@ def question1(request):
                                     
                                     disease3 = Disease.create(
                                         disease = 'thrombosis',
-                                        user_diagonised = 'token.full_name',
+                                        user_diagnosed = 'token.full_name',
                                         points = 1
                                     )
                                     disease3.save()
                                     
                                     disease4 = Disease.create(
                                         disease = 'intrahepatic cholestasis',
-                                        user_diagonised = 'token.full_name',
+                                        user_diagnosed = 'token.full_name',
                                         points = 1
                                     )
                                     disease4.save()
@@ -158,7 +162,7 @@ def question2(request):
             # token_of_user = UserLoginToken.objects.filter(username=user).first()
             
                 # prepare question
-        question1 = Questions.objects.filter(pk = 1)
+        question1 = Questions.object.filter(pk = 1)
         print = question1.question 
         question_view = question1.question 
 

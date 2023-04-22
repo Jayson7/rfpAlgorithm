@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 
 import string
 import random
@@ -143,7 +144,7 @@ def complete_user_info(request):
        
             new_profile.save()
             # verify user by adding verification to token
-            access_token.verfied = True 
+            access_token.verified = True 
             access_token.save()
             
             # start questions 
@@ -243,43 +244,48 @@ def generate_password(request, pk):
     if request.user.is_authenticated:
         if request.user.is_superuser:
             try:
-                user_in_question = RegisterClient.objects.filter(id=pk).first()
+                user_in_question = RegisterClient.objects.filter(id=pk)
                 if user_in_question:
-                    
-                    form = GeneratePAsswordForm()
-                    context['form'] = form
                     if request.method =="POST":
-                        if form.is_valid():
-                            form.save(commit=False)
-                            client = user_in_question.client_name
-                            form.client = client
-                            # generate password for user 
-                    
-                            # define the alphabet
-                            letters = string.ascii_letters
-                            digits = string.digits
-                            special_chars = string.punctuation
+                            count = request.POST['count']
+                            if int(count) == 0:
+                                messages.warning(request, 'A zero access count wont work')
+                                return HttpResponseRedirect(request.path_info)
+                            else:
+                                client = user_in_question.client_name
+                                
+                                
+                                # generate password for user 
+                        
+                                # define the alphabet
+                                letters = string.ascii_letters
+                                digits = string.digits
+                                special_chars = string.punctuation
 
-                            alphabet = letters + digits + special_chars
+                                alphabet = letters + digits + special_chars
 
-                            # fix password length
-                            pwd_length = 12
+                                # fix password length
+                                pwd_length = 12
 
-                            # generate a password string
-                            pwd = ''
-                            for i in range(pwd_length):
-                                pwd += ''.join(secrets.choice(alphabet))
+                                # generate a password string
+                                pwd = ''
+                                for i in range(pwd_length):
+                                    pwd += ''.join(secrets.choice(alphabet))
 
-                            form.password = pwd 
-                      
-                            form.save() 
-                            messages.success(request, 'Access updated successfully')
-                            
-                            return redirect('manage_access')
-                        else:
-                            messages.warning(request, 'Error')
-                            form = GeneratePAsswordForm(request.POST)
-                            
+                                app_password = pwd
+                                
+                                created_password = PasswordStorage(
+                                    client = client,
+                                    password = app_password,
+                                    usage_count = int(count),
+                                    
+                                )
+                                created_password.save()
+                                
+                                messages.success(request, 'Access updated successfully')
+                                
+                                return redirect('manage_access')
+                         
             except:
                 messages.warning(request, 'No user found')
                 return redirect('manage_access')

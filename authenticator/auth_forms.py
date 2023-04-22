@@ -28,12 +28,6 @@ class CompeteProfileForm(forms.ModelForm):
         ]
         exclude = ['full_name', 'password']
         
-class GeneratePAsswordForm(ModelForm):
-    
-    class Meta:
-        
-        model = PasswordStorage
-        fields = ['usage_count']
-        exclude = ['client','date_generated', 'date_exhausted','password' ]
+
 
 
