@@ -257,22 +257,29 @@
                   <td>
                     <a
                       href="{% url 'remove_access' i.id %}"
-                      class="badge badge-primary px-2 py-3"
+                      class="badge badge-primary px-2 py-2"
                       >Retract Access</a
                     >
                   </td>
                   <td>
                     <a
                       href="{% url 'generate_password' i.id %}"
-                      class="badge badge-success px-2 py-3"
+                      class="badge badge-success px-2 py-2"
                       >Generate Access</a
                     >
                   </td>
                   <td>
                     <a
-                      href="{% url 'generate_password' i.id %}"
-                      class="badge badge-success px-2 py-3"
+                      href="{% url 'regenerate_password' i.id %}"
+                      class="badge badge-warning px-2 py-2"
                       >Re-generate password</a
+                    >
+                  </td>
+                  <td>
+                    <a
+                      href="{% url 'details' i.id %}"
+                      class="badge badge-info px-2 py-2"
+                      >Details</a
                     >
                   </td>
                 </tr>

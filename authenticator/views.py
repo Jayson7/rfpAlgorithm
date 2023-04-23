@@ -440,7 +440,7 @@ def regenerate_password(request, pk):
     
     user = PasswordStorage.objects.get(id=pk)
     if user:
-        user_in_question = RegisterClient.objects.filter(id=pk).first()
+       
         letters = string.ascii_letters
         digits = string.digits
         special_chars = string.punctuation

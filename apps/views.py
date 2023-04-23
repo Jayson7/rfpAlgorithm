@@ -17,14 +17,9 @@ def page_not_found(request):
 
 
 def question_controller(request):
-    user = request.user 
-    
-    
-    # check authentication 
-    
-    # check verification status 
-    
-    # control questions 
+  
+    pass 
+
     
     
 # admin privileges needed for managing users 
