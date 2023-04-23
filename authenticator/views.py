@@ -15,6 +15,36 @@ import datetime
 
 # Create your views here.
 
+# helper functions 
+
+
+# super user checker
+def super_user_check(request):
+    if request.user.is_superuser:
+        pass 
+    else:
+        messages.warning(request, 'That wont work')
+        return redirect('login')
+
+
+# auth check normal user
+def basic_user_auth_check(request):
+    if request.user.is_authenticated:
+        pass  
+    else:
+        messages.warning(request, 'authentication needed')
+        return redirect('login')
+
+
+# auth check admin
+def basic_user_auth_check_admin(request):
+    if request.user.is_authenticated:
+        pass  
+    else:
+        messages.warning(request, 'authentication needed')
+        return redirect('admin_login')
+
+
 
 # ==================================== Basic functions and Algorithms =========================
 # login here 
@@ -46,7 +76,7 @@ def login_page(request):
             password_check = PasswordStorage.objects.filter(password=password).first()
             if password_check:
                 # check password usage count 
-                usage_count_password = Usage_Monitor.objects.filter(password=password_check).usage_count
+                usage_count_password = PasswordStorage.objects.filter(password=password_check).usage_count
                 print(usage_count_password)
                 if usage_count_password >= 1:
                     if usage_count_password == 1:
@@ -243,7 +273,7 @@ def generate_password(request, pk):
     context={}
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            # try:
+            try:
                 user_in_question = RegisterClient.objects.filter(id=pk).first()
                 context['client'] = user_in_question
                 print('pass')
@@ -259,11 +289,23 @@ def generate_password(request, pk):
                                 
                                 # get previous count total
                                 try:
-                                    password_prev = PasswordStorage.objects.filter(client=user_in_question)
+                                    password_prev = PasswordStorage.objects.filter(client=user_in_question).first()
+                                    
                                     if password_prev:
                                         print(password_prev.usage_count)
                                         prev_count = password_prev.usage_count 
-                                        count = int(count) + int(prev_count)    
+                                        count = int(count) + int(prev_count)  
+                                        # proceed
+                                        
+                                        client = RegisterClient.objects.get(client_name=user_in_question.client_name)
+                                       
+                                        password_prev.usage_count = count
+                                         
+                                        password_prev.save()
+                                            
+                                        messages.success(request, 'Access count modified successfully')
+                                            
+                                        return redirect('manage_access')  
                                     else:
                                         pass
                                 except:
@@ -302,9 +344,9 @@ def generate_password(request, pk):
                                     
                                 return redirect('manage_access')
                          
-            # except:
-            #     messages.warning(request, 'No user found')
-            #     return redirect('manage_access')
+            except:
+                messages.warning(request, 'No user found')
+                return redirect('manage_access')
         else:
             messages.warning(request, 'You dont have that access')
             return redirect('login')        
@@ -372,3 +414,21 @@ def create_user(request):
         return redirect('admin_login')
     return render(request, 'auth_pages/create_profile.html', context)
 
+
+def removeAccess(request, pk):
+    # locate the primary key on password storage 
+    basic_user_auth_check_admin(request)
+    super_user_check(request)    
+ 
+    
+    user = PasswordStorage.objects.get(id=pk)
+    if user:
+        user.usage_count = 0
+        user.save()
+        messages.success(request, 'Access removed')
+        return redirect('manage_access')
+    else:
+        messages.warning(request, 'Account does not exist')
+        return redirect('manage_access')
+    
+    return render(request, 'admin_pages/manage_user.html')

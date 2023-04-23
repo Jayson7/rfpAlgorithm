@@ -39,7 +39,7 @@ class PasswordStorage(models.Model):
     
     
     def __str__(self) -> str:
-        return self.client
+        return str(self.client)
 
 
 # =========================================================================
