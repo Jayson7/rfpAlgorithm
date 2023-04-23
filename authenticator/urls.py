@@ -14,6 +14,7 @@ urlpatterns = [
     path('admin_dashboard', admin_dashboard, name='admin_dashboard'),
     path('create_user', create_user, name='create_user'),
     path('generate_password/<int:pk>', generate_password, name='generate_password'),
+    path('regenerate_password/<int:pk>', regenerate_password, name='regenerate_password'),
     path('remove_access/<int:pk>', removeAccess, name='remove_access'),
 
 ]

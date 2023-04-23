@@ -5,7 +5,23 @@ from django.shortcuts import render, redirect
 from authenticator.models import *
 from .models import *
 from .questionForm import *
+from authenticator.views import basic_user_auth_check, basic_user_auth_check_admin, super_user_check
 # Create your views here.
+
+
+
+def details(request, pk):
+    conttext = {}
+    basic_user_auth_check_admin(request)
+    super_user_check(request)
+    
+    user = PasswordStorage.objects.get(id=pk)
+    
+    if user:
+        password_profile = user 
+        reg_profile = RegisterClient.objects.get()
+         
+
 
 def choose_test(request):
     pass 
