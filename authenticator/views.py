@@ -276,7 +276,7 @@ def generate_password(request, pk):
             try:
                 user_in_question = RegisterClient.objects.filter(id=pk).first()
                 context['client'] = user_in_question
-                print('pass')
+                
                 if user_in_question:
                     
                     if request.method =="POST":
@@ -285,7 +285,7 @@ def generate_password(request, pk):
                                 messages.warning(request, 'A zero access count wont work')
                                 return HttpResponseRedirect(request.path_info)
                             else:
-                                print('pass')
+                                
                                 
                                 # get previous count total
                                 try:
@@ -330,14 +330,14 @@ def generate_password(request, pk):
 
                                 app_password = pwd
                                     
-                                print('pass')
+                                
                                 created_password = PasswordStorage(
                                         client = client,
                                         password = app_password,
                                         usage_count = int(count),
                                         
                                     )
-                                print('pass')
+                                
                                 created_password.save()
                                     
                                 messages.success(request, 'Access updated successfully')
@@ -432,3 +432,41 @@ def removeAccess(request, pk):
         return redirect('manage_access')
     
     return render(request, 'admin_pages/manage_user.html')
+
+
+def regenerate_password(request, pk):
+    basic_user_auth_check_admin
+    super_user_check()
+    
+    user = PasswordStorage.objects.get(id=pk)
+    if user:
+        user_in_question = RegisterClient.objects.filter(id=pk).first()
+        letters = string.ascii_letters
+        digits = string.digits
+        special_chars = string.punctuation
+
+        alphabet = letters + digits + special_chars
+
+                                    # fix password length
+        pwd_length = 10
+
+                                    # generate a password string
+        pwd = ''
+        for i in range(pwd_length):
+            pwd += ''.join(secrets.choice(alphabet))
+
+        app_password = pwd
+                           
+        user.password = app_password
+        user.save()         
+
+     
+                                    
+        messages.success(request, 'Password updated successfully')
+                                    
+        return redirect('manage_access')
+    
+
+    else:
+        messages.warning(request, 'Account does not exist')
+        return redirect('manage_access')
