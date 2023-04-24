@@ -184,24 +184,32 @@
                    
                     
                     <div class="profile-info">
-                      <h5 class="mb-20 h5 text-blue">Contact Information</h5>
+                      <h5 class="mb-20 h5 text-blue">User Information</h5>
                       <ul>
+                             <li>
+                          <span>Email Address:</span>
+                         {{user_profile.client_name}}
+                        </li>
                         <li>
                           <span>Email Address:</span>
-                          FerdinandMChilds@test.com
+                         {{user_profile.email}}
                         </li>
                         <li>
-                          <span>Phone Number:</span>
-                          619-229-0054
+                          <span>Password Access:</span>
+                          {{password_profile.usage_count}}
                         </li>
                         <li>
-                          <span>Country:</span>
-                          America
+                          <span>Password:</span>
+                          {{password_profile.password}}
                         </li>
-                        <li>
-                          <span>Address:</span>
-                          1807 Holden Street<br />
-                          San Diego, CA 92115
+                  
+                          <li>
+                          <span>Date Of Registration:</span>
+                       {{user_profile.date_registered}}
+                        </li>
+                          <li>
+                          <span>Location:</span>
+                       {{user_profile.client_location}}
                         </li>
                       </ul>
                     </div>

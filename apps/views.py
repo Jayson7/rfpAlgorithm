@@ -15,16 +15,17 @@ def details(request, pk):
     basic_user_auth_check_admin(request)
     super_user_check(request)
     
-    user = PasswordStorage.objects.get(id=pk)
+    user = RegisterClient.objects.get(id=pk)
     
     if user:
         # password profile
-        password_profile = user 
-        reg_profile = RegisterClient.objects.filter(username=request.user)
+        password_profile = PasswordStorage.objects.get(client=user)
+        print(password_profile) 
         
-        if password_profile and reg_profile:
+        print(user)
+        if password_profile and user:
             context['password_profile'] = password_profile
-            context['reg_profile'] = reg_profile
+            context['user_profile'] = user
             
         else:
             pass 

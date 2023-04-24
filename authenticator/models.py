@@ -12,7 +12,7 @@ class RegisterClient(models.Model):
     client_name = models.CharField(max_length=30)
     client_location = models.CharField(max_length=50) 
     email = models.EmailField()
-    
+                            
     # auto generated
     date_registered = models.DateTimeField(auto_now_add=True)
     username = models.CharField(max_length=20)
@@ -42,18 +42,6 @@ class PasswordStorage(models.Model):
         return str(self.client)
 
 
-# =========================================================================
-
-# count password access 
-# monitor password usage for api
-
-class Usage_Monitor(models.Model):
-    client = models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='password_used_owner')
-    usage_count = models.ForeignKey(PasswordStorage,on_delete=models.CASCADE, related_name='password_count')
-
-    password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_involved')
-
-
 
 # =========================================================================
 # take charge of usage of password by user 
@@ -72,7 +60,7 @@ class Password_log_on_user(models.Model):
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_patient_used')
     # age = models.PositiveIntegerField( blank=True)
     # classification = models.CharField(max_length=30)
-    
+    date_created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:
         return self.full_name
