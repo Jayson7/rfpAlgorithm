@@ -60,7 +60,7 @@ class Password_log_on_user(models.Model):
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_patient_used')
     # age = models.PositiveIntegerField( blank=True)
     # classification = models.CharField(max_length=30)
-    date_created = models.DateTimeField(auto_now_add=True)
+
     
     def __str__(self) -> str:
         return self.full_name

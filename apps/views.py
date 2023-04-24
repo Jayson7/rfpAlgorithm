@@ -59,6 +59,7 @@ def manage_user(request):
             all_user = RegisterClient.objects.all()
             pass_profile = PasswordStorage.objects.all()
             context['user'] = all_user
+            context['pass_profile'] = pass_profile
             
         else:
             messages.warning(request, 'That will not work')
@@ -167,7 +168,9 @@ def question1(request):
                         # send question and answer to view
                 context['question'] = question1
                 context['form'] = form
-                        
+            else:
+                messages.warning(request, 'Access denied')
+                return redirect('login')           
         except:
             return redirect('login')     
     else:

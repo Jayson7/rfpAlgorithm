@@ -246,10 +246,14 @@ def admin_dashboard(request):
     if request.user.is_authenticated:
         # check super user status 
         if request.user.is_superuser:
+            all_moms_login_data = Password_log_on_user.objects.all()[::-1]
+            context['moms_login'] = all_moms_login_data
             return render(request, 'admin_pages/admin_dashboard.html', context)      
+        
         else:
             messages.warning(request, 'Trying to access that wont work')
             return redirect('login')
+        
     else:
         messages.warning(request, 'Login please')
         return redirect('admin_login')
@@ -470,3 +474,5 @@ def regenerate_password(request, pk):
     else:
         messages.warning(request, 'Account does not exist')
         return redirect('manage_access')
+    
+    
