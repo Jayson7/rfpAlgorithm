@@ -11,16 +11,27 @@ from authenticator.views import basic_user_auth_check, basic_user_auth_check_adm
 
 
 def details(request, pk):
-    conttext = {}
+    context = {}
     basic_user_auth_check_admin(request)
     super_user_check(request)
     
     user = PasswordStorage.objects.get(id=pk)
     
     if user:
+        # password profile
         password_profile = user 
-        reg_profile = RegisterClient.objects.get()
-         
+        reg_profile = RegisterClient.objects.filter(username=request.user)
+        
+        if password_profile and reg_profile:
+            context['password_profile'] = password_profile
+            context['reg_profile'] = reg_profile
+            
+        else:
+            pass 
+        
+        return render(request, 'admin_pages/details.html', context)
+
+        
 
 
 def choose_test(request):
@@ -44,7 +55,8 @@ def manage_user(request):
     context = {}
     if user.is_authenticated:
         if user.is_superuser:
-            all_user = RegisterClient.objects.all() 
+            all_user = RegisterClient.objects.all()
+            pass_profile = PasswordStorage.objects.all()
             context['user'] = all_user
             
         else:
