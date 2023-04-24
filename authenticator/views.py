@@ -76,21 +76,28 @@ def login_page(request):
             password_check = PasswordStorage.objects.filter(password=password).first()
             if password_check:
                 # check password usage count 
-                usage_count_password = PasswordStorage.objects.filter(password=password_check).usage_count
-                print(usage_count_password)
-                if usage_count_password >= 1:
-                    if usage_count_password == 1:
+            
+               
+                if password_check.usage_count >= 1:
+                    if password_check.usage_count == 1:
                         password_check.date_exhausted = datetime.datetime.now()
                         password_check.save()
                     else:
                         pass 
-                    usage_count_password - 1
-                    usage_count_password.save()
+                    usage_count_password = password_check.usage_count - 1
+                    password_check.usage_count -1
+                    password_check.save()
+                    
+                    
+                    
                     # get client details and authenticate
-                    client_username = password_check.client.username 
+                    client_username = password_check.client.username
+                    print(client_username)
+                    print(password)
                     if client_username:
-                        authenticate_user = authenticate(client_username, password)
-                        if authenticate_user.is_authenticated:
+                        authenticate_user = authenticate(username=client_username, password=password)
+                        print(authenticate_user)
+                        if authenticate_user is not None:
                             
                             # create login token for user 
                                 # choose from all lowercase letter
@@ -237,7 +244,7 @@ def admin_login(request):
         pass 
     
     return render(request, 'admin_pages/admin_login.html', context)
-
+ 
 
 def admin_dashboard(request):
     context = {}
@@ -419,6 +426,7 @@ def create_user(request):
     return render(request, 'auth_pages/create_profile.html', context)
 
 
+
 def removeAccess(request, pk):
     # locate the primary key on password storage 
     basic_user_auth_check_admin(request)
@@ -438,11 +446,13 @@ def removeAccess(request, pk):
     return render(request, 'admin_pages/manage_user.html')
 
 
+# re-generate password for old users
 def regenerate_password(request, pk):
-    basic_user_auth_check_admin
-    super_user_check()
+    basic_user_auth_check_admin(request)
+    super_user_check(request)
     
     user = PasswordStorage.objects.get(id=pk)
+    print(user)
     if user:
        
         letters = string.ascii_letters

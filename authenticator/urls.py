@@ -18,3 +18,7 @@ urlpatterns = [
     path('remove_access/<int:pk>', removeAccess, name='remove_access'),
 
 ]
+
+
+
+
