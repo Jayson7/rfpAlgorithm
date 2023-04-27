@@ -84,29 +84,33 @@ def login_page(request):
                 if password_check.usage_count >= 1:
                     if password_check.usage_count == 1:
                         password_check.date_exhausted = datetime.datetime.now()
-                        password_check.save()
+                        # password_check.usage_count - 1
+                        print('Trying to deduct')
+                        # password_check.save()
                     else:
                         pass 
                    
                     password_check.usage_count - 1
+                    print('Trying to deduct')
                     password_check.save()
                     
                     
                     
                     # get client details and authenticate
                     client_username = password_check.client.username
-                    print(client_username)
+                    print(client_username, 'user')
                     print(password)
                     
                     # i will use the auth password for authentication as auth password is different from app password that was acquired previously
                     
                     # locate auth_password
                     auth_password = RegisterClient.objects.get(username=client_username).auth_password
+                    auth_password_owner = RegisterClient.objects.get(username=client_username)
           
                     if client_username:
                         authenticate_user = authenticate(username=client_username, password=auth_password)
                         
-                        print(authenticate_user)
+                        print(authenticate_user, 'auth')
                         if authenticate_user is not None:
                             
                             # create login token for user 
@@ -121,11 +125,12 @@ def login_page(request):
                                  token = token_generated,
                                  password = password_check,
                                  full_name = full_name,
-                                 username = client_username
+                                 username = auth_password_owner
                              )
                             token_create.save()
+                            messages.success(request, 'One more thing')
                             return redirect('user_info')
-
+                            
                         else:
                             messages.warning(request, 'Password is invalid')
                             return redirect('login')
@@ -162,11 +167,14 @@ def complete_user_info(request):
     
     # confirm authentication status    
     if request.user.is_authenticated:
+        print('yes')
         pass 
     else:
+        print('no')
         return redirect('login')
     
     try:
+        print(request.user)
         access_token = UserLoginToken.objects.filter(username = request.user).token.first()
     except:
         messages.warning(request, 'Authentication failed')
