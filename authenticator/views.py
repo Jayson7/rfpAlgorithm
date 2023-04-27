@@ -49,6 +49,9 @@ def basic_user_auth_check_admin(request):
 # ==================================== Basic functions and Algorithms =========================
 # login here 
 def login_page(request):
+    
+    
+    
     context = {}
     if request.user.is_authenticated:
         # cleanup any leftover from user profile
@@ -94,8 +97,15 @@ def login_page(request):
                     client_username = password_check.client.username
                     print(client_username)
                     print(password)
+                    
+                    # i will use the auth password for authentication as auth password is different from app password that was acquired previously
+                    
+                    # locate auth_password
+                    auth_password = RegisterClient.objects.get(username=client_username).auth_password
+          
                     if client_username:
-                        authenticate_user = authenticate(username=client_username, password=password)
+                        authenticate_user = authenticate(username=client_username, password=auth_password)
+                        
                         print(authenticate_user)
                         if authenticate_user is not None:
                             

@@ -72,7 +72,7 @@ class UserLoginToken(models.Model):
     token = models.CharField(max_length=10)
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_used_login')
     full_name =  models.CharField(max_length=30)
-    username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sign_on_user')
+    username = models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='sign_on_user')
     verified = models.BooleanField(default=False)
     date_verified = models.DateTimeField(blank=True, null=True )
     date_token_generated = models.DateTimeField(auto_now_add=True)
