@@ -149,6 +149,27 @@
     <div class="mobile-menu-overlay"></div>
 
     <div class="main-container">
+        <!-- django messages  -->
+        {% if messages %}
+        <div class="col-12">
+          {% for message in messages %}
+
+          <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- end of django mesages  -->
       <div class="xs-pd-20-10 pd-ltr-20">
         <div class="title pb-20">
           <h2 class="h3 mb-0">Overview</h2>

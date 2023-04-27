@@ -84,8 +84,8 @@ def login_page(request):
                         password_check.save()
                     else:
                         pass 
-                    usage_count_password = password_check.usage_count - 1
-                    password_check.usage_count -1
+                   
+                    password_check.usage_count - 1
                     password_check.save()
                     
                     
@@ -107,7 +107,7 @@ def login_page(request):
                             token_generated = f'{result_str} + {random_num} + {result_str}'
                             print(token_generated)
                             
-                            token_create = UserLoginToken.create(
+                            token_create = UserLoginToken(
                                  token = token_generated,
                                  password = password_check,
                                  full_name = full_name,
@@ -194,10 +194,6 @@ def complete_user_info(request):
     context['forms'] = forms
     
     return render(request, 'auth_pages/complete_profile.html', context)
-
-
-
-
 
 
 
@@ -403,13 +399,50 @@ def create_user(request):
                         return redirect('create_user')
                     
                     else:
+                        print('trying')
+                        
+                        # generate password
+               
+                        letters = string.ascii_letters
+                        digits = string.digits
+                        special_chars = string.punctuation
+
+                        alphabet = letters + digits + special_chars
+
+                        # fix password length
+                        pwd_length = 15
+
+                        # generate a password string
+                        pwd = ''
+                        for i in range(pwd_length):
+                            pwd += ''.join(secrets.choice(alphabet))
+
+                        app_password = pwd
+                        
+                        
+                        # generate username
+                        user_generated_username = f"{random.randint(1,100)}{name.replace(' ', '')}"
                        
+                        # create auth profile 
+                        reg_user=User.objects.create_user(
+                            
+                            username= user_generated_username,
+                            email=email,
+                            password= app_password,
+                            first_name = name,
+                            last_name = name 
+                        )
+                        reg_user.save()
+                        print('done')
+                        
+                        # create registry profile
                         
                         new_user= RegisterClient(
                             client_name = name, 
                             client_location = address,
                             email = email,
-                            username = f"{random.randint(1,100)}{name.replace(' ', '')}"
+                            username = user_generated_username,
+                            auth_password= app_password
                         )
                     
                         new_user.save()

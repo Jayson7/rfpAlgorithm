@@ -18,19 +18,30 @@ def details(request, pk):
     user = RegisterClient.objects.get(id=pk)
     
     if user:
-        # password profile
-        password_profile = PasswordStorage.objects.get(client=user)
-        print(password_profile) 
-        
-        print(user)
-        if password_profile and user:
-            context['password_profile'] = password_profile
-            context['user_profile'] = user
+        try:
+            # password profile
+            password_profile = PasswordStorage.objects.get(client=user)
+            print(password_profile) 
             
+            print(user)
+            if password_profile and user:
+                context['password_profile'] = password_profile
+                context['user_profile'] = user
+            
+        except:
+            messages.warning(request, 'User has no generated access')
+                        # password profile
+            # password_profile = PasswordStorage.objects.get(client=user)
+            # print(password_profile) 
+            
+            print(user)
+            if user:
+                context['password_profile'] = 'none'
+                context['user_profile'] = user        
         else:
             pass 
         
-        return render(request, 'admin_pages/details.html', context)
+    return render(request, 'admin_pages/details.html', context)
 
         
 

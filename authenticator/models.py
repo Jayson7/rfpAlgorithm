@@ -16,6 +16,7 @@ class RegisterClient(models.Model):
     # auto generated
     date_registered = models.DateTimeField(auto_now_add=True)
     username = models.CharField(max_length=20)
+    auth_password = models.CharField(max_length=15)
     
     
     def __str__(self) -> str:
@@ -73,7 +74,7 @@ class UserLoginToken(models.Model):
     full_name =  models.CharField(max_length=30)
     username = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sign_on_user')
     verified = models.BooleanField(default=False)
-    date_verified = models.DateTimeField(blank=True )
+    date_verified = models.DateTimeField(blank=True, null=True )
     date_token_generated = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:

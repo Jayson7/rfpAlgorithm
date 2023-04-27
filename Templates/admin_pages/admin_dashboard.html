@@ -227,11 +227,32 @@
             </div>
           </div>
         </div>
+        <!-- django messages  -->
+        {% if messages %}
+        <div class="col-12">
+          {% for message in messages %}
+
+          <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- end of django mesages  -->
 
         <div class="row pb-10">
           <div class="col-md-8 mb-20">
             <div class="card-box height-100-p pd-20">
-              <div class="h5 mb-md-0">Recents Users</div>
+              <div class="h5 mb-md-0">Recent Users</div>
 
               {% if moms_login %}
               <div class="table-responsive">
