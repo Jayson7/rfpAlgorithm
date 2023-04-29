@@ -20,7 +20,7 @@ class RegisterClient(models.Model):
     
     
     def __str__(self) -> str:
-        return self.client_name
+        return self.username
 
 
 # =========================================================================
@@ -56,9 +56,9 @@ class Password_log_on_user(models.Model):
     # date_of_birth = models.DateField()
     
     # hidden, will be populated by api
-    full_name = models.CharField(max_length=40)
+    full_name = models.CharField(max_length=40, null=True, blank=True)
     # BMI = models.FloatField(blank=True )
-    password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_patient_used')
+    password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_patient_used', null=True, blank=True)
     # age = models.PositiveIntegerField( blank=True)
     # classification = models.CharField(max_length=30)
 

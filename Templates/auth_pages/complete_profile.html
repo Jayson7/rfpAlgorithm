@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} {% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,8 +38,7 @@
     <div class="form-container py-5">
       <div class="form-header mb-4">We need more information</div>
       <form method="post" class="px-4">
-        {{ forms|crispy }}
-
+        {{ forms|crispy }} {% csrf_token %}
         <button type="submit" class="btn btn-success px-5">Start</button>
       </form>
     </div>

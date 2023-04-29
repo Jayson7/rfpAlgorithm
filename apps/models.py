@@ -17,12 +17,12 @@ class Questions(models.Model):
     
 class Disease(models.Model):
     disease = models.CharField(max_length=100)
-    user_diagonised = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='user_disease')
+    user_diagnosed = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='user_disease')
     points = models.IntegerField(default=0) 
 
     
     def __str__(self) -> str:
-        return self.user_diagonised
+        return self.user_diagnosed
     
 
 class Answer(models.Model):
@@ -33,21 +33,14 @@ class Answer(models.Model):
     
     def __str__(self) -> str:
         return self.user_print
+
+
+# keep record of results by moms (all records) 
+class ResultOfTest(models.Model):
+    pass 
     
 
-class Stopped_answering(models.Model):
-    user = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='user_taking_questions')
-    current_stop = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='last_question')
-    
-class Unanswered_questions(models.Model):
-    all_questions = models.ManyToManyField(Questions, related_name='all_unanswered_questions') 
-    user = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='the_user')
-    
-class Answered_questions(models.Model):
-    questions = models.ManyToManyField(Questions, related_name='all_answered_questions') 
-    user = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='the_user_answered')
-    
-    
+
 
 #  ========================================== All questions model =============
 

@@ -84,35 +84,36 @@ def login_page(request):
                 if password_check.usage_count >= 1:
                     if password_check.usage_count == 1:
                         password_check.date_exhausted = datetime.datetime.now()
-                        # password_check.usage_count - 1
-                        print('Trying to deduct')
-                        # password_check.save()
+                        password_check.usage_count -= 1
+                        
+                        password_check.save()
                     else:
-                        pass 
+                    
                    
-                    password_check.usage_count - 1
-                    print('Trying to deduct')
-                    password_check.save()
+                        password_check.usage_count -= 1
                     
-                    
+                        password_check.save()
+                        
+                        
                     
                     # get client details and authenticate
                     client_username = password_check.client.username
-                    print(client_username, 'user')
-                    print(password)
+                  
                     
                     # i will use the auth password for authentication as auth password is different from app password that was acquired previously
                     
                     # locate auth_password
                     auth_password = RegisterClient.objects.get(username=client_username).auth_password
-                    auth_password_owner = RegisterClient.objects.get(username=client_username)
           
                     if client_username:
                         authenticate_user = authenticate(username=client_username, password=auth_password)
                         
-                        print(authenticate_user, 'auth')
+                   
                         if authenticate_user is not None:
-                            
+                            login(request, authenticate_user)
+                            auth_password_owner = RegisterClient.objects.get(username=request.user)
+                          
+                    
                             # create login token for user 
                                 # choose from all lowercase letter
                             letters = string.ascii_lowercase
@@ -127,8 +128,10 @@ def login_page(request):
                                  full_name = full_name,
                                  username = auth_password_owner
                              )
+                            
                             token_create.save()
-                            messages.success(request, 'One more thing')
+                            
+                            
                             return redirect('user_info')
                             
                         else:
@@ -167,47 +170,63 @@ def complete_user_info(request):
     
     # confirm authentication status    
     if request.user.is_authenticated:
-        print('yes')
+       
         pass 
     else:
-        print('no')
+   
         return redirect('login')
     
     try:
-        print(request.user)
-        access_token = UserLoginToken.objects.filter(username = request.user).token.first()
+        
+        print(request.user, 'email')
+        registered_client_profile = RegisterClient.objects.filter(username = request.user).first()
+        print(registered_client_profile, 'access owner')
+        access_token = UserLoginToken.objects.get(username=registered_client_profile)
+        
+        # verify token
+        if access_token:
+            pass  
+        else:
+            messages.warning(request, 'Access not authorized')
+            return redirect('login')
+        
+        
     except:
         messages.warning(request, 'Authentication failed')
         return redirect('login')
     
 
-    current_user = request.user
     context = {}
-    forms = CompeteProfileForm()
-    if request.method == 'POST':
-         
-        if forms.is_valid():
-            new_profile = forms.save(commit=False)
+    if access_token:
+        forms = CompeteProfileForm(request.POST, request.FILES)
+        if request.method == 'POST':
             
-            # load full name and password
-            full_name = access_token.full_name 
-            password = access_token.password
-            #  trigger other left out details
-            new_profile.full_name = full_name
-            new_profile.password = password
+            if forms.is_valid():
+              
+                
+                # load full name and password
+                full_name = access_token.full_name 
+                password = access_token.password
+                #  trigger other left out details
+                forms.full_name = full_name
+                forms.password = password
 
-       
-            new_profile.save()
-            # verify user by adding verification to token
-            access_token.verified = True 
-            access_token.save()
+        
+                forms.save()
+                # verify user by adding verification to token
+                access_token.verified = True 
+                access_token.save()
+                
+                # start questions 
+                return redirect('question_controller')
+                
+            else:
+                forms = CompeteProfileForm()
+                messages.warning(request, 'Invalid input')
+        else:
+            forms = CompeteProfileForm()
+            messages.success(request, 'One more thing')
             
-            # start questions 
-            return redirect('question_controller')
-            
-
-    else:
-        forms = CompeteProfileForm()
     
     context['forms'] = forms
     
@@ -439,7 +458,7 @@ def create_user(request):
                         
                         
                         # generate username
-                        user_generated_username = f"{random.randint(1,100)}{name.replace(' ', '')}"
+                        user_generated_username = f"{name.replace(' ', '')}{random.randint(1,100)}"
                        
                         # create auth profile 
                         reg_user=User.objects.create_user(
