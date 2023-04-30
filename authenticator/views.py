@@ -56,12 +56,8 @@ def login_page(request):
     if request.user.is_authenticated:
         # cleanup any leftover from user profile
         try:
-            access_token = UserLoginToken.objects.filter(username = request.user).first().token
-            if access_token:
-                access_token.delete() 
-                logout(request)
-            else:
-                logout(request)
+            logout(request)
+   
         except:
             logout(request)
             
@@ -142,7 +138,6 @@ def login_page(request):
                             
                             token_create.save()
                             
-                            
                             return redirect('user_info')
                             
                         else:
@@ -169,6 +164,7 @@ def login_page(request):
                 
                 print('lost')
                 return redirect('login')
+                            
 
     return render(request, 'auth_pages/user_login.html', context)
 
@@ -178,11 +174,11 @@ def login_page(request):
 # complete user profile 
 
 def complete_user_info(request):
-    
     # confirm authentication status    
     if request.user.is_authenticated:
        
-        pass 
+        print(online_token)
+       
     else:
    
         return redirect('login')
@@ -567,3 +563,111 @@ def regenerate_password(request, pk):
         return redirect('manage_access')
     
     
+
+# ********************************************************************************************
+from apps.models import *
+from apps.questionForm import *
+
+# question 1
+
+def question1(request):
+    context = {}
+    if request.user.is_authenticated:
+        user = request.user 
+            # locate user on token 
+        try:
+            token_of_user = UserLoginToken.objects.filter().first()
+            if token_of_user:
+                    # prepare question
+                question1 = Questions.objects.filter(id = 1).first()
+                        
+                print(question1) 
+                        # get answers ans send form to frontend
+                form = Question1Form()
+                if request.method =='POST':
+                            if form.is_valid():
+                                forms = form.save(commit=False) 
+                                forms.mom =token_of_user.full_name
+                                forms.token =token_of_user.token 
+                                form.username_used = token_of_user.username
+                                form.question = question1.question
+                                
+                                form.save()
+                                print(forms.age)
+                                x = int(forms.age)  
+                                if x <= 19:
+                                    disease = Disease.create(
+                                        disease = 'anaemia',
+                                        user_diagnosed = 'token.full_name',
+                                        points = 1
+                                    )
+                                    disease.save()
+                                    
+                                    
+                                    
+                                elif x >= 20 and x <= 35:
+                                    pass 
+                                
+                                elif x > 35 and x < 40:
+                                    disease = Disease.create(
+                                        disease = 'thrombosis',
+                                        user_diagnosed = 'token.full_name',
+                                        points = 1
+                                    )
+                                    disease.save()
+                                    
+                                    disease2 = Disease.create(
+                                        disease = 'intrahepatic cholestasis',
+                                        user_diagnosed = 'token.full_name',
+                                        points = 1
+                                    )
+                                    disease2.save()
+                                    
+                                elif x >=40:
+                                    disease = Disease.create(
+                                        disease = 'Diabetes Mellitus',
+                                        user_diagnosed = 'token.full_name',
+                                        points = 1
+                                    )
+                                    disease.save()
+                                    
+                                    disease2 = Disease.create(
+                                        disease = 'preeclampsia',
+                                        user_diagnosed = 'token.full_name',
+                                        points = 1
+                                    )
+                                    
+                                    disease2.save()
+                                    
+                                    disease3 = Disease.create(
+                                        disease = 'thrombosis',
+                                        user_diagnosed = 'token.full_name',
+                                        points = 1
+                                    )
+                                    disease3.save()
+                                    
+                                    disease4 = Disease.create(
+                                        disease = 'intrahepatic cholestasis',
+                                        user_diagnosed = 'token.full_name',
+                                        points = 1
+                                    )
+                                    disease4.save()
+                                    
+                                    
+                                return redirect('question2')
+                            else:
+                                form = Question1Form(request.post)
+                                
+                        # send question and answer to view
+                context['question'] = question1
+                context['form'] = form
+            else:
+                messages.warning(request, 'Access denied')
+                return redirect('login')           
+        except:
+            messages.warning(request, 'Error')
+            return redirect('login')     
+    else:
+        messages.warning(request, 'Authentication required')
+        return redirect('login')
+    return render(request, 'questions/question1.html', context)
