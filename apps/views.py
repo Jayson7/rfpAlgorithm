@@ -55,9 +55,7 @@ def page_not_found(request):
     pass 
 
 
-def question_controller(request):
-  
-    pass 
+
 
     
     
@@ -183,8 +181,10 @@ def question1(request):
                 messages.warning(request, 'Access denied')
                 return redirect('login')           
         except:
+            messages.warning(request, 'Error')
             return redirect('login')     
     else:
+        messages.warning(request, 'Authentication required')
         return redirect('login')
     return render(request, 'questions/question1.html', context)
 

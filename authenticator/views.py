@@ -56,7 +56,7 @@ def login_page(request):
     if request.user.is_authenticated:
         # cleanup any leftover from user profile
         try:
-            access_token = UserLoginToken.objects.filter(username = request.user).token.first()
+            access_token = UserLoginToken.objects.filter(username = request.user).first().token
             if access_token:
                 access_token.delete() 
                 logout(request)
@@ -71,6 +71,17 @@ def login_page(request):
     
         password = request.POST['password1']
         full_name = request.POST['fullname']
+        
+        password_filter = PasswordStorage.objects.get(password=password)
+        # delete previous tokens
+    
+        offline_access_token = UserLoginToken.objects.filter(full_name = full_name, password=password_filter)
+            
+        if offline_access_token:
+                offline_access_token.delete() 
+        
+        
+        
         # validate credentials
         if password == '' or full_name == '':
             messages.warning(request, 'Incorrect credentials')
@@ -218,7 +229,7 @@ def complete_user_info(request):
                 access_token.save()
                 
                 # start questions 
-                return redirect('question_controller')
+                return redirect('question1')
                 
             else:
                 forms = CompeteProfileForm()
