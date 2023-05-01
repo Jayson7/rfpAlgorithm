@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django_user_agents.utils import get_user_agent
 
 import string
 import random
@@ -27,6 +28,7 @@ def super_user_check(request):
         return redirect('login')
 
 
+
 # auth check normal user
 def basic_user_auth_check(request):
     if request.user.is_authenticated:
@@ -36,6 +38,7 @@ def basic_user_auth_check(request):
         return redirect('login')
 
 
+
 # auth check admin
 def basic_user_auth_check_admin(request):
     if request.user.is_authenticated:
@@ -43,6 +46,12 @@ def basic_user_auth_check_admin(request):
     else:
         messages.warning(request, 'authentication needed')
         return redirect('admin_login')
+
+
+
+
+def monitor_user(request):
+    pass 
 
 
 
@@ -138,6 +147,70 @@ def login_page(request):
                             
                             token_create.save()
                             
+                            
+                                                    
+                            # check device
+                            user_agent = get_user_agent(request)
+                            get_token = UserLoginToken.objects.filter(full_name=full_name, password = password_check).first()
+                                
+                            if user_agent.is_mobile:
+                                
+                                    browser_prop = request.user_agent.browser 
+                                    device = request.user_agent.device 
+                                
+                                    device_storage = StoreDevice(
+                                    device = device,
+                                    browser = browser_prop,
+                                    # user_client_password_profile = auth_password,
+                                    username_profile = auth_password_owner,
+                                    user_profile_token = get_token,
+                                    
+                                    )
+                                    device_storage.save()
+
+
+                                
+                            elif user_agent.is_tablet:
+                                browser_prop = request.user_agent.browser 
+                                device =   request.user_agent.device 
+                                
+                                
+                                device_storage = StoreDevice(
+                                    device = device,
+                                    browser = browser_prop,
+                                    # user_client_password_profile = auth_password,
+                                    username_profile = auth_password_owner,
+                                    user_profile_token = get_token,
+                                    
+                                    )
+                                device_storage.save()
+
+
+                                
+                            elif user_agent.is_pc or user_agent.is_touchable:
+                                browser_prop = request.user_agent.browser
+                                device =   request.user_agent.os 
+                               
+                                
+                                device_storage = StoreDevice(
+                                    device = device,
+                                    browser = browser_prop,
+                                    # user_client_password_profile = auth_password,
+                                    username_profile = auth_password_owner,
+                                    user_profile_token = get_token,
+                                    
+                                    )
+                                device_storage.save()
+
+  
+                                    
+                            else:
+                                messages.warning(request, 'Device not allowed')
+                                return redirect('login')
+
+                                                    
+                                                    
+                            
                             return redirect('user_info')
                             
                         else:
@@ -175,13 +248,7 @@ def login_page(request):
 
 def complete_user_info(request):
     # confirm authentication status    
-    if request.user.is_authenticated:
-       
-        print(online_token)
-       
-    else:
-   
-        return redirect('login')
+
     
     try:
         
