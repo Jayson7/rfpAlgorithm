@@ -93,9 +93,7 @@ class StoreDevice(models.Model):
     username_profile= models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='profile_owner_mum')
 
     user_profile_token = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='token_used')
-    
-    user_client_password_profile = models.ForeignKey(Password_log_on_user, on_delete=models.CASCADE, related_name='password_profile_owner')
-       
+
 
     def __str__(self) -> str:
         return str(self.username_profile)
