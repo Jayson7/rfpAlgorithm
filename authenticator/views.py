@@ -293,19 +293,10 @@ def complete_user_info(request):
                 access_token.verified = True 
                 access_token.save()
                 
-                get_token = get_token = Password_log_on_user.objects.filter(full_name=full_name, password = password).first()
-                get_token_from_userLogin = UserLoginToken.objects.filter(token = access_token).first()
+         
                 # start questions 
 
 
-      
-                device_storage = StoreDevice.objects.filter(user_profile_token = get_token_from_userLogin).first()
-
-                device_storage.user_client_password_profile =  get_token
-                device_storage.save()
-
-
-                
                 return redirect('question1')
             
         else:
