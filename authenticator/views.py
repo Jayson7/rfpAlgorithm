@@ -92,152 +92,153 @@ def login_page(request):
             messages.warning(request, 'Incorrect credentials')
             return redirect('login')
         else:
-            password_check = PasswordStorage.objects.filter(password=password).first()
-            if password_check:
-                # check password usage count 
+            try:
+                password_check = PasswordStorage.objects.filter(password=password).first()
+                if password_check:
+                    # check password usage count 
+                
+                
+                    if password_check.usage_count >= 1:
+                        if password_check.usage_count == 1:
+                            password_check.date_exhausted = datetime.datetime.now()
+                            password_check.usage_count -= 1
+                            
+                            password_check.save()
+                        else:
+                        
+                    
+                            password_check.usage_count -= 1
+                        
+                            password_check.save()
+                            
+                            
+                        
+                        # get client details and authenticate
+                        client_username = password_check.client.username
+                    
+                        
+                        # i will use the auth password for authentication as auth password is different from app password that was acquired previously
+                        
+                        # locate auth_password
+                        auth_password = RegisterClient.objects.get(username=client_username).auth_password
             
-               
-                if password_check.usage_count >= 1:
-                    if password_check.usage_count == 1:
-                        password_check.date_exhausted = datetime.datetime.now()
-                        password_check.usage_count -= 1
-                        
-                        password_check.save()
-                    else:
-                    
-                   
-                        password_check.usage_count -= 1
-                    
-                        password_check.save()
-                        
-                        
-                    
-                    # get client details and authenticate
-                    client_username = password_check.client.username
-                  
-                    
-                    # i will use the auth password for authentication as auth password is different from app password that was acquired previously
-                    
-                    # locate auth_password
-                    auth_password = RegisterClient.objects.get(username=client_username).auth_password
-          
-                    if client_username:
-                        authenticate_user = authenticate(username=client_username, password=auth_password)
-                        
-                   
-                        if authenticate_user is not None:
-                            login(request, authenticate_user)
-                            auth_password_owner = RegisterClient.objects.get(username=request.user)
-                          
-                    
-                            # create login token for user 
-                                # choose from all lowercase letter
-                            letters = string.ascii_lowercase
-                            result_str = ''.join(random.choice(letters) for i in range(4))
-                            random_num = random.randint(1000, 9999)
-                            token_generated = f'{result_str} + {random_num} + {result_str}'
-                            print(token_generated)
+                        if client_username:
+                            authenticate_user = authenticate(username=client_username, password=auth_password)
                             
-                            token_create = UserLoginToken(
-                                 token = token_generated,
-                                 password = password_check,
-                                 full_name = full_name,
-                                 username = auth_password_owner
-                             )
+                    
+                            if authenticate_user is not None:
+                                login(request, authenticate_user)
+                                auth_password_owner = RegisterClient.objects.get(username=request.user)
                             
-                            token_create.save()
-                            
-                            
-                                                    
-                            # check device
-                            user_agent = get_user_agent(request)
-                            get_token = UserLoginToken.objects.filter(full_name=full_name, password = password_check).first()
+                        
+                                # create login token for user 
+                                    # choose from all lowercase letter
+                                letters = string.ascii_lowercase
+                                result_str = ''.join(random.choice(letters) for i in range(4))
+                                random_num = random.randint(1000, 9999)
+                                token_generated = f'{result_str} + {random_num} + {result_str}'
+                                print(token_generated)
                                 
-                            if user_agent.is_mobile:
+                                token_create = UserLoginToken(
+                                    token = token_generated,
+                                    password = password_check,
+                                    full_name = full_name,
+                                    username = auth_password_owner
+                                )
                                 
-                                    browser_prop = request.user_agent.browser 
-                                    device = request.user_agent.device 
+                                token_create.save()
                                 
-                                    device_storage = StoreDevice(
-                                    device = device,
-                                    browser = browser_prop,
-                                    # user_client_password_profile = auth_password,
-                                    username_profile = auth_password_owner,
-                                    user_profile_token = get_token,
+                                
+                                                        
+                                # check device
+                                user_agent = get_user_agent(request)
+                                get_token = UserLoginToken.objects.filter(full_name=full_name, password = password_check).first()
                                     
-                                    )
+                                if user_agent.is_mobile:
+                                    
+                                        browser_prop = request.user_agent.browser 
+                                        device = request.user_agent.device 
+                                    
+                                        device_storage = StoreDevice(
+                                        device = device,
+                                        browser = browser_prop,
+                                        # user_client_password_profile = auth_password,
+                                        username_profile = auth_password_owner,
+                                        user_profile_token = get_token,
+                                        
+                                        )
+                                        device_storage.save()
+
+
+                                    
+                                elif user_agent.is_tablet:
+                                    browser_prop = request.user_agent.browser 
+                                    device =   request.user_agent.device 
+                                    
+                                    
+                                    device_storage = StoreDevice(
+                                        device = device,
+                                        browser = browser_prop,
+                                        # user_client_password_profile = auth_password,
+                                        username_profile = auth_password_owner,
+                                        user_profile_token = get_token,
+                                        
+                                        )
                                     device_storage.save()
 
 
-                                
-                            elif user_agent.is_tablet:
-                                browser_prop = request.user_agent.browser 
-                                device =   request.user_agent.device 
-                                
-                                
-                                device_storage = StoreDevice(
-                                    device = device,
-                                    browser = browser_prop,
-                                    # user_client_password_profile = auth_password,
-                                    username_profile = auth_password_owner,
-                                    user_profile_token = get_token,
                                     
-                                    )
-                                device_storage.save()
-
-
+                                elif user_agent.is_pc or user_agent.is_touchable:
+                                    browser_prop = request.user_agent.browser
+                                    device =   request.user_agent.os 
                                 
-                            elif user_agent.is_pc or user_agent.is_touchable:
-                                browser_prop = request.user_agent.browser
-                                device =   request.user_agent.os 
-                               
-                                
-                                device_storage = StoreDevice(
-                                    device = device,
-                                    browser = browser_prop,
-                                    # user_client_password_profile = auth_password,
-                                    username_profile = auth_password_owner,
-                                    user_profile_token = get_token,
                                     
-                                    )
-                                device_storage.save()
+                                    device_storage = StoreDevice(
+                                        device = device,
+                                        browser = browser_prop,
+                                        # user_client_password_profile = auth_password,
+                                        username_profile = auth_password_owner,
+                                        user_profile_token = get_token,
+                                        
+                                        )
+                                    device_storage.save()
 
-  
-                                    
+    
+                                        
+                                else:
+                                    messages.warning(request, 'Device not allowed')
+                                    return redirect('login')
+
+                                                        
+                                                        
+                                
+                                return redirect('user_info')
+                                
                             else:
-                                messages.warning(request, 'Device not allowed')
+                                messages.warning(request, 'Password is invalid')
                                 return redirect('login')
-
-                                                    
-                                                    
-                            
-                            return redirect('user_info')
-                            
+                                
                         else:
-                            messages.warning(request, 'Password is invalid')
+                            
+                            messages.warning(request, 'Account access is denied, contact Admin')
                             return redirect('login')
                             
                     else:
-                        
-                        messages.warning(request, 'Account access is denied, contact Admin')
+                        messages.warning(request, 'Your password has expired!')
                         return redirect('login')
-                        
+                    # if count limit isn't reached add 1 
+                    
+                    # generate token for user login using org username + count
+                    
+                    
+                    # send user to info page
+                    pass 
                 else:
-                    messages.warning(request, 'Your password has expired!')
-                    return redirect('login')
-                # if count limit isn't reached add 1 
-                
-                # generate token for user login using org username + count
-                
-                
-                # send user to info page
-                pass 
-            else:
-                messages.warning(request, 'Incorrect Password')
-                
-                print('lost')
-                return redirect('login')
-                            
+                    messages.warning(request, 'Incorrect Password')
+            except:
+                messages.warning(request, 'Invalid')
+                return redirect('login')        
+
 
     return render(request, 'auth_pages/user_login.html', context)
 
@@ -249,7 +250,6 @@ def login_page(request):
 def complete_user_info(request):
     # confirm authentication status    
 
-    
     try:
         
         print(request.user, 'email')
@@ -259,7 +259,8 @@ def complete_user_info(request):
         
         # verify token
         if access_token:
-            pass  
+            print(access_token.full_name)
+       
         else:
             messages.warning(request, 'Access not authorized')
             return redirect('login')
@@ -272,31 +273,41 @@ def complete_user_info(request):
 
     context = {}
     if access_token:
-        forms = CompeteProfileForm(request.POST, request.FILES)
+        forms = CompeteProfileForm(request.POST)
         if request.method == 'POST':
-            
             if forms.is_valid():
-              
                 
+                new_forms = forms.save(commit=False)
                 # load full name and password
                 full_name = access_token.full_name 
+                print(full_name)
                 password = access_token.password
+                
                 #  trigger other left out details
-                forms.full_name = full_name
-                forms.password = password
+                new_forms.full_name = full_name
+                new_forms.password = password
 
-        
-                forms.save()
+                new_forms.save()
+                
                 # verify user by adding verification to token
                 access_token.verified = True 
                 access_token.save()
                 
+                get_token = get_token = Password_log_on_user.objects.filter(full_name=full_name, password = password).first()
+                get_token_from_userLogin = UserLoginToken.objects.filter(token = access_token).first()
                 # start questions 
-                return redirect('question1')
+
+
+      
+                device_storage = StoreDevice.objects.filter(user_profile_token = get_token_from_userLogin).first()
+
+                device_storage.user_client_password_profile =  get_token
+                device_storage.save()
+
+
                 
-            else:
-                forms = CompeteProfileForm()
-                messages.warning(request, 'Invalid input')
+                return redirect('question1')
+            
         else:
             forms = CompeteProfileForm()
             messages.success(request, 'One more thing')
@@ -353,6 +364,11 @@ def admin_login(request):
     return render(request, 'admin_pages/admin_login.html', context)
  
 
+
+
+
+
+
 def admin_dashboard(request):
     context = {}
     # check login status
@@ -374,6 +390,7 @@ def admin_dashboard(request):
 
 
 
+
 # update models for password count on login
 
 def UpdatePassword(request):
@@ -383,6 +400,7 @@ def UpdatePassword(request):
         return redirect('login')
     
     
+
 
 
 # generate a new password for new client
@@ -631,110 +649,3 @@ def regenerate_password(request, pk):
     
     
 
-# ********************************************************************************************
-from apps.models import *
-from apps.questionForm import *
-
-# question 1
-
-def question1(request):
-    context = {}
-    if request.user.is_authenticated:
-        user = request.user 
-            # locate user on token 
-        try:
-            token_of_user = UserLoginToken.objects.filter().first()
-            if token_of_user:
-                    # prepare question
-                question1 = Questions.objects.filter(id = 1).first()
-                        
-                print(question1) 
-                        # get answers ans send form to frontend
-                form = Question1Form()
-                if request.method =='POST':
-                            if form.is_valid():
-                                forms = form.save(commit=False) 
-                                forms.mom =token_of_user.full_name
-                                forms.token =token_of_user.token 
-                                form.username_used = token_of_user.username
-                                form.question = question1.question
-                                
-                                form.save()
-                                print(forms.age)
-                                x = int(forms.age)  
-                                if x <= 19:
-                                    disease = Disease.create(
-                                        disease = 'anaemia',
-                                        user_diagnosed = 'token.full_name',
-                                        points = 1
-                                    )
-                                    disease.save()
-                                    
-                                    
-                                    
-                                elif x >= 20 and x <= 35:
-                                    pass 
-                                
-                                elif x > 35 and x < 40:
-                                    disease = Disease.create(
-                                        disease = 'thrombosis',
-                                        user_diagnosed = 'token.full_name',
-                                        points = 1
-                                    )
-                                    disease.save()
-                                    
-                                    disease2 = Disease.create(
-                                        disease = 'intrahepatic cholestasis',
-                                        user_diagnosed = 'token.full_name',
-                                        points = 1
-                                    )
-                                    disease2.save()
-                                    
-                                elif x >=40:
-                                    disease = Disease.create(
-                                        disease = 'Diabetes Mellitus',
-                                        user_diagnosed = 'token.full_name',
-                                        points = 1
-                                    )
-                                    disease.save()
-                                    
-                                    disease2 = Disease.create(
-                                        disease = 'preeclampsia',
-                                        user_diagnosed = 'token.full_name',
-                                        points = 1
-                                    )
-                                    
-                                    disease2.save()
-                                    
-                                    disease3 = Disease.create(
-                                        disease = 'thrombosis',
-                                        user_diagnosed = 'token.full_name',
-                                        points = 1
-                                    )
-                                    disease3.save()
-                                    
-                                    disease4 = Disease.create(
-                                        disease = 'intrahepatic cholestasis',
-                                        user_diagnosed = 'token.full_name',
-                                        points = 1
-                                    )
-                                    disease4.save()
-                                    
-                                    
-                                return redirect('question2')
-                            else:
-                                form = Question1Form(request.post)
-                                
-                        # send question and answer to view
-                context['question'] = question1
-                context['form'] = form
-            else:
-                messages.warning(request, 'Access denied')
-                return redirect('login')           
-        except:
-            messages.warning(request, 'Error')
-            return redirect('login')     
-    else:
-        messages.warning(request, 'Authentication required')
-        return redirect('login')
-    return render(request, 'questions/question1.html', context)

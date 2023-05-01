@@ -15,6 +15,7 @@ def details(request, pk):
     basic_user_auth_check_admin(request)
     super_user_check(request)
     
+    
     user = RegisterClient.objects.get(id=pk)
     
     if user:
@@ -82,8 +83,6 @@ def manage_user(request):
 
 
 
-
-
 # question 1
 
 def question1(request):
@@ -92,7 +91,7 @@ def question1(request):
         user = request.user 
             # locate user on token 
         try:
-            token_of_user = UserLoginToken.objects.filter(username=user).first()
+            token_of_user = UserLoginToken.objects.filter().first()
             if token_of_user:
                     # prepare question
                 question1 = Questions.objects.filter(id = 1).first()
@@ -187,6 +186,7 @@ def question1(request):
         messages.warning(request, 'Authentication required')
         return redirect('login')
     return render(request, 'questions/question1.html', context)
+
 
 
 

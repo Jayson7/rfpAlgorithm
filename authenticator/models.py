@@ -50,24 +50,27 @@ class PasswordStorage(models.Model):
 
 
 class Password_log_on_user(models.Model):
+    
     # height = models.FloatField(help_text='in meters, e.g 1.67')
     # weight = models.FloatField(help_text='in kilograms e.g 90kg')
     email = models.EmailField(help_text='abc@efg.com')
     # date_of_birth = models.DateField()
     
     # hidden, will be populated by api
-    full_name = models.CharField(max_length=40, null=True, blank=True)
+    full_name = models.CharField(max_length=40)
     # BMI = models.FloatField(blank=True )
-    password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_patient_used', null=True, blank=True)
+    password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_patient_used')
     # age = models.PositiveIntegerField( blank=True)
     # classification = models.CharField(max_length=30)
 
+
     
     def __str__(self) -> str:
-        return self.full_name
+        return str(self.full_name)
     
 
 # ============================================================================
+
 class UserLoginToken(models.Model):
     token = models.CharField(max_length=10)
     password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_used_login')
@@ -80,7 +83,10 @@ class UserLoginToken(models.Model):
     def __str__(self) -> str:
         return self.full_name 
     
-    
+
+
+# _____________________________________________________________________
+
 class StoreDevice(models.Model):
     device = models.CharField(max_length=300) 
     browser = models.CharField(max_length=300)
@@ -88,8 +94,9 @@ class StoreDevice(models.Model):
 
     user_profile_token = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='token_used')
     
-    user_client_password_profile = models.ForeignKey(Password_log_on_user, on_delete=models.CASCADE, related_name='password_profile_owner', null=True, blank=True)
+    user_client_password_profile = models.ForeignKey(Password_log_on_user, on_delete=models.CASCADE, related_name='password_profile_owner')
        
-       
+
     def __str__(self) -> str:
-        return str(self.user_profile)
+        return str(self.username_profile)
+    
