@@ -58,6 +58,7 @@ def monitor_user(request):
 # ==================================== Basic functions and Algorithms =========================
 # login here 
 def login_page(request):
+    user_agent = get_user_agent(request)
     
     
     
@@ -76,12 +77,26 @@ def login_page(request):
     
         password = request.POST['password1']
         full_name = request.POST['fullname']
+        try:
+            password_filter = PasswordStorage.objects.get(password=password)
+            # delete previous tokens
         
-        password_filter = PasswordStorage.objects.get(password=password)
-        # delete previous tokens
-    
-        offline_access_token = UserLoginToken.objects.filter(full_name = full_name, password=password_filter)
+            offline_access_token = UserLoginToken.objects.filter(full_name = full_name, password=password_filter)
             
+            
+        
+        except:
+            messages.warning(request, 'Password not found')
+            return redirect('login')        
+        
+        try:
+            devices_used_prev = StoreDevice.objects.filter(device=current_device, browser=current_browser)
+            
+        
+        except:
+            pass 
+        
+        
         if offline_access_token:
                 offline_access_token.delete() 
         
@@ -92,7 +107,7 @@ def login_page(request):
             messages.warning(request, 'Incorrect credentials')
             return redirect('login')
         else:
-            # try:
+            try:
                 password_check = PasswordStorage.objects.get(password=password)
                 if password_check:
                     # check password usage count 
@@ -151,7 +166,7 @@ def login_page(request):
                                 
                                                         
                                 # check device
-                                user_agent = get_user_agent(request)
+                                
                                 get_token = UserLoginToken.objects.filter(full_name=full_name, password = password_check).first()
                                     
                                 if user_agent.is_mobile:
@@ -235,9 +250,10 @@ def login_page(request):
                     pass 
                 else:
                     messages.warning(request, 'Incorrect Password')
-            # except:
-            #     messages.warning(request, 'Invalid')
-            #     return redirect('login')        
+                    return redirect('login')
+            except:
+                messages.warning(request, 'Invalid')
+                return redirect('login')        
 
 
     return render(request, 'auth_pages/user_login.html', context)
