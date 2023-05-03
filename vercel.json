@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "rfp_main/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "rfp_main/wsgi.py"
+    }
+  ]
+}

@@ -89,14 +89,27 @@ def login_page(request):
             messages.warning(request, 'Password not found')
             return redirect('login')        
         
+        browser_prop = request.user_agent.browser 
+        device = request.user_agent.device 
+        
         try:
-            devices_used_prev = StoreDevice.objects.filter(device=current_device, browser=current_browser)
             
+            devices_used_prev = StoreDevice.objects.filter(device=device, browser=browser_prop)
+            user_check = request.user.username 
+       
+                
+            
+            if devices_used_prev:
+                # check for token
+                if devices_used_prev.username_profile.username == user_check:
+                    pass
+                
         
         except:
             pass 
         
         
+        # when the token contains current user fullname and token id, if not visit line 91
         if offline_access_token:
                 offline_access_token.delete() 
         
@@ -165,14 +178,12 @@ def login_page(request):
                                 
                                 
                                                         
-                                # check device
+                                # check device and store whats needed
                                 
                                 get_token = UserLoginToken.objects.filter(full_name=full_name, password = password_check).first()
                                     
-                                if user_agent.is_mobile:
-                                    
-                                        browser_prop = request.user_agent.browser 
-                                        device = request.user_agent.device 
+                                if user_agent.is_mobile or user_agent.is_tablet :
+                                   
                                     
                                         device_storage = StoreDevice(
                                         device = device,
@@ -183,23 +194,6 @@ def login_page(request):
                                         
                                         )
                                         device_storage.save()
-
-
-                                    
-                                elif user_agent.is_tablet:
-                                    browser_prop = request.user_agent.browser 
-                                    device =   request.user_agent.device 
-                                    
-                                    
-                                    device_storage = StoreDevice(
-                                        device = device,
-                                        browser = browser_prop,
-                                        # user_client_password_profile = auth_password,
-                                        username_profile = auth_password_owner,
-                                        user_profile_token = get_token,
-                                        
-                                        )
-                                    device_storage.save()
 
 
                                     

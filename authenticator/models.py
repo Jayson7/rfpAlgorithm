@@ -69,6 +69,9 @@ class Password_log_on_user(models.Model):
         return str(self.full_name)
     
 
+
+
+# _____________________________________________________________________
 # ============================================================================
 
 class UserLoginToken(models.Model):
@@ -85,8 +88,6 @@ class UserLoginToken(models.Model):
     
 
 
-# _____________________________________________________________________
-
 class StoreDevice(models.Model):
     device = models.CharField(max_length=300) 
     browser = models.CharField(max_length=300)
@@ -97,4 +98,17 @@ class StoreDevice(models.Model):
 
     def __str__(self) -> str:
         return str(self.username_profile)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
