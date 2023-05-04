@@ -17,10 +17,10 @@ jaysontechsolutions@gmail.com
 SECRET_KEY = 'django-insecure-(((#46fb3s7x@w7&85f@vdhovj085du@ue0%q9@*0b8=!8oqiv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['rfp-algorithm.vercel.app']
-# ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['rfp-algorithm.vercel.app']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -77,16 +77,26 @@ WSGI_APPLICATION = 'rfp_main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # user data storage database
 
-
+DATABASES = {
+        'default': {
+            'ENGINE': 'djongo',
+            'NAME': 'royalace',
+            
+            'CLIENT': {
+                'host': 'mongodb+srv://rfpalgorithmn:lexxiijoo70@cluster0.orpg2sj.mongodb.net/?retryWrites=true&w=majority'
+                
+            }  
+        }
+}
 
 
 
