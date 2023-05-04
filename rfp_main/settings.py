@@ -173,3 +173,16 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # django_project/settings.py
 LOGIN_REDIRECT_URL = "login"
 LOGOUT_REDIRECT_URL = "login"  
+
+
+
+
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config( 
+  cloud_name = "dlvlxpja3", 
+  api_key = "797748228281934", 
+  api_secret = "KycRuHR_2CwkHlM4W3PmiPQZTRM" 
+)
