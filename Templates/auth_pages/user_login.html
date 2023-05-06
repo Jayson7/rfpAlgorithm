@@ -67,7 +67,6 @@ All right reserved
                     </div>
 
                     <form method="POST" autocomplete="off">
-                      {% csrf_token %}
                       <p class="text-center text-info">
                         Please provide a pass code
                       </p>
@@ -81,6 +80,7 @@ All right reserved
                           name="fullname"
                         />
 
+                        {% csrf_token %}
                         <label class="mt-2" for="exampleInputPassword1"
                           >Full name</label
                         >

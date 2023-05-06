@@ -104,7 +104,8 @@ def question1(request):
             # locate user on token 
         try:
             token_of_user = UserLoginToken.objects.filter(username=user).first()
-            find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).filter(user_profile_token=token_of_user)
+            find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).filter(user_profile_token=token_of_user).first()
+            print(find_device)
             
             
             

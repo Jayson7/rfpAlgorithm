@@ -12,7 +12,7 @@ import string
 import random
 import secrets
 import datetime
-
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -57,6 +57,7 @@ def monitor_user(request):
 
 # ==================================== Basic functions and Algorithms =========================
 # login here 
+@csrf_exempt
 def login_page(request):
     user_agent = get_user_agent(request)
     
@@ -256,7 +257,7 @@ def login_page(request):
 
 
 # complete user profile 
-
+@csrf_exempt
 def complete_user_info(request):
     # confirm authentication status    
 
@@ -321,7 +322,7 @@ def complete_user_info(request):
 
 
 # ========================================= Admin functions ===================================================
-
+@csrf_exempt
 def admin_login(request):
     if request.user.is_authenticated:
         logout(request)
@@ -614,9 +615,10 @@ def regenerate_password(request, pk):
     basic_user_auth_check_admin(request)
     super_user_check(request)
     
-    user = PasswordStorage.objects.get(id=pk)
-    print(user)
-    if user:
+    user = RegisterClient.objects.get(id=pk)
+    find_pass_profile = PasswordStorage.objects.get(client=user)
+    print(find_pass_profile)
+    if find_pass_profile:
        
         letters = string.ascii_letters
         digits = string.digits
@@ -634,8 +636,8 @@ def regenerate_password(request, pk):
 
         app_password = pwd
                            
-        user.password = app_password
-        user.save()         
+        find_pass_profile.password = app_password
+        find_pass_profile.save()         
 
      
                                     
