@@ -13,4 +13,5 @@ urlpatterns = [
     path('question1', question1, name='question1'),
     path('question2', question2, name='question2'),
     path('question3', question3, name='question3'),
+    path('question4', question4, name='question4'),
 ]

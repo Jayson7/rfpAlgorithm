@@ -140,7 +140,7 @@ def question1(request):
                                     disease.save()
                                         
                                     disease2 = Disease(
-                                            disease = 'intrahepatic cholestasis',
+                                            disease = 'Intrahepatic cholestasis',
                                             user_diagnosed = token_of_user,
                                             points = 0
                                         )
@@ -216,13 +216,13 @@ def question1(request):
                                     elif x > 35 and x < 40:
                                         Disease.objects.get(disease = 'thrombosis').update(points=F("points") + 1)
                                         
-                                        Disease.objects.get(    disease = 'intrahepatic cholestasis').update(points=F("points") + 1)
+                                        Disease.objects.get(    disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
                                         
                                     elif x >=40:
                                     
                                         Disease.objects.get(    disease = 'Diabetes Mellitus').update(points=F("points") + 1)
                                         Disease.objects.get(    disease = 'preeclampsia').update(points=F("points") + 1)
-                                        Disease.objects.get(    disease = 'intrahepatic cholestasis').update(points=F("points") + 1)
+                                        Disease.objects.get(    disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
                                         Disease.objects.get(     disease = 'thrombosis').update(points=F("points") + 1)
                                         
                                     
@@ -419,14 +419,14 @@ def question3(request):
                            
                            for ans in check_answers:
                                 if ans.answer == 'Asian':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'intrahepatic cholestasis').update(points=F("points") + 1)
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
                                    
                                    
                                 elif ans.answer == 'Black race':
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
                                 elif ans.answer == 'Latino':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'intrahepatic cholestasis').update(points=F("points") + 1)
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
                                 elif ans.answer == 'Middle Eastern / Arab':
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
@@ -462,7 +462,7 @@ def question3(request):
 
 
 # ##############################################################################
-# question 4
+# question 3
 
 
 def question4(request):
@@ -486,29 +486,33 @@ def question4(request):
         # print(find_device,'device')
             
         # query question 2 (check if the person did question 1)
-        try:
+        # try:
 
-            query_q3 = Answer.objects.filter(token=token_of_user)
-            if query_q3:
-                pass 
-            else:
-                messages.warming(request, 'Not allowed')
-                return redirect('login')
+        #     query_q2 = Question2Model.objects.get(token=token_of_user)
+        #     if query_q2:
+        #         pass 
+        #     else:
+        #         messages.warming(request, 'Not allowed')
+        #         return redirect('login')
         
-        except:
-            messages.warming(request, 'Not allowed')
-            return redirect('login')
+        # except:
+        #     messages.warming(request, 'Not allowed')
+        #     return redirect('login')
         
-        if token_of_user.verified == True:
-                if token_of_user and query_q3:
+        # if token_of_user.verified == True:
+        if request.user:
+                # if token_of_user and query_q2:
                     # prepare question
                     question4 = Questions.objects.filter(id = 4).first()
                     
-                     
                     context['question'] = question4
+                    context['question_tag'] = 'Question 4'
+                    context['question_tag_eng'] = 'Four'
+                    
                     # get answers ans send form to frontend
                     
                     x_list = Answer.objects.filter(question=question4)
+                    
                     print(x_list) 
                     context['xlist'] = x_list
                     if request.method =='POST':
@@ -517,14 +521,40 @@ def question4(request):
                         print(list_checked)
                         
                         for i in list_checked:
-                            Answer.objects.filter(pk=int(i)).update(verified=True, user_print=token_of_user)
-                        return redirect('question4')
+                           check_answers = Answer.objects.filter(pk=int(i))
+                           check_answers.update(verified=True, user_print=token_of_user)
+                           
+                           for ans in check_answers:
+                                if ans.answer == 'First pregnancy or gestational loss less than 20 weeks':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
+                                   
+                                   
+                                elif ans.answer == 'Black race':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                elif ans.answer == 'Latino':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                elif ans.answer == 'Middle Eastern / Arab':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                elif ans.answer == 'Other':
+                                    pass
+                                elif ans.answer == 'Native American':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                elif ans.answer == 'White race':
+                                    pass 
+                                
+                                    
+                                    
+                                   
+
+                        return redirect('question5')
                         # send question and answer to view
                 
                
-                else:
-                    messages.warning(request, 'Access denied')
-                    return redirect('login')           
+                # else:
+                #     messages.warning(request, 'Access denied')
+                #     return redirect('login')           
         else:
                 messages.warning(request, 'User not verified')
         # except:
@@ -533,5 +563,6 @@ def question4(request):
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
-    return render(request, 'questions/question3.html', context)
+    return render(request, 'questions/question4.html', context)
+
 
