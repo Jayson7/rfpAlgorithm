@@ -240,7 +240,7 @@ def question2(request):
         # query question 1 (check if the person did question 1)
         try:
             
-            query_q1 = Question1Model.objects.get(token=token_of_user)
+            query_q1 = Question1Model.objects.get(token=token_of_user)   
             if query_q1:
                 pass 
             else:
@@ -377,11 +377,10 @@ def question3(request):
                         list_checked = request.POST.getlist('xlist_boxes')
                         print(list_checked)
                         
-                               
-                      
-                             
-                                    
-                            # send question and answer to view
+                        for i in list_checked:
+                            Answer.objects.filter(pk=int(i)).update(verified=True, user_print=token_of_user)
+                        return redirect('question4')
+                        # send question and answer to view
                 
                
                 else:
