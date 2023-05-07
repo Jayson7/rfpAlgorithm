@@ -17,4 +17,7 @@ class Question1Form(ModelForm):
         exclude = ['mom', 'question', 'date_answered', 'username_used', 'token']
         
 class Question2Form(ModelForm):
-    pass 
+   class Meta:
+        model = Question2Model
+        fields = ['height', 'weight']
+        exclude = ['token', 'BMI']

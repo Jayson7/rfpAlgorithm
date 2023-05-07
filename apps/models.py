@@ -22,25 +22,25 @@ class Disease(models.Model):
 
     
     def __str__(self) -> str:
-        return self.user_diagnosed
+        return str(self.user_diagnosed)
     
 
 class Answer(models.Model):
     question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_to_ask')
     answer = models.CharField(max_length=200, null=True)
-    user_print = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='user_in_question')
-
+    user_print = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='user_in_question', null=True, blank=True)
+    verified = models.BooleanField(default=False)
     
     def __str__(self) -> str:
-        return self.user_print
+        return str(self.answer)
+
+
 
 
 # keep record of results by moms (all records) 
 class ResultOfTest(models.Model):
     pass 
     
-
-
 
 #  ========================================== All questions model =============
 
@@ -55,4 +55,23 @@ class Question1Model(models.Model):
     
     
     def __str__(self):
-        return self.user
+        return str(self.mom)
+    
+    
+class Question2Model(models.Model):
+    question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_storage_q2')
+    date_answered = models.DateTimeField(auto_now_add=True)
+    height = models.FloatField(help_text='in cms')
+    weight = models.FloatField(help_text='in kgs')
+    token = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='token_questioned_user_q2' )
+    BMI = models.CharField(max_length=20)
+    
+    
+    
+    def __str__(self):
+        return str(self.BMI)
+    
+
+
+    
+  

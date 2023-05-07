@@ -94,7 +94,9 @@ def Homepage(request):
 # question 1
 
 def question1(request):
+    
     context = {}
+    
     user_agent = get_user_agent(request)
     if request.user.is_authenticated:
         browser_prop = request.user_agent.browser 
@@ -102,36 +104,38 @@ def question1(request):
         
         user = request.user 
             # locate user on token 
-        try:
-            token_of_user = UserLoginToken.objects.filter(username=user).first()
-            find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).filter(user_profile_token=token_of_user).first()
-            print(find_device)
+        # try:
+        reg_instance_profile = RegisterClient.objects.filter(username=user).first()
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
+        # to be added later 
+        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
+        # print(find_device,'device')
             
             
             
-            if token_of_user.verified == True:
-                if token_of_user and find_device:
+        if token_of_user.verified == True:
+                if token_of_user:
                         # prepare question
                     question1 = Questions.objects.filter(id = 1).first()
                             
                     print(question1) 
                             # get answers ans send form to frontend
-                    form = Question1Form()
+                    form = Question1Form(request.POST)
                     if request.method =='POST':
                                 if form.is_valid():
                                     forms = form.save(commit=False) 
-                                    forms.mom =token_of_user.full_name
-                                    forms.token =token_of_user.token 
-                                    form.username_used = token_of_user.username
-                                    form.question = question1.question
+                                    forms.mom =token_of_user
+                                    forms.token =token_of_user
+                                    forms.username_used = token_of_user
+                                    forms.question = question1
                                     
-                                    form.save()
+                                    forms.save()
                                     print(forms.age)
                                     x = int(forms.age)  
                                     if x <= 19:
-                                        disease = Disease.create(
+                                        disease = Disease(
                                             disease = 'anaemia',
-                                            user_diagnosed = 'token.full_name',
+                                            user_diagnosed = token_of_user.full_name,
                                             points = 1
                                         )
                                         disease.save()
@@ -141,47 +145,48 @@ def question1(request):
                                     elif x >= 20 and x <= 35:
                                         pass 
                                     
+                                    
                                     elif x > 35 and x < 40:
-                                        disease = Disease.create(
+                                        disease = Disease(
                                             disease = 'thrombosis',
-                                            user_diagnosed = 'token.full_name',
+                                            user_diagnosed = token_of_user,
                                             points = 1
                                         )
                                         disease.save()
                                         
-                                        disease2 = Disease.create(
+                                        disease2 = Disease(
                                             disease = 'intrahepatic cholestasis',
-                                            user_diagnosed = 'token.full_name',
+                                            user_diagnosed = token_of_user,
                                             points = 1
                                         )
                                         disease2.save()
                                         
                                     elif x >=40:
-                                        disease = Disease.create(
+                                        disease = Disease(
                                             disease = 'Diabetes Mellitus',
-                                            user_diagnosed = 'token.full_name',
+                                            user_diagnosed = token_of_user,
                                             points = 1
                                         )
                                         disease.save()
                                         
-                                        disease2 = Disease.create(
+                                        disease2 = Disease(
                                             disease = 'preeclampsia',
-                                            user_diagnosed = 'token.full_name',
+                                            user_diagnosed = token_of_user,
                                             points = 1
                                         )
                                         
                                         disease2.save()
                                         
-                                        disease3 = Disease.create(
+                                        disease3 = Disease(
                                             disease = 'thrombosis',
-                                            user_diagnosed = 'token.full_name',
+                                            user_diagnosed = token_of_user,
                                             points = 1
                                         )
                                         disease3.save()
                                         
-                                        disease4 = Disease.create(
+                                        disease4 = Disease(
                                             disease = 'intrahepatic cholestasis',
-                                            user_diagnosed = 'token.full_name',
+                                            user_diagnosed = token_of_user,
                                             points = 1
                                         )
                                         disease4.save()
@@ -197,11 +202,11 @@ def question1(request):
                 else:
                     messages.warning(request, 'Access denied')
                     return redirect('login')           
-            else:
+        else:
                 messages.warning(request, 'User not verified')
-        except:
-            messages.warning(request, 'Error')
-            return redirect('login')     
+        # except:
+        #     messages.warning(request, 'Error')
+        #     return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -210,30 +215,183 @@ def question1(request):
 
 
 
-# question 2
-def question2(request):
-    context = {}
-    # if request.user.is_authenticated:
-    user = request.user 
-        # loctate user on token 
-    try:
-            # token_of_user = UserLoginToken.objects.filter(username=user).first()
-            
-                # prepare question
-        question1 = Questions.object.filter(pk = 1)
-        print = question1.question 
-        question_view = question1.question 
 
-        # prepare answers 
-        answers = Answer.objects.filter(question=question_view)
-        print(answers)
-        context['answers'] = answers 
-        # send question and answer to view
-        context['question'] = question1
-                
-    except:
-            return redirect('login')     
-    # else:
-    #     return redirect('login')
-    return render(request, 'questions/question1.html', context)
+
+# question 2
+
+def question2(request):
+    
+    context = {}
+    
+    user_agent = get_user_agent(request)
+    if request.user.is_authenticated:
+        browser_prop = request.user_agent.browser 
+        device = request.user_agent.device 
+        
+        user = request.user 
+            # locate user on token 
+        # try:
+        reg_instance_profile = RegisterClient.objects.filter(username=user).first()
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
+        # to be added later 
+        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
+        # print(find_device,'device')
+            
+        # query question 1 (check if the person did question 1)
+        try:
+            
+            query_q1 = Question1Model.objects.get(token=token_of_user)
+            if query_q1:
+                pass 
+            else:
+                messages.warming(request, 'Not allowed')
+                return redirect('login')
+        
+        except:
+            messages.warming(request, 'Not allowed')
+            return redirect('login')
+        if token_of_user.verified == True:
+                if token_of_user and query_q1:
+                        # prepare question
+                    question2 = Questions.objects.filter(id = 2).first()
+                            
+                    print(question1) 
+                    # get answers ans send form to frontend
+                    form = Question2Form(request.POST, request.FILES)
+                    if request.method =='POST':
+                        
+                                if form.is_valid():
+                                    forms = form.save(commit=False)
+                                    # try coversions 
+                                    try:
+                                        height  = float(forms.height)
+                                        weight = float(forms.weight)
+                                        
+                                    except:
+                                        messages.warning(request, 'No playing around')
+                                        return redirect('login')  
+                                    # add up missing form fields and calculate BMI
+                                    
+                                    height  = forms.height
+                                    weight = forms.weight 
+                                    forms.question = question2
+                                    
+                                    # calculate BMI
+                                    
+                                    height_pow = height ** 2
+                                    bmi = weight / height_pow
+                                    
+                                    if bmi < 18.5:
+                                        forms.BMI = 'Under Weight'
+                                    elif bmi >= 18.5 and bmi <= 24.9:
+                                        forms.BMI = 'Mormal'
+                                    elif bmi >= 25 and bmi <= 29.9:
+                                        forms.BMI = 'Over Weight'
+                                    elif bmi >= 30 and bmi <= 34.9:
+                                        forms.BMI = 'Obesity (Class I)'                   
+                                    elif bmi >= 35 and bmi <= 39.9:
+                                        forms.BMI = 'Obesity (Class II)'                                       
+                                    elif bmi >= 40:
+                                        forms.BMI = 'Obesity (Extreme Obesity)'    
+                                    
+                                    forms.token = token_of_user
+                                    forms.save()
+                      
+                                        
+                                    return redirect('question3')
+                                else:
+                                    form = Question2Form(request.post)
+                                    
+                            # send question and answer to view
+                    context['question'] = question2
+                    context['form'] = form
+                else:
+                    messages.warning(request, 'Access denied')
+                    return redirect('login')           
+        else:
+                messages.warning(request, 'User not verified')
+        # except:
+        #     messages.warning(request, 'Error')
+        #     return redirect('login')     
+    else:
+        messages.warning(request, 'Authentication required')
+        return redirect('login')
+    return render(request, 'questions/question2.html', context)
+
+
+
+
+
+# ##############################################################################
+# question 3
+
+
+def question3(request):
+    
+    context = {}
+    
+    user_agent = get_user_agent(request)
+    
+    if request.user.is_authenticated:
+        browser_prop = request.user_agent.browser 
+        device = request.user_agent.device 
+        
+        user = request.user 
+            # locate user on token 
+            
+        # try:
+        reg_instance_profile = RegisterClient.objects.filter(username=user).first()
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
+        # to be added later 
+        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
+        # print(find_device,'device')
+            
+        # query question 2 (check if the person did question 1)
+        try:
+
+            query_q2 = Question2Model.objects.get(token=token_of_user)
+            if query_q2:
+                pass 
+            else:
+                messages.warming(request, 'Not allowed')
+                return redirect('login')
+        
+        except:
+            messages.warming(request, 'Not allowed')
+            return redirect('login')
+        
+        if token_of_user.verified == True:
+                if token_of_user and query_q2:
+                    # prepare question
+                    question3 = Questions.objects.filter(id = 3).first()
+                    
+                    print(question3) 
+                    
+                    # get answers ans send form to frontend
+                    
+                    x_list = Answer.objects.filter(question=question3)
+                    print(x_list) 
+                    
+                    if request.method =='POST':
+                        pass
+                        
+                               
+                      
+                             
+                                    
+                            # send question and answer to view
+                    context['question'] = question2
+               
+                else:
+                    messages.warning(request, 'Access denied')
+                    return redirect('login')           
+        else:
+                messages.warning(request, 'User not verified')
+        # except:
+        #     messages.warning(request, 'Error')
+        #     return redirect('login')     
+    else:
+        messages.warning(request, 'Authentication required')
+        return redirect('login')
+    return render(request, 'questions/question2.html', context)
 

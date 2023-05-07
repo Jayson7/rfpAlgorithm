@@ -6,3 +6,5 @@ from .models import *
 admin.site.register(Questions)
 admin.site.register(Answer)
 admin.site.register(Disease)
+admin.site.register(Question1Model)
+admin.site.register(Question2Model)
