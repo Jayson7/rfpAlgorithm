@@ -219,11 +219,8 @@ def question1(request):
                                         Disease.objects.get(    disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
                                         
                                     elif x >=40:
-                                    
-                                        Disease.objects.get(    disease = 'Diabetes Mellitus').update(points=F("points") + 1)
-                                        Disease.objects.get(    disease = 'preeclampsia').update(points=F("points") + 1)
-                                        Disease.objects.get(    disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                        Disease.objects.get(     disease = 'thrombosis').update(points=F("points") + 1)
+                             
+                                        Disease.objects.get(     disease = 'thrombosis').update(points=F("points") + 2)
                                         
                                     
                                       
@@ -636,10 +633,7 @@ def question5(request):
                            
                                 elif ans.answer == 'I am not currently pregnant':
                                     pass
-                                
-                                    
-                                    
-                                   
+
 
                         return redirect('question6')
                         # send question and answer to view
@@ -728,13 +722,11 @@ def question6(request):
                                 if ans.answer == 'Yes':
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
-
-                                elif ans.answer == 'No':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
-                               
-                                elif ans.answer == 'I am not currently pregnant':
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
+                                elif ans.answer == 'No':
+                                    pass 
+   
 
                         return redirect('question7')
                         # send question and answer to view
@@ -793,8 +785,8 @@ def question7(request):
         #     messages.warming(request, 'Not allowed')
         #     return redirect('login')
         
-        if token_of_user.verified == True:
-        # if request.user:
+        # if token_of_user.verified == True:
+        if request.user:
                 # if token_of_user and query_q2:
                     # prepare question
                     question7 = Questions.objects.filter(id = 7).first()
@@ -820,17 +812,12 @@ def question7(request):
                            
                            for ans in check_answers:
                                
-                                if ans.answer == 'Yes':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
-
-                                elif ans.answer == 'No':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
-                               
-                                elif ans.answer == 'I am not currently pregnant':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
-
+                                if ans.answer == 'Yes, I have been diagnosed with deep vein thrombosis AND I am currently on anticoagulant treatment.':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 100)
+                                
+                                elif ans.answer == 'No, I am not on anticoagulant treatment for a previous deep vein thrombosis.':
+                                    pass
+           
                         return redirect('question8')
                         # send question and answer to view
                 
@@ -876,32 +863,32 @@ def question8(request):
         # print(find_device,'device')
             
         # query question 2 (check if the person did question 1)
-        try:
+        # try:
 
-            query_q2 = Question2Model.objects.get(token=token_of_user)
-            if query_q2:
-                pass 
-            else:
-                messages.warming(request, 'Not allowed')
-                return redirect('login')
+        #     query_q2 = Question2Model.objects.get(token=token_of_user)
+        #     if query_q2:
+        #         pass 
+        #     else:
+        #         messages.warming(request, 'Not allowed')
+        #         return redirect('login')
         
-        except:
-            messages.warming(request, 'Not allowed')
-            return redirect('login')
+        # except:
+        #     messages.warming(request, 'Not allowed')
+        #     return redirect('login')
         
-        if token_of_user.verified == True:
-        # if request.user:
+        # if token_of_user.verified == True:
+        if request.user:
                 # if token_of_user and query_q2:
                     # prepare question
-                    question6 = Questions.objects.filter(id = 6).first()
+                    question8 = Questions.objects.filter(id = 8).first()
                     
-                    context['question'] = question6
-                    context['question_tag'] = 'Question 6'
-                    context['question_tag_eng'] = 'Six'
+                    context['question'] = question8
+                    context['question_tag'] = 'Question 8'
+                    context['question_tag_eng'] = 'Eight'
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question6)
+                    x_list = Answer.objects.filter(question=question8)
                     
                     print(x_list) 
                     context['xlist'] = x_list
@@ -916,19 +903,13 @@ def question8(request):
                            
                            for ans in check_answers:
                                
-                                if ans.answer == 'Yes':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
+                                if ans.answer == 'Yes, I have been diagnosed with antithrombin deficiency or antiphospholipid syndrome.':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 100)
 
-                                elif ans.answer == 'No':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
-                               
-                                elif ans.answer == 'I am not currently pregnant':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
 
-                                
-                                
+                                elif ans.answer == 'No, I have not been diagnosed with antithrombin deficiency or antiphospholipid syndrome.':
+                                    pass
+                            
                                     
                                     
                                    
@@ -976,32 +957,32 @@ def question9(request):
         # print(find_device,'device')
             
         # query question 2 (check if the person did question 1)
-        try:
+        # try:
 
-            query_q2 = Question2Model.objects.get(token=token_of_user)
-            if query_q2:
-                pass 
-            else:
-                messages.warming(request, 'Not allowed')
-                return redirect('login')
+        #     query_q2 = Question2Model.objects.get(token=token_of_user)
+        #     if query_q2:
+        #         pass 
+        #     else:
+        #         messages.warming(request, 'Not allowed')
+        #         return redirect('login')
         
-        except:
-            messages.warming(request, 'Not allowed')
-            return redirect('login')
+        # except:
+        #     messages.warming(request, 'Not allowed')
+        #     return redirect('login')
         
-        if token_of_user.verified == True:
-        # if request.user:
+        # if token_of_user.verified == True:
+        if request.user:
                 # if token_of_user and query_q2:
                     # prepare question
-                    question6 = Questions.objects.filter(id = 6).first()
+                    question9 = Questions.objects.filter(id = 9).first()
                     
-                    context['question'] = question6
-                    context['question_tag'] = 'Question 6'
-                    context['question_tag_eng'] = 'Six'
+                    context['question'] = question9
+                    context['question_tag'] = 'Question 9'
+                    context['question_tag_eng'] = 'Nine'
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question6)
+                    x_list = Answer.objects.filter(question=question9)
                     
                     print(x_list) 
                     context['xlist'] = x_list
@@ -1016,16 +997,16 @@ def question9(request):
                            
                            for ans in check_answers:
                                
-                                if ans.answer == 'Yes':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
+                                if ans.answer == 'Yes, I was diagnosed with deep vein thrombosis AND I am NOT currently on anticoagulant treatment (The cause of the thrombosis was a recent surgery).':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
 
-                                elif ans.answer == 'No':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
+
+                                elif ans.answer == 'Yes, I was diagnosed with deep vein thrombosis AND I am NOT currently on anticoagulant treatment (The cause of the thrombosis is unknown or different from surgery).':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 4)
+
                                
-                                elif ans.answer == 'I am not currently pregnant':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
+                                elif ans.answer == 'No, I have never had deep vein thrombosis.':
+                                    pass 
 
                                 
                                 
@@ -1033,7 +1014,7 @@ def question9(request):
                                     
                                    
 
-                        return redirect('question7')
+                        return redirect('question10')
                         # send question and answer to view
                 
                
@@ -1076,32 +1057,32 @@ def question10(request):
         # print(find_device,'device')
             
         # query question 2 (check if the person did question 1)
-        try:
+        # try:
 
-            query_q2 = Question2Model.objects.get(token=token_of_user)
-            if query_q2:
-                pass 
-            else:
-                messages.warming(request, 'Not allowed')
-                return redirect('login')
+        #     query_q2 = Question2Model.objects.get(token=token_of_user)
+        #     if query_q2:
+        #         pass 
+        #     else:
+        #         messages.warming(request, 'Not allowed')
+        #         return redirect('login')
         
-        except:
-            messages.warming(request, 'Not allowed')
-            return redirect('login')
+        # except:
+        #     messages.warming(request, 'Not allowed')
+        #     return redirect('login')
         
-        if token_of_user.verified == True:
-        # if request.user:
+        # if token_of_user.verified == True:
+        if request.user:
                 # if token_of_user and query_q2:
                     # prepare question
-                    question6 = Questions.objects.filter(id = 6).first()
+                    question10 = Questions.objects.filter(id = 10).first()
                     
-                    context['question'] = question6
-                    context['question_tag'] = 'Question 6'
-                    context['question_tag_eng'] = 'Six'
+                    context['question'] = question10
+                    context['question_tag'] = 'Question 10'
+                    context['question_tag_eng'] = 'Ten'
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question6)
+                    x_list = Answer.objects.filter(question=question10)
                     
                     print(x_list) 
                     context['xlist'] = x_list
@@ -1148,7 +1129,7 @@ def question10(request):
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/question5.html', context)
 
 
 # ##############################################################################
