@@ -1097,16 +1097,19 @@ def question10(request):
                            
                            for ans in check_answers:
                                
-                                if ans.answer == 'Yes':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
+                                if ans.answer == 'Homozygous factor V Leiden':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
 
-                                elif ans.answer == 'No':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
-                               
-                                elif ans.answer == 'I am not currently pregnant':
+
+                                elif ans.answer == 'Heterozygous factor V Leiden':
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
+                               
+                                elif ans.answer == ' Homozygous prothrombin gene mutation':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)                                
+                                elif ans.answer == ' Homozygous prothrombin gene mutation':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)                                
+                                elif ans.answer == ' Homozygous prothrombin gene mutation':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
 
                                 
                                 
