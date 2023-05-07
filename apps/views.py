@@ -7,6 +7,7 @@ from .models import *
 from .questionForm import *
 from authenticator.views import basic_user_auth_check, basic_user_auth_check_admin, super_user_check
 from django_user_agents.utils import get_user_agent
+from django.db.models import F
 # Create your views here.
 
 
@@ -130,16 +131,82 @@ def question1(request):
                                     forms.question = question1
                                     
                                     forms.save()
+                                    
+                                    disease = Disease(
+                                            disease = 'thrombosis',
+                                            user_diagnosed = token_of_user,
+                                            points = 0
+                                        )
+                                    disease.save()
+                                        
+                                    disease2 = Disease(
+                                            disease = 'intrahepatic cholestasis',
+                                            user_diagnosed = token_of_user,
+                                            points = 0
+                                        )
+                                    disease2.save()
+                                    
+                                    disease3 = Disease(
+                                            disease = 'Diabetes Mellitus',
+                                            user_diagnosed = token_of_user,
+                                            points = 0
+                                        )
+                                    disease3.save()
+                                        
+                                    disease4 = Disease(
+                                            disease = 'preeclampsia',
+                                            user_diagnosed = token_of_user,
+                                            points = 0
+                                        )
+                                    disease4.save()
+                                    
+                                    disease5 = Disease(
+                                            disease = 'Thyroid disorders',
+                                            user_diagnosed = token_of_user,
+                                            points = 0
+                                        )
+                                    disease5.save()
+                                    
+                                    disease6 = Disease(
+                                            disease = 'Hyperemesis gravidarum',
+                                            user_diagnosed = token_of_user,
+                                            points = 0
+                                        )
+                                    disease6.save()                                    
+                                    disease7 = Disease(
+                                            disease = 'Anaemia',
+                                            user_diagnosed = token_of_user,
+                                            points = 0
+                                        )
+                                    disease7.save()      
+                                    disease8 = Disease(
+                                            disease = 'General mental health assesment',
+                                            user_diagnosed = token_of_user,
+                                            points = 0
+                                        )
+                                    disease8.save()
+                                    
+                                    disease9 = Disease(
+                                            disease = 'Anxiety',
+                                            user_diagnosed = token_of_user,
+                                            points = 0
+                                        )
+                                    disease9.save()
+                                    
+                                    disease10 = Disease(
+                                            disease = 'Depression',
+                                            user_diagnosed = token_of_user,
+                                            points = 0
+                                        )
+                                    disease10.save()
+                                    
+                                    
+                                    
                                     print(forms.age)
                                     x = int(forms.age)  
                                     if x <= 19:
-                                        disease = Disease(
-                                            disease = 'anaemia',
-                                            user_diagnosed = token_of_user.full_name,
-                                            points = 1
-                                        )
-                                        disease.save()
-                                        
+                                       
+                                        Disease.objects.get(disease="Anaemia").update(points=F("points") + 1)
                                         
                                         
                                     elif x >= 20 and x <= 35:
@@ -147,50 +214,19 @@ def question1(request):
                                     
                                     
                                     elif x > 35 and x < 40:
-                                        disease = Disease(
-                                            disease = 'thrombosis',
-                                            user_diagnosed = token_of_user,
-                                            points = 1
-                                        )
-                                        disease.save()
+                                        Disease.objects.get(disease = 'thrombosis').update(points=F("points") + 1)
                                         
-                                        disease2 = Disease(
-                                            disease = 'intrahepatic cholestasis',
-                                            user_diagnosed = token_of_user,
-                                            points = 1
-                                        )
-                                        disease2.save()
+                                        Disease.objects.get(    disease = 'intrahepatic cholestasis').update(points=F("points") + 1)
                                         
                                     elif x >=40:
-                                        disease = Disease(
-                                            disease = 'Diabetes Mellitus',
-                                            user_diagnosed = token_of_user,
-                                            points = 1
-                                        )
-                                        disease.save()
+                                    
+                                        Disease.objects.get(    disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                        Disease.objects.get(    disease = 'preeclampsia').update(points=F("points") + 1)
+                                        Disease.objects.get(    disease = 'intrahepatic cholestasis').update(points=F("points") + 1)
+                                        Disease.objects.get(     disease = 'thrombosis').update(points=F("points") + 1)
                                         
-                                        disease2 = Disease(
-                                            disease = 'preeclampsia',
-                                            user_diagnosed = token_of_user,
-                                            points = 1
-                                        )
-                                        
-                                        disease2.save()
-                                        
-                                        disease3 = Disease(
-                                            disease = 'thrombosis',
-                                            user_diagnosed = token_of_user,
-                                            points = 1
-                                        )
-                                        disease3.save()
-                                        
-                                        disease4 = Disease(
-                                            disease = 'intrahepatic cholestasis',
-                                            user_diagnosed = token_of_user,
-                                            points = 1
-                                        )
-                                        disease4.save()
-                                        
+                                    
+                                      
                                         
                                     return redirect('question2')
                                 else:
@@ -370,6 +406,109 @@ def question3(request):
                     # get answers ans send form to frontend
                     
                     x_list = Answer.objects.filter(question=question3)
+                    print(x_list) 
+                    context['xlist'] = x_list
+                    if request.method =='POST':
+                        
+                        list_checked = request.POST.getlist('xlist_boxes')
+                        print(list_checked)
+                        
+                        for i in list_checked:
+                           check_answers = Answer.objects.filter(pk=int(i))
+                           check_answers.update(verified=True, user_print=token_of_user)
+                           
+                           for ans in check_answers:
+                                if ans.answer == 'Asian':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'intrahepatic cholestasis').update(points=F("points") + 1)
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                   
+                                   
+                                elif ans.answer == 'Black race':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                elif ans.answer == 'Latino':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'intrahepatic cholestasis').update(points=F("points") + 1)
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                elif ans.answer == 'Middle Eastern / Arab':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                elif ans.answer == 'Other':
+                                    pass
+                                elif ans.answer == 'Native American':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                elif ans.answer == 'White race':
+                                    pass 
+                                
+                                    
+                                    
+                                   
+
+                        return redirect('question4')
+                        # send question and answer to view
+                
+               
+                else:
+                    messages.warning(request, 'Access denied')
+                    return redirect('login')           
+        else:
+                messages.warning(request, 'User not verified')
+        # except:
+        #     messages.warning(request, 'Error')
+        #     return redirect('login')     
+    else:
+        messages.warning(request, 'Authentication required')
+        return redirect('login')
+    return render(request, 'questions/question3.html', context)
+
+
+
+
+# ##############################################################################
+# question 4
+
+
+def question4(request):
+    
+    context = {}
+    
+    user_agent = get_user_agent(request)
+    
+    if request.user.is_authenticated:
+        browser_prop = request.user_agent.browser 
+        device = request.user_agent.device 
+        
+        user = request.user 
+            # locate user on token 
+            
+        # try:
+        reg_instance_profile = RegisterClient.objects.filter(username=user).first()
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
+        # to be added later 
+        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
+        # print(find_device,'device')
+            
+        # query question 2 (check if the person did question 1)
+        try:
+
+            query_q3 = Answer.objects.filter(token=token_of_user)
+            if query_q3:
+                pass 
+            else:
+                messages.warming(request, 'Not allowed')
+                return redirect('login')
+        
+        except:
+            messages.warming(request, 'Not allowed')
+            return redirect('login')
+        
+        if token_of_user.verified == True:
+                if token_of_user and query_q3:
+                    # prepare question
+                    question4 = Questions.objects.filter(id = 4).first()
+                    
+                     
+                    context['question'] = question4
+                    # get answers ans send form to frontend
+                    
+                    x_list = Answer.objects.filter(question=question4)
                     print(x_list) 
                     context['xlist'] = x_list
                     if request.method =='POST':

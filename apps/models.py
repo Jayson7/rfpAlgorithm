@@ -25,10 +25,11 @@ class Disease(models.Model):
         return str(self.user_diagnosed)
     
 
+
 class Answer(models.Model):
     question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_to_ask')
     answer = models.CharField(max_length=200, null=True)
-    user_print = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='user_in_question', null=True, blank=True)
+    user_print = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE,  related_name='user_in_question', null=True, blank=True)
     verified = models.BooleanField(default=False)
     
     def __str__(self) -> str:
@@ -37,21 +38,16 @@ class Answer(models.Model):
 
 
 
-# keep record of results by moms (all records) 
-class ResultOfTest(models.Model):
-    pass 
-    
-
-#  ========================================== All questions model =============
+#  ========================================== All questions model ============================
 
 
 class Question1Model(models.Model):
     question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_storage')
-    mom = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='questioned_user' )
+    mom = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE,  related_name='questioned_user' )
     date_answered = models.DateTimeField(auto_now_add=True)
     age = models.IntegerField()
     token = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='token_questioned_user' )
-    username_used = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='token_owner' )
+    username_used = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE,  related_name='token_owner' )
     
     
     def __str__(self):
@@ -63,7 +59,7 @@ class Question2Model(models.Model):
     date_answered = models.DateTimeField(auto_now_add=True)
     height = models.FloatField(help_text='in cms')
     weight = models.FloatField(help_text='in kgs')
-    token = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='token_questioned_user_q2' )
+    token = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE,  related_name='token_questioned_user_q2' )
     BMI = models.CharField(max_length=20)
     
     
