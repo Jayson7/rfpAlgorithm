@@ -366,21 +366,23 @@ def question3(request):
                     question3 = Questions.objects.filter(id = 3).first()
                     
                     print(question3) 
-                    
+                    context['question'] = question3
                     # get answers ans send form to frontend
                     
                     x_list = Answer.objects.filter(question=question3)
                     print(x_list) 
-                    
+                    context['xlist'] = x_list
                     if request.method =='POST':
-                        pass
+                        
+                        list_checked = request.POST.getlist('xlist_boxes')
+                        print(list_checked)
                         
                                
                       
                              
                                     
                             # send question and answer to view
-                    context['question'] = question2
+                
                
                 else:
                     messages.warning(request, 'Access denied')
@@ -393,5 +395,5 @@ def question3(request):
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
-    return render(request, 'questions/question2.html', context)
+    return render(request, 'questions/question3.html', context)
 
