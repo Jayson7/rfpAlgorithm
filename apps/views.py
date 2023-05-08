@@ -1106,18 +1106,24 @@ def question10(request):
                                
                                 elif ans.answer == ' Homozygous prothrombin gene mutation':
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)                                
-                                elif ans.answer == ' Homozygous prothrombin gene mutation':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)                                
-                                elif ans.answer == ' Homozygous prothrombin gene mutation':
+                                elif ans.answer == 'Heterozygous prothrombin gene mutation':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)                                
+                                elif ans.answer == ' Protein C deficiency':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                elif ans.answer == ' Protein S deficiency':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                elif ans.answer == 'Obstetric antiphospholipid syndrome':
+                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                elif ans.answer == 'Combination of Heterozygous factor V Leiden and  Heterozygous prothrombin gene mutation':
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
 
-                                
+
                                 
                                     
                                     
                                    
 
-                        return redirect('question7')
+                        return redirect('question11')
                         # send question and answer to view
                 
                
@@ -1160,32 +1166,32 @@ def question11(request):
         # print(find_device,'device')
             
         # query question 2 (check if the person did question 1)
-        try:
+        # try:
 
-            query_q2 = Question2Model.objects.get(token=token_of_user)
-            if query_q2:
-                pass 
-            else:
-                messages.warming(request, 'Not allowed')
-                return redirect('login')
+        #     query_q2 = Question2Model.objects.get(token=token_of_user)
+        #     if query_q2:
+        #         pass 
+        #     else:
+        #         messages.warming(request, 'Not allowed')
+        #         return redirect('login')
         
-        except:
-            messages.warming(request, 'Not allowed')
-            return redirect('login')
+        # except:
+        #     messages.warming(request, 'Not allowed')
+        #     return redirect('login')
         
-        if token_of_user.verified == True:
-        # if request.user:
+        # if token_of_user.verified == True:
+        if request.user:
                 # if token_of_user and query_q2:
                     # prepare question
-                    question6 = Questions.objects.filter(id = 6).first()
+                    question11 = Questions.objects.filter(id = 11).first()
                     
-                    context['question'] = question6
-                    context['question_tag'] = 'Question 6'
-                    context['question_tag_eng'] = 'Six'
+                    context['question'] = question11
+                    context['question_tag'] = 'Question 11'
+                    context['question_tag_eng'] = 'Eleven'
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question6)
+                    x_list = Answer.objects.filter(question=question11)
                     
                     print(x_list) 
                     context['xlist'] = x_list
