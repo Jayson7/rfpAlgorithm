@@ -932,6 +932,7 @@ def question8(request):
     return render(request, 'questions/question4.html', context)
 
 
+
 # ##############################################################################
 # question 9
 
@@ -1007,12 +1008,7 @@ def question9(request):
                                
                                 elif ans.answer == 'No, I have never had deep vein thrombosis.':
                                     pass 
-
-                                
-                                
-                                    
-                                    
-                                   
+             
 
                         return redirect('question10')
                         # send question and answer to view
@@ -1030,6 +1026,9 @@ def question9(request):
         messages.warning(request, 'Authentication required')
         return redirect('login')
     return render(request, 'questions/question4.html', context)
+
+
+
 
 
 # ##############################################################################
@@ -1117,12 +1116,6 @@ def question10(request):
                                 elif ans.answer == 'Combination of Heterozygous factor V Leiden and  Heterozygous prothrombin gene mutation':
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
 
-
-                                
-                                    
-                                    
-                                   
-
                         return redirect('question11')
                         # send question and answer to view
                 
@@ -1141,6 +1134,9 @@ def question10(request):
     return render(request, 'questions/question5.html', context)
 
 
+
+
+
 # ##############################################################################
 # question 11
 
@@ -1152,17 +1148,25 @@ def question11(request):
     user_agent = get_user_agent(request)
     
     if request.user.is_authenticated:
+    
         browser_prop = request.user_agent.browser 
+    
         device = request.user_agent.device 
         
         user = request.user 
             # locate user on token 
             
         # try:
+    
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
+    
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
+    
         # to be added later 
+    
         find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
+        
+    
         # print(find_device,'device')
             
         # query question 2 (check if the person did question 1)
@@ -1180,13 +1184,19 @@ def question11(request):
         #     return redirect('login')
         
         # if token_of_user.verified == True:
+        
+        
         if request.user:
+            
                 # if token_of_user and query_q2:
                     # prepare question
+                    
                     question11 = Questions.objects.filter(id = 11).first()
                     
                     context['question'] = question11
+                    
                     context['question_tag'] = 'Question 11'
+                    
                     context['question_tag_eng'] = 'Eleven'
                     
                     # get answers ans send form to frontend
@@ -1194,14 +1204,19 @@ def question11(request):
                     x_list = Answer.objects.filter(question=question11)
                     
                     print(x_list) 
+                
                     context['xlist'] = x_list
+                
                     if request.method =='POST':
                         
                         list_checked = request.POST.getlist('xlist_boxes')
+                    
                         print(list_checked)
                         
                         for i in list_checked:
+                    
                            check_answers = Answer.objects.filter(pk=int(i))
+                    
                            check_answers.update(verified=True, user_print=token_of_user)
                            
                            for ans in check_answers:
@@ -1217,28 +1232,29 @@ def question11(request):
                                 elif ans.answer == 'I am not currently pregnant':
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
 
-                                
-                                
-                                    
-                                    
-                                   
-
+                     
                         return redirect('question7')
+                    
                         # send question and answer to view
                 
                
                 # else:
                 #     messages.warning(request, 'Access denied')
                 #     return redirect('login')           
+    
         else:
                 messages.warning(request, 'User not verified')
+        
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
+    
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
+    
     return render(request, 'questions/question4.html', context)
+
 
 
 # ##############################################################################
