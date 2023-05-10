@@ -19,24 +19,6 @@ from django.views.decorators.csrf import csrf_exempt
 # helper functions 
 
 
-# super user checker
-def super_user_check(request):
-    if request.user.is_superuser:
-        pass 
-    else:
-        messages.warning(request, 'That wont work')
-        return redirect('login')
-
-
-
-# auth check normal user
-def basic_user_auth_check(request):
-    if request.user.is_authenticated:
-        pass  
-    else:
-        messages.warning(request, 'authentication needed')
-        return redirect('login')
-
 
 
 # auth check admin
@@ -60,8 +42,11 @@ def monitor_user(request):
 @csrf_exempt
 def login_page(request):
     user_agent = get_user_agent(request)
-    
-    
+   
+#   set session expiry 
+    request.session.set_expiry(0)
+     
+   
     
     context = {}
     if request.user.is_authenticated:
@@ -78,17 +63,7 @@ def login_page(request):
     
         password = request.POST['password1']
         full_name = request.POST['fullname']
-        try:
-            password_filter = PasswordStorage.objects.get(password=password)
-            # delete previous tokens
-        
-            offline_access_token = UserLoginToken.objects.filter(full_name = full_name, password=password_filter)
-            
-            
-        
-        except:
-            messages.warning(request, 'Password not found')
-            return redirect('login')        
+   
         
         browser_prop = request.user_agent.browser 
         device = request.user_agent.device 
@@ -111,9 +86,7 @@ def login_page(request):
         
         
         # when the token contains current user fullname and token id, if not visit line 91
-        if offline_access_token:
-                offline_access_token.delete() 
-        
+ 
         
         
         # validate credentials
@@ -121,7 +94,7 @@ def login_page(request):
             messages.warning(request, 'Incorrect credentials')
             return redirect('login')
         else:
-            try:
+            # try:
                 password_check = PasswordStorage.objects.get(password=password)
                 if password_check:
                     # check password usage count 
@@ -140,7 +113,7 @@ def login_page(request):
                         
                             password_check.save()
                             
-                            
+                           
                         
                         # get client details and authenticate
                         client_username = password_check.client.username
@@ -219,9 +192,17 @@ def login_page(request):
                                     messages.warning(request, 'Device not allowed')
                                     return redirect('login')
 
-                                                        
-                                                        
+                                              
+                                # update session details for user                         #  
                                 
+                         
+                       
+                                request.session['token_ses'] = token_generated
+                                request.session['auth_password'] = auth_password
+                                request.session['app_password'] = password
+                                request.session['details'] = [browser_prop, device, full_name]
+                                # update session
+                                request.session.modified = True
                                 return redirect('user_info')
                                 
                             else:
@@ -246,9 +227,9 @@ def login_page(request):
                 else:
                     messages.warning(request, 'Incorrect Password')
                     return redirect('login')
-            except:
-                messages.warning(request, 'Invalid')
-                return redirect('login')        
+            # except:
+            #     messages.warning(request, 'Invalid')
+            #     return redirect('login')        
 
 
     return render(request, 'auth_pages/user_login.html', context)
@@ -262,10 +243,10 @@ def complete_user_info(request):
     # confirm authentication status    
 
     try:
-        
-        print(request.user, 'email')
+       
         registered_client_profile = RegisterClient.objects.filter(username = request.user).first()
         print(registered_client_profile, 'access owner')
+        
         access_token = UserLoginToken.objects.get(username=registered_client_profile)
         
         # verify token
@@ -401,11 +382,9 @@ def UpdatePassword(request):
     else:
         return redirect('login')
     
-    
-
-
-
+ 
 # generate a new password for new client
+
 
 def generate_password(request, pk):
     context={}
@@ -611,6 +590,7 @@ def removeAccess(request, pk):
 
 
 # re-generate password for old users
+
 def regenerate_password(request, pk):
     basic_user_auth_check_admin(request)
     super_user_check(request)

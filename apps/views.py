@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from authenticator.models import *
 from .models import *
 from .questionForm import *
-from authenticator.views import basic_user_auth_check, basic_user_auth_check_admin, super_user_check
+
 from django_user_agents.utils import get_user_agent
 from django.db.models import F
 # Create your views here.
@@ -14,9 +14,6 @@ from django.db.models import F
 
 def details(request, pk):
     context = {}
-    basic_user_auth_check_admin(request)
-    super_user_check(request)
-    
     
     user = RegisterClient.objects.get(id=pk)
     
@@ -102,16 +99,15 @@ def question1(request):
     if request.user.is_authenticated:
         browser_prop = request.user_agent.browser 
         device = request.user_agent.device 
+        full_name = request.session['Details'].full_name
         
         user = request.user 
             # locate user on token 
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name=full_name).first()
         # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
+
             
             
         if token_of_user.verified == True:
@@ -125,10 +121,15 @@ def question1(request):
                     if request.method =='POST':
                                 if form.is_valid():
                                     forms = form.save(commit=False) 
+                                    
                                     forms.mom =token_of_user
                                     forms.token =token_of_user
                                     forms.username_used = token_of_user
                                     forms.question = question1
+                                    
+                                    
+                                    
+                                    
                                     
                                     forms.save()
                                     
@@ -221,8 +222,11 @@ def question1(request):
                                     elif x >=40:
                              
                                         Disease.objects.get(     disease = 'thrombosis').update(points=F("points") + 2)
-                                        
                                     
+                                    # create questions sessions and modify
+                                    
+                                    request.session['questions_answered'] = [1]
+                                    request.session.modified = True
                                       
                                         
                                     return redirect('question2')
@@ -262,29 +266,25 @@ def question2(request):
         device = request.user_agent.device 
         
         user = request.user 
-            # locate user on token 
-        # try:
+        full_name = request.session['Details'].full_name
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name=full_name).first()
         # to be added later 
         find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
         # print(find_device,'device')
             
         # query question 1 (check if the person did question 1)
-        try:
-            
-            query_q1 = Question1Model.objects.get(token=token_of_user)   
-            if query_q1:
-                pass 
-            else:
-                messages.warming(request, 'Not allowed')
-                return redirect('login')
-        
-        except:
-            messages.warming(request, 'Not allowed')
-            return redirect('login')
+    
+        # verify if user answered question 1
+     
+        # print(request.session['question_answered'].__contains__(1))
+        request.session['questions_answered'] = [1]
+        request.session.modified = True
+    
+    
+    
         if token_of_user.verified == True:
-                if token_of_user and query_q1:
+                if token_of_user:
                         # prepare question
                     question2 = Questions.objects.filter(id = 2).first()
                             
@@ -1759,3 +1759,21 @@ def question16(request):
     return render(request, 'questions/question4.html', context)
 
 
+
+
+
+def permanemtStorage(request):
+    user = request.user
+    if user.is_authenticated():
+        pass 
+    else:
+        return redirect('login')
+    
+    # activate storage of results and check for validity 
+    # 1. token check 
+    token_check = UserLoginToken.objects.filter(username=user, verified=True).filter()
+def generateresult_user(request):
+    pass 
+
+def activate_deletions(request):
+    pass
