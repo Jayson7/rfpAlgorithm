@@ -1154,7 +1154,7 @@ def questionCombined(request):
                         list_checked4 = request.POST.getlist('xlist_boxes')
                         
                         
-                        for i in list_checked1, list_checked2, list_checked3, list_checked4:
+                        for i in list_checked1:
                            
                            check_answers = Answer.objects.filter(pk=int(i))
                            check_answers.update(verified=True, user_print=token_of_user)
@@ -1186,7 +1186,16 @@ def questionCombined(request):
                                 
                                 
                                     
+                        for i in list_checked2:
+                                pass
                                     
+                        for i in list_checked3:
+                                pass
+                                                         
+                        for i in list_checked4:
+                                pass 
+                                
+   
 
                                 request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13, 14]
                                 request.session.modified = True
@@ -1235,15 +1244,15 @@ def question15(request):
         if request.user:
                 # if token_of_user:
                     # prepare question
-                    question16 = Questions.objects.filter(id = 16).first()
+                    question15 = Questions.objects.filter(id = 15).first()
                     
-                    context['question'] = question16
-                    context['question_tag'] = 'Question 16'
-                    context['question_tag_eng'] = 'Sixteen'
+                    context['question'] = question15
+                    context['question_tag'] = 'Question 15'
+                    context['question_tag_eng'] = 'Fifteen'
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question16)
+                    x_list = Answer.objects.filter(question=question15)
                     
                     print(x_list) 
                     context['xlist'] = x_list
@@ -1306,7 +1315,7 @@ def question15(request):
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/question5.html', context)
 
 
 
@@ -1402,7 +1411,7 @@ def question16(request):
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/question5.html', context)
 
 
 
