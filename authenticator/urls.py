@@ -16,6 +16,7 @@ urlpatterns = [
     path('generate_password/<int:pk>', generate_password, name='generate_password'),
     path('regenerate_password/<int:pk>', regenerate_password, name='regenerate_password'),
     path('remove_access/<int:pk>', removeAccess, name='remove_access'),
+    path('uncheck', uncheck, name='uncheck'),
 
 ]
 

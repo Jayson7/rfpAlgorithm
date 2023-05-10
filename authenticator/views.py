@@ -630,4 +630,12 @@ def regenerate_password(request, pk):
         return redirect('manage_access')
     
     
-
+from apps.models import Answer
+def uncheck(request):
+    a = Answer.objects.all()
+    for i in a.verified():
+        i.verified = False
+        i.user_diagnosed = None 
+        i.save()
+    return redirect('admin')
+        

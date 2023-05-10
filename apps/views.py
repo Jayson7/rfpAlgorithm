@@ -399,6 +399,7 @@ def question3(request):
                            check_answers = Answer.objects.filter(pk=int(i))
                            check_answers.update(verified=True, user_print=token_of_user)
                            
+                           
                            for ans in check_answers:
                                 if ans.answer == 'Asian':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
@@ -511,6 +512,7 @@ def question4(request):
                            check_answers = Answer.objects.filter(pk=int(i))
                            check_answers.update(verified=True, user_print=token_of_user)
                            
+                           
                            for ans in check_answers:
                                
                                 if ans.answer == 'First pregnancy or gestational loss less than 20 weeks':
@@ -612,6 +614,7 @@ def question5(request):
                            check_answers = Answer.objects.filter(pk=int(i))
                            check_answers.update(verified=True, user_print=token_of_user)
                            
+                           
                            for ans in check_answers:
                                
                                 if ans.answer == 'No':
@@ -693,6 +696,7 @@ def question6(request):
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
                            check_answers.update(verified=True, user_print=token_of_user)
+                           
                            
                            for ans in check_answers:
                                
@@ -782,6 +786,7 @@ def question7(request):
                            check_answers.update(verified=True, user_print=token_of_user)
                            
                            
+                           
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes, I have been diagnosed with deep vein thrombosis AND I am currently on anticoagulant treatment.':
@@ -861,6 +866,7 @@ def question8(request):
                            check_answers = Answer.objects.filter(pk=int(i))
                            check_answers.update(verified=True, user_print=token_of_user)
                            
+                           
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes, I have been diagnosed with antithrombin deficiency or antiphospholipid syndrome.':
@@ -938,6 +944,7 @@ def question9(request):
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
                            check_answers.update(verified=True, user_print=token_of_user)
+                           
                            
                            for ans in check_answers:
                                
@@ -1026,6 +1033,7 @@ def question10(request):
                            check_answers = Answer.objects.filter(pk=int(i))
                            check_answers.update(verified=True, user_print=token_of_user)
                            
+                           
                            for ans in check_answers:
                                
                                 if ans.answer == 'Homozygous factor V Leiden':
@@ -1088,63 +1096,71 @@ def question10(request):
 
 
 # ##############################################################################
-# question 11
+# question 11, 12, 13, 14
 
 
-def question11(request):
+def questionCombined(request):
     
     context = {}
     
     
     
     if request.user.is_authenticated:
-    
+
+        
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
-    
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-    
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-    
-
-
-        if request.user:
-            
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        
+      
+        
+        if token_of_user.verified == True:
+        # if request.user:
                 # if token_of_user:
                     # prepare question
-                    
                     question11 = Questions.objects.filter(id = 11).first()
+                    question12 = Questions.objects.filter(id = 12).first()
+                    question13 = Questions.objects.filter(id = 13).first()
+                    question14 = Questions.objects.filter(id = 14).first()
                     
-                    context['question'] = question11
-                    
-                    context['question_tag'] = 'Question 11'
-                    
-                    context['question_tag_eng'] = 'Eleven'
+                    context['question1'] = question11
+                    context['question2'] = question12
+                    context['question3'] = question13
+                    context['question4'] = question14
+                    context['question_tag'] = 'Question 11, 12, 13 & 14'
+                    context['question_tag_eng'] = 'Eleven, Twelve, Thirteen and Fourteen'
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question11)
+                    x_list1 = Answer.objects.filter(question=question11)
+                    x_list2 = Answer.objects.filter(question=question12)
+                    x_list3 = Answer.objects.filter(question=question13)
+                    x_list4 = Answer.objects.filter(question=question14)
                     
-                    print(x_list) 
-                
-                    context['xlist'] = x_list
-                
+                 
+                    context['xlist1'] = x_list1
+                    context['xlist2'] = x_list2
+                    context['xlist3'] = x_list3
+                    context['xlist4'] = x_list4
                     if request.method =='POST':
                         
-                        list_checked = request.POST.getlist('xlist_boxes')
-                    
-                        print(list_checked)
+                        list_checked1 = request.POST.getlist('xlist_boxes')
+                        list_checked2 = request.POST.getlist('xlist_boxes')
+                        list_checked3 = request.POST.getlist('xlist_boxes')
+                        list_checked4 = request.POST.getlist('xlist_boxes')
                         
-                        for i in list_checked:
-                    
+                        
+                        for i in list_checked1, list_checked2, list_checked3, list_checked4:
+                           
                            check_answers = Answer.objects.filter(pk=int(i))
-                    
                            check_answers.update(verified=True, user_print=token_of_user)
                            
                            for ans in check_answers:
-                               
+
                                 if ans.answer == 'Yes':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
                                     d.points +=1
@@ -1164,317 +1180,18 @@ def question11(request):
                                
                                 elif ans.answer == 'I am not currently pregnant':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 3
+                                    d.points += 1
                                     d.save()
 
                                 
-                                request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10, 11]
+                                
+                                    
+                                    
+
+                                request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13, 14]
                                 request.session.modified = True
-                     
-                        return redirect('question7')
-                    
-                        # send question and answer to view
-                
-               
-                # else:
-                #     messages.warning(request, 'Access denied')
-                #     return redirect('login')           
-    
-        else:
-                messages.warning(request, 'User not verified')
-        
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
-    
-    else:
-        messages.warning(request, 'Authentication required')
-        return redirect('login')
-    
-    return render(request, 'questions/question5.html', context)
-
-
-
-# ##############################################################################
-# question 12
-
-
-def question12(request):
-    
-    context = {}
-    
-    
-    
-    if request.user.is_authenticated:
-
-        
-        user = request.user 
-            # locate user on token 
-            
-        full_name = request.session['details'][2]
-        # try:
-        reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
-        
-      
-        
-        if token_of_user.verified == True:
-        # if request.user:
-                # if token_of_user:
-                    # prepare question
-                    question6 = Questions.objects.filter(id = 6).first()
-                    
-                    context['question'] = question6
-                    context['question_tag'] = 'Question 6'
-                    context['question_tag_eng'] = 'Six'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list = Answer.objects.filter(question=question6)
-                    
-                    print(x_list) 
-                    context['xlist'] = x_list
-                    if request.method =='POST':
-                        
-                        list_checked = request.POST.getlist('xlist_boxes')
-                        print(list_checked)
-                        
-                        for i in list_checked:
-                           check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
-                           
-                           for ans in check_answers:
-                               
-                                if ans.answer == 'Yes':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
-                                    d.points +=1
-                                    d.save()
-
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    d.points += 1
-                                    d.save()
-
-                                elif ans.answer == 'No':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                    d.points+= 1
-                                    d.save()
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
-                                    d.points += 1
-                                    d.save()
-                               
-                                elif ans.answer == 'I am not currently pregnant':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
-                                    d.save()
-
                                 
-                                
-                                    
-                                    
-                                   
-
-                        return redirect('question14')
-                        # send question and answer to view
-                
-               
-                # else:
-                #     messages.warning(request, 'Access denied')
-                #     return redirect('login')           
-        else:
-                messages.warning(request, 'User not verified')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
-    else:
-        messages.warning(request, 'Authentication required')
-        return redirect('login')
-    return render(request, 'questions/question4.html', context)
-
-
-# ##############################################################################
-# question 13
-
-
-def question13(request):
-    
-    context = {}
-    
-    
-    
-    if request.user.is_authenticated:
-
-        
-        user = request.user 
-            # locate user on token 
-            
-        full_name = request.session['details'][2]
-        # try:
-        reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
-        
-        # try:
-
-        #     query_q2 = Question2Model.objects.get(token=token_of_user)
-        #     if query_q2:
-        #         pass 
-        #     else:
-        #         messages.warming(request, 'Not allowed')
-        #         return redirect('login')
-        
-        # except:
-        #     messages.warming(request, 'Not allowed')
-        #     return redirect('login')
-        
-        if token_of_user.verified == True:
-        # if request.user:
-                # if token_of_user:
-                    # prepare question
-                    question6 = Questions.objects.filter(id = 14).first()
-                    
-                    context['question'] = question14
-                    context['question_tag'] = 'Question 14'
-                    context['question_tag_eng'] = 'Fourteen'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list = Answer.objects.filter(question=question14)
-                    
-                    print(x_list) 
-                    context['xlist'] = x_list
-                    if request.method =='POST':
-                        
-                        list_checked = request.POST.getlist('xlist_boxes')
-                        print(list_checked)
-                        
-                        for i in list_checked:
-                           check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
-                           
-                           for ans in check_answers:
-                               
-                                if ans.answer == 'Yes':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
-                                    d.points +=1
-                                    d.save()
-
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    d.points += 1
-                                    d.save()
-
-                                elif ans.answer == 'No':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                    d.points+= 1
-                                    d.save()
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
-                                    d.points += 1
-                                    d.save()
-                               
-                                elif ans.answer == 'I am not currently pregnant':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
-                                    d.save()
-
-                                
-                                
-                                    
-                                    
-                                   
-
-                        return redirect('question15')
-                        # send question and answer to view
-                
-               
-                # else:
-                #     messages.warning(request, 'Access denied')
-                #     return redirect('login')           
-        else:
-                messages.warning(request, 'User not verified')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
-    else:
-        messages.warning(request, 'Authentication required')
-        return redirect('login')
-    return render(request, 'questions/question4.html', context)
-
-
-# ##############################################################################
-# question 14
-
-
-def question14(request):
-    
-    context = {}
-    
-    
-    
-    if request.user.is_authenticated:
-
-        
-        user = request.user 
-            # locate user on token 
-            
-        full_name = request.session['details'][2]
-        # try:
-        reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
-        
-      
-        
-        if token_of_user.verified == True:
-        # if request.user:
-                # if token_of_user:
-                    # prepare question
-                    question15 = Questions.objects.filter(id = 15).first()
-                    
-                    context['question'] = question15
-                    context['question_tag'] = 'Question 15'
-                    context['question_tag_eng'] = 'Fifteen'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list = Answer.objects.filter(question=question15)
-                    
-                    print(x_list) 
-                    context['xlist'] = x_list
-                    if request.method =='POST':
-                        
-                        list_checked = request.POST.getlist('xlist_boxes')
-                        print(list_checked)
-                        
-                        for i in list_checked:
-                           check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
-                           
-                           for ans in check_answers:
-                               
-                                if ans.answer == 'Yes':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
-                                    d.points +=1
-                                    d.save()
-
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    d.points += 1
-                                    d.save()
-
-                                elif ans.answer == 'No':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                    d.points+= 1
-                                    d.save()
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
-                                    d.points += 1
-                                    d.save()
-                               
-                                elif ans.answer == 'I am not currently pregnant':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
-                                    d.save()
-
-                                
-                                
-                                    
-                                    
-                                   
+                                                                       
 
                         return redirect('question16')
                         # send question and answer to view
@@ -1491,7 +1208,7 @@ def question14(request):
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/question6.html', context)
 
 
 # ##############################################################################
@@ -1539,6 +1256,7 @@ def question15(request):
                            check_answers = Answer.objects.filter(pk=int(i))
                            check_answers.update(verified=True, user_print=token_of_user)
                            
+                           
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes':
@@ -1566,6 +1284,10 @@ def question15(request):
                                 
                                 
                                     
+                                    
+                                request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13,14,15,16]
+                                request.session.modified = True
+                                
                                     
                                    
 
@@ -1634,6 +1356,7 @@ def question16(request):
                            check_answers = Answer.objects.filter(pk=int(i))
                            check_answers.update(verified=True, user_print=token_of_user)
                            
+                           
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes':
@@ -1686,9 +1409,16 @@ def question16(request):
 
 
 def permanemtStorage(request):
+    # session info
+    
+    
     user = request.user
     if user.is_authenticated():
-        pass 
+        pass
+        
+        
+        
+        
     else:
         return redirect('login')
     
