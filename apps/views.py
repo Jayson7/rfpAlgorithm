@@ -273,11 +273,7 @@ def question2(request):
         print(full_name)
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name=full_name).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 1 (check if the person did question 1)
+ 
     
         # verify if user answered question 1
  
@@ -1411,7 +1407,7 @@ def question16(request):
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
-    return render(request, 'questions/question5.html', context)
+    return render(request, 'questions/question7.html', context)
 
 
 
