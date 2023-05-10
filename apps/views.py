@@ -95,11 +95,10 @@ def question1(request):
     
     context = {}
     
-    user_agent = get_user_agent(request)
+
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
-        full_name = request.session['Details'].full_name
+     
+        full_name = request.session['details'][2]
         
         user = request.user 
             # locate user on token 
@@ -266,7 +265,8 @@ def question2(request):
         device = request.user_agent.device 
         
         user = request.user 
-        full_name = request.session['Details'].full_name
+        full_name = request.session['Details'][2]
+        print(full_name)
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name=full_name).first()
         # to be added later 
@@ -276,13 +276,7 @@ def question2(request):
         # query question 1 (check if the person did question 1)
     
         # verify if user answered question 1
-     
-        # print(request.session['question_answered'].__contains__(1))
-        request.session['questions_answered'] = [1]
-        request.session.modified = True
-    
-    
-    
+ 
         if token_of_user.verified == True:
                 if token_of_user:
                         # prepare question
@@ -329,7 +323,9 @@ def question2(request):
                                     
                                     forms.token = token_of_user
                                     forms.save()
-                      
+
+                                    request.session['questions_answered'] = [1,2]
+                                    request.session.modified = True
                                         
                                     return redirect('question3')
                                 else:
@@ -363,38 +359,22 @@ def question3(request):
     
     context = {}
     
-    user_agent = get_user_agent(request)
+    
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
-        
+
         user = request.user 
             # locate user on token 
-            
+        full_name = request.session['Details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
         # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
-        try:
 
-            query_q2 = Question2Model.objects.get(token=token_of_user)
-            if query_q2:
-                pass 
-            else:
-                messages.warming(request, 'Not allowed')
-                return redirect('login')
-        
-        except:
-            messages.warming(request, 'Not allowed')
-            return redirect('login')
+            
         
         if token_of_user.verified == True:
-                if token_of_user and query_q2:
+                if token_of_user:
                     # prepare question
                     question3 = Questions.objects.filter(id = 3).first()
                     
@@ -437,7 +417,9 @@ def question3(request):
                                     
                                     
                                    
-
+                                request.session['questions_answered'] = [1,2,3]
+                                request.session.modified = True
+                                
                         return redirect('question4')
                         # send question and answer to view
                 
