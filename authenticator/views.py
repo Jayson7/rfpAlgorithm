@@ -572,8 +572,8 @@ def create_user(request):
 
 def removeAccess(request, pk):
     # locate the primary key on password storage 
-    basic_user_auth_check_admin(request)
-    super_user_check(request)    
+   
+  
  
     
     user = PasswordStorage.objects.get(id=pk)
@@ -593,7 +593,6 @@ def removeAccess(request, pk):
 
 def regenerate_password(request, pk):
     basic_user_auth_check_admin(request)
-    super_user_check(request)
     
     user = RegisterClient.objects.get(id=pk)
     find_pass_profile = PasswordStorage.objects.get(client=user)

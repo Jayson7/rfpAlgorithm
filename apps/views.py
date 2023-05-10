@@ -114,7 +114,7 @@ def question1(request):
                         # prepare question
                     question1 = Questions.objects.filter(id = 1).first()
                             
-                    print(question1) 
+             
                             # get answers ans send form to frontend
                     form = Question1Form(request.POST)
                     if request.method =='POST':
@@ -206,7 +206,9 @@ def question1(request):
                                     x = int(forms.age)  
                                     if x <= 19:
                                        
-                                        Disease.objects.get(disease="Anaemia").update(points=F("points") + 1)
+                                       d =  Disease.objects.get(disease="Anaemia", user_diagnosed=token_of_user)
+                                       d.points += 1
+                                       d.save()
                                         
                                         
                                     elif x >= 20 and x <= 35:
@@ -214,14 +216,17 @@ def question1(request):
                                     
                                     
                                     elif x > 35 and x < 40:
-                                        Disease.objects.get(disease = 'thrombosis').update(points=F("points") + 1)
-                                        
-                                        Disease.objects.get(    disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                        
+                                        d = Disease.objects.get(disease = 'thrombosis', user_diagnosed=token_of_user)
+                                        d.points += 1
+                                        d.save()
+                                        d = Disease.objects.get(disease = 'Intrahepatic cholestasis', user_diagnosed=token_of_user)
+                                        d.points += 1
+                                        d.save()
                                     elif x >=40:
                              
-                                        Disease.objects.get(     disease = 'thrombosis').update(points=F("points") + 2)
-                                    
+                                        d = Disease.objects.get(disease = 'thrombosis', user_diagnosed=token_of_user)
+                                        d.points += 2
+                                        d.save()
                                     # create questions sessions and modify
                                     
                                     request.session['questions_answered'] = [1]
@@ -261,8 +266,7 @@ def question2(request):
     
     user_agent = get_user_agent(request)
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
         full_name = request.session['details'][2]
@@ -397,22 +401,39 @@ def question3(request):
                            
                            for ans in check_answers:
                                 if ans.answer == 'Asian':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                    d.points += 1
+                                    d.save()
                                     
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
+                                    d.points += 1
+                                    d.save()
                                    
                                    
                                 elif ans.answer == 'Black race':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
+                                    d.points += 1
+                                    d.save()
                                 elif ans.answer == 'Latino':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                    d.points += 1
+                                    d.save()
+                                    
+                                    d= Disease.objects.get(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
+                                    d.points += 1
+                                    d.save()
+                                    
                                 elif ans.answer == 'Middle Eastern / Arab':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
+                                    d.points += 1
+                                    d.save()
                                 elif ans.answer == 'Other':
                                     pass
                                 elif ans.answer == 'Native American':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                    d = Disease.objects.get(disease = 'Diabetes Mellitus').update(points=F("points") + 1)
+                                    d.points +=1
+                                    d.save()
+                                    return redirect('question3')
                                 elif ans.answer == 'White race':
                                     pass 
                                 
@@ -450,39 +471,24 @@ def question4(request):
     
     context = {}
     
-    user_agent = get_user_agent(request)
+
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
-        try:
-
-            query_q2 = Question2Model.objects.get(token=token_of_user)
-            if query_q2:
-                pass 
-            else:
-                messages.warming(request, 'Not allowed')
-                return redirect('login')
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
         
-        except:
-            messages.warming(request, 'Not allowed')
-            return redirect('login')
+      
         
         if token_of_user.verified == True:
         # if request.user:
-                if token_of_user and query_q2:
+                if token_of_user:
                     # prepare question
                     question4 = Questions.objects.filter(id = 4).first()
                     
@@ -508,15 +514,26 @@ def question4(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'First pregnancy or gestational loss less than 20 weeks':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                    d.points +=1
+                                    d.save()
+
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points += 1
+                                    d.save()
 
                                 elif ans.answer == '2 deliveries':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                    d.points+= 1
+                                    d.save()
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                    d.points += 1
+                                    d.save()
                                
                                 elif ans.answer == '3 or more deliveries':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
 
                                 
                                 
@@ -556,20 +573,16 @@ def question5(request):
     user_agent = get_user_agent(request)
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        
         try:
 
             query_q2 = Question2Model.objects.get(token=token_of_user)
@@ -585,7 +598,7 @@ def question5(request):
         
         if token_of_user.verified == True:
         # if request.user:
-                if token_of_user and query_q2:
+                if token_of_user:
                     # prepare question
                     question5 = Questions.objects.filter(id = 5).first()
                     
@@ -613,7 +626,9 @@ def question5(request):
                                 if ans.answer == 'No':
                                     pass
                                 elif ans.answer == 'Yes':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                    d.points+= 1
+                                    d.save()
                            
                                 elif ans.answer == 'I am not currently pregnant':
                                     pass
@@ -649,20 +664,16 @@ def question6(request):
     user_agent = get_user_agent(request)
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        
         try:
 
             query_q2 = Question2Model.objects.get(token=token_of_user)
@@ -678,7 +689,7 @@ def question6(request):
         
         if token_of_user.verified == True:
         # if request.user:
-                # if token_of_user and query_q2:
+                # if token_of_user:
                     # prepare question
                     question6 = Questions.objects.filter(id = 6).first()
                     
@@ -704,10 +715,19 @@ def question6(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                    d.points +=1
+                                    d.save()
+
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points += 1
+                                    d.save()
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                    d.points += 1
+                                    d.save()
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
                                 elif ans.answer == 'No':
                                     pass 
    
@@ -743,20 +763,16 @@ def question7(request):
     user_agent = get_user_agent(request)
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        
         # try:
         #     query_q2 = Question2Model.objects.get(token=token_of_user)
         #     if query_q2:
@@ -771,7 +787,7 @@ def question7(request):
         
         # if token_of_user.verified == True:
         if request.user:
-                # if token_of_user and query_q2:
+                # if token_of_user:
                     # prepare question
                     question7 = Questions.objects.filter(id = 7).first()
                     
@@ -797,7 +813,9 @@ def question7(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes, I have been diagnosed with deep vein thrombosis AND I am currently on anticoagulant treatment.':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 100)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 100 
+                                    d.save()
                                 
                                 elif ans.answer == 'No, I am not on anticoagulant treatment for a previous deep vein thrombosis.':
                                     pass
@@ -833,20 +851,16 @@ def question8(request):
     user_agent = get_user_agent(request)
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        
         # try:
 
         #     query_q2 = Question2Model.objects.get(token=token_of_user)
@@ -862,7 +876,7 @@ def question8(request):
         
         # if token_of_user.verified == True:
         if request.user:
-                # if token_of_user and query_q2:
+                # if token_of_user:
                     # prepare question
                     question8 = Questions.objects.filter(id = 8).first()
                     
@@ -888,7 +902,9 @@ def question8(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes, I have been diagnosed with antithrombin deficiency or antiphospholipid syndrome.':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 100)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 100 
+                                    d.save()
 
 
                                 elif ans.answer == 'No, I have not been diagnosed with antithrombin deficiency or antiphospholipid syndrome.':
@@ -928,20 +944,16 @@ def question9(request):
     user_agent = get_user_agent(request)
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        
         # try:
 
         #     query_q2 = Question2Model.objects.get(token=token_of_user)
@@ -957,7 +969,7 @@ def question9(request):
         
         # if token_of_user.verified == True:
         if request.user:
-                # if token_of_user and query_q2:
+                # if token_of_user:
                     # prepare question
                     question9 = Questions.objects.filter(id = 9).first()
                     
@@ -983,11 +995,11 @@ def question9(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes, I was diagnosed with deep vein thrombosis AND I am NOT currently on anticoagulant treatment (The cause of the thrombosis was a recent surgery).':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
 
 
                                 elif ans.answer == 'Yes, I was diagnosed with deep vein thrombosis AND I am NOT currently on anticoagulant treatment (The cause of the thrombosis is unknown or different from surgery).':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 4)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 4)
 
                                
                                 elif ans.answer == 'No, I have never had deep vein thrombosis.':
@@ -1026,20 +1038,16 @@ def question10(request):
     user_agent = get_user_agent(request)
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        
         # try:
 
         #     query_q2 = Question2Model.objects.get(token=token_of_user)
@@ -1055,7 +1063,7 @@ def question10(request):
         
         # if token_of_user.verified == True:
         if request.user:
-                # if token_of_user and query_q2:
+                # if token_of_user:
                     # prepare question
                     question10 = Questions.objects.filter(id = 10).first()
                     
@@ -1081,24 +1089,28 @@ def question10(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Homozygous factor V Leiden':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
 
 
                                 elif ans.answer == 'Heterozygous factor V Leiden':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
                                
                                 elif ans.answer == ' Homozygous prothrombin gene mutation':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)                                
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)                                
                                 elif ans.answer == 'Heterozygous prothrombin gene mutation':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)                                
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()                                
                                 elif ans.answer == ' Protein C deficiency':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
                                 elif ans.answer == ' Protein S deficiency':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
                                 elif ans.answer == 'Obstetric antiphospholipid syndrome':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
                                 elif ans.answer == 'Combination of Heterozygous factor V Leiden and  Heterozygous prothrombin gene mutation':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
 
                         return redirect('question11')
                         # send question and answer to view
@@ -1172,7 +1184,7 @@ def question11(request):
         
         if request.user:
             
-                # if token_of_user and query_q2:
+                # if token_of_user:
                     # prepare question
                     
                     question11 = Questions.objects.filter(id = 11).first()
@@ -1206,15 +1218,26 @@ def question11(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                    d.points +=1
+                                    d.save()
+
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points += 1
+                                    d.save()
 
                                 elif ans.answer == 'No':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                    d.points+= 1
+                                    d.save()
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                    d.points += 1
+                                    d.save()
                                
                                 elif ans.answer == 'I am not currently pregnant':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
 
                      
                         return redirect('question7')
@@ -1252,20 +1275,16 @@ def question12(request):
     user_agent = get_user_agent(request)
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        
         try:
 
             query_q2 = Question2Model.objects.get(token=token_of_user)
@@ -1281,7 +1300,7 @@ def question12(request):
         
         if token_of_user.verified == True:
         # if request.user:
-                # if token_of_user and query_q2:
+                # if token_of_user:
                     # prepare question
                     question6 = Questions.objects.filter(id = 6).first()
                     
@@ -1307,15 +1326,26 @@ def question12(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                    d.points +=1
+                                    d.save()
+
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points += 1
+                                    d.save()
 
                                 elif ans.answer == 'No':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                    d.points+= 1
+                                    d.save()
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                    d.points += 1
+                                    d.save()
                                
                                 elif ans.answer == 'I am not currently pregnant':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
 
                                 
                                 
@@ -1352,20 +1382,16 @@ def question13(request):
     user_agent = get_user_agent(request)
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        
         # try:
 
         #     query_q2 = Question2Model.objects.get(token=token_of_user)
@@ -1381,7 +1407,7 @@ def question13(request):
         
         if token_of_user.verified == True:
         # if request.user:
-                # if token_of_user and query_q2:
+                # if token_of_user:
                     # prepare question
                     question6 = Questions.objects.filter(id = 14).first()
                     
@@ -1407,15 +1433,26 @@ def question13(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                    d.points +=1
+                                    d.save()
+
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points += 1
+                                    d.save()
 
                                 elif ans.answer == 'No':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                    d.points+= 1
+                                    d.save()
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                    d.points += 1
+                                    d.save()
                                
                                 elif ans.answer == 'I am not currently pregnant':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
 
                                 
                                 
@@ -1452,20 +1489,16 @@ def question14(request):
     user_agent = get_user_agent(request)
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        
         try:
 
             query_q2 = Question2Model.objects.get(token=token_of_user)
@@ -1481,7 +1514,7 @@ def question14(request):
         
         if token_of_user.verified == True:
         # if request.user:
-                # if token_of_user and query_q2:
+                # if token_of_user:
                     # prepare question
                     question15 = Questions.objects.filter(id = 15).first()
                     
@@ -1507,15 +1540,26 @@ def question14(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                    d.points +=1
+                                    d.save()
+
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points += 1
+                                    d.save()
 
                                 elif ans.answer == 'No':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                    d.points+= 1
+                                    d.save()
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                    d.points += 1
+                                    d.save()
                                
                                 elif ans.answer == 'I am not currently pregnant':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
 
                                 
                                 
@@ -1552,20 +1596,16 @@ def question15(request):
     user_agent = get_user_agent(request)
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        
         # try:
 
         #     query_q2 = Question2Model.objects.get(token=token_of_user)
@@ -1581,7 +1621,7 @@ def question15(request):
         
         # if token_of_user.verified == True:
         if request.user:
-                # if token_of_user and query_q2:
+                # if token_of_user:
                     # prepare question
                     question16 = Questions.objects.filter(id = 16).first()
                     
@@ -1607,15 +1647,26 @@ def question15(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                    d.points +=1
+                                    d.save()
+
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points += 1
+                                    d.save()
 
                                 elif ans.answer == 'No':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                    d.points+= 1
+                                    d.save()
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                    d.points += 1
+                                    d.save()
                                
                                 elif ans.answer == 'I am not currently pregnant':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
 
                                 
                                 
@@ -1654,20 +1705,16 @@ def question16(request):
     user_agent = get_user_agent(request)
     
     if request.user.is_authenticated:
-        browser_prop = request.user_agent.browser 
-        device = request.user_agent.device 
+
         
         user = request.user 
             # locate user on token 
             
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
-        # to be added later 
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
+        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        
         # try:
 
         #     query_q2 = Question2Model.objects.get(token=token_of_user)
@@ -1683,7 +1730,7 @@ def question16(request):
         
         # if token_of_user.verified == True:
         if request.user:
-                # if token_of_user and query_q2:
+                # if token_of_user:
                     # prepare question
                     question16 = Questions.objects.filter(id = 16).first()
                     
@@ -1709,15 +1756,26 @@ def question16(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                    d.points +=1
+                                    d.save()
+
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points += 1
+                                    d.save()
 
                                 elif ans.answer == 'No':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                    d.points+= 1
+                                    d.save()
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                    d.points += 1
+                                    d.save()
                                
                                 elif ans.answer == 'I am not currently pregnant':
-                                    Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 1)
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
 
                                 
                                 

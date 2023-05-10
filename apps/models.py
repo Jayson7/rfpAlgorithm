@@ -18,11 +18,11 @@ class Questions(models.Model):
 class Disease(models.Model):
     disease = models.CharField(max_length=100)
     user_diagnosed = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='user_disease')
-    points = models.CharField(default=0, max_length=200) 
+    points = models.FloatField() 
 
     
     def __str__(self) -> str:
-        return str(self.user_diagnosed)  + '-' + str(self.disease)   
+        return str(self.user_diagnosed)  + '-' + str(self.disease) + '-' + str(self.points)   
     
 
 
