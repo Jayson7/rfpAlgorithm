@@ -94,7 +94,7 @@ def login_page(request):
             messages.warning(request, 'Incorrect credentials')
             return redirect('login')
         else:
-            # try:
+            try:
                 password_check = PasswordStorage.objects.get(password=password)
                 if password_check:
                     # check password usage count 
@@ -227,9 +227,9 @@ def login_page(request):
                 else:
                     messages.warning(request, 'Incorrect Password')
                     return redirect('login')
-            # except:
-            #     messages.warning(request, 'Invalid')
-            #     return redirect('login')        
+            except:
+                messages.warning(request, 'Invalid Password')
+                return redirect('login')        
 
 
     return render(request, 'auth_pages/user_login.html', context)

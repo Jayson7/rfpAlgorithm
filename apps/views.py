@@ -265,7 +265,7 @@ def question2(request):
         device = request.user_agent.device 
         
         user = request.user 
-        full_name = request.session['Details'][2]
+        full_name = request.session['details'][2]
         print(full_name)
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name=full_name).first()
@@ -365,10 +365,11 @@ def question3(request):
 
         user = request.user 
             # locate user on token 
-        full_name = request.session['Details'][2]
+        full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
+        print(token_of_user)
         # to be added later 
 
             
@@ -378,12 +379,12 @@ def question3(request):
                     # prepare question
                     question3 = Questions.objects.filter(id = 3).first()
                     
-                    print(question3) 
+  
                     context['question'] = question3
                     # get answers ans send form to frontend
                     
                     x_list = Answer.objects.filter(question=question3)
-                    print(x_list) 
+                   
                     context['xlist'] = x_list
                     if request.method =='POST':
                         
@@ -397,6 +398,7 @@ def question3(request):
                            for ans in check_answers:
                                 if ans.answer == 'Asian':
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis').update(points=F("points") + 1)
+                                    
                                     Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus').update(points=F("points") + 1)
                                    
                                    

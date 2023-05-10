@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'rfp_main.wsgi.application'
 DATABASES = {
         'default': {
             'ENGINE': 'djongo',
-            'NAME': 'royalace',
+            'NAME': 'RFP',
             
             'CLIENT': {
                 'host': 'mongodb+srv://rfpalgorithmn:lexxiijoo70@cluster0.orpg2sj.mongodb.net/?retryWrites=true&w=majority'
@@ -187,3 +187,7 @@ cloudinary.config(
   api_key = "797748228281934", 
   api_secret = "KycRuHR_2CwkHlM4W3PmiPQZTRM" 
 )
+
+# session config 
+
+SESSION_SAVE_EVERY_REQUEST=True
