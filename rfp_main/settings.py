@@ -22,7 +22,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['.vercel.app', '.now.sh', ]
 # ALLOWED_HOSTS = [ ]
-z
+
 
 
 # Application definition
