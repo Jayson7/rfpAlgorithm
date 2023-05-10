@@ -264,7 +264,7 @@ def question2(request):
     
     context = {}
     
-    user_agent = get_user_agent(request)
+    
     if request.user.is_authenticated:
 
         
@@ -537,7 +537,9 @@ def question4(request):
 
                                 
                                 
-                                    
+                                request.session['questions_answered'] = [1,2,3,4]
+                                request.session.modified = True
+                                # print(request.session['questions_answered'])
                                     
                                    
 
@@ -567,10 +569,10 @@ def question4(request):
 
 
 def question5(request):
-    
+
     context = {}
     
-    user_agent = get_user_agent(request)
+   
     
     if request.user.is_authenticated:
 
@@ -583,18 +585,7 @@ def question5(request):
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
         
-        try:
-
-            query_q2 = Question2Model.objects.get(token=token_of_user)
-            if query_q2:
-                pass 
-            else:
-                messages.warming(request, 'Not allowed')
-                return redirect('login')
-        
-        except:
-            messages.warming(request, 'Not allowed')
-            return redirect('login')
+      
         
         if token_of_user.verified == True:
         # if request.user:
@@ -626,13 +617,18 @@ def question5(request):
                                 if ans.answer == 'No':
                                     pass
                                 elif ans.answer == 'Yes':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
                                     d.points+= 1
                                     d.save()
                            
                                 elif ans.answer == 'I am not currently pregnant':
                                     pass
-
+                                
+                                    
+                                request.session['questions_answered'] = [1,2,3,4,5]
+                                request.session.modified = True
+                      
+    
 
                         return redirect('question6')
                         # send question and answer to view
@@ -660,9 +656,7 @@ def question5(request):
 def question6(request):
     
     context = {}
-    
-    user_agent = get_user_agent(request)
-    
+
     if request.user.is_authenticated:
 
         
@@ -674,19 +668,7 @@ def question6(request):
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
         
-        try:
 
-            query_q2 = Question2Model.objects.get(token=token_of_user)
-            if query_q2:
-                pass 
-            else:
-                messages.warming(request, 'Not allowed')
-                return redirect('login')
-        
-        except:
-            messages.warming(request, 'Not allowed')
-            return redirect('login')
-        
         if token_of_user.verified == True:
         # if request.user:
                 # if token_of_user:
@@ -715,22 +697,26 @@ def question6(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
                                     d.points +=1
                                     d.save()
 
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'preeclampsia')
                                     d.points += 1
                                     d.save()
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anaemia')
                                     d.points += 1
                                     d.save()
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()
-                                elif ans.answer == 'No':
+                                elif ans.answer == 'No' or ans.answer == 'I am not currently pregnant':
                                     pass 
-   
+                                
+                                
+                                request.session['questions_answered'] = [1,2,3,4,5,6]
+                                request.session.modified = True
+                      
 
                         return redirect('question7')
                         # send question and answer to view
@@ -759,33 +745,18 @@ def question6(request):
 def question7(request):
     
     context = {}
-    
-    user_agent = get_user_agent(request)
-    
+
     if request.user.is_authenticated:
 
-        
         user = request.user 
-            # locate user on token 
-            
+        # locate user on token 
+
         full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
         
-        # try:
-        #     query_q2 = Question2Model.objects.get(token=token_of_user)
-        #     if query_q2:
-        #         pass 
-        #     else:
-        #         messages.warming(request, 'Not allowed')
-        #         return redirect('login')
         
-        # except:
-        #     messages.warming(request, 'Not allowed')
-        #     return redirect('login')
-        
-        # if token_of_user.verified == True:
         if request.user:
                 # if token_of_user:
                     # prepare question
@@ -810,20 +781,24 @@ def question7(request):
                            check_answers = Answer.objects.filter(pk=int(i))
                            check_answers.update(verified=True, user_print=token_of_user)
                            
+                           
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes, I have been diagnosed with deep vein thrombosis AND I am currently on anticoagulant treatment.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 100 
                                     d.save()
+                                
                                 
                                 elif ans.answer == 'No, I am not on anticoagulant treatment for a previous deep vein thrombosis.':
                                     pass
            
+                                request.session['questions_answered'] = [1,2,3,4,5,6,7]
+                                request.session.modified = True
+
                         return redirect('question8')
                         # send question and answer to view
-                
-               
+
                 # else:
                 #     messages.warning(request, 'Access denied')
                 #     return redirect('login')           
@@ -841,6 +816,7 @@ def question7(request):
 
 
 # ##############################################################################
+
 # question 8
 
 
@@ -848,7 +824,7 @@ def question8(request):
     
     context = {}
     
-    user_agent = get_user_agent(request)
+    
     
     if request.user.is_authenticated:
 
@@ -860,21 +836,7 @@ def question8(request):
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
-        
-        # try:
 
-        #     query_q2 = Question2Model.objects.get(token=token_of_user)
-        #     if query_q2:
-        #         pass 
-        #     else:
-        #         messages.warming(request, 'Not allowed')
-        #         return redirect('login')
-        
-        # except:
-        #     messages.warming(request, 'Not allowed')
-        #     return redirect('login')
-        
-        # if token_of_user.verified == True:
         if request.user:
                 # if token_of_user:
                     # prepare question
@@ -902,7 +864,7 @@ def question8(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes, I have been diagnosed with antithrombin deficiency or antiphospholipid syndrome.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 100 
                                     d.save()
 
@@ -912,7 +874,8 @@ def question8(request):
                             
                                     
                                     
-                                   
+                        request.session['questions_answered'] = [1,2,3,4,5,6,7,8]
+                        request.session.modified = True
 
                         return redirect('question9')
                         # send question and answer to view
@@ -940,12 +903,10 @@ def question8(request):
 def question9(request):
     
     context = {}
-    
-    user_agent = get_user_agent(request)
-    
+ 
     if request.user.is_authenticated:
 
-        
+
         user = request.user 
             # locate user on token 
             
@@ -953,21 +914,7 @@ def question9(request):
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
-        
-        # try:
 
-        #     query_q2 = Question2Model.objects.get(token=token_of_user)
-        #     if query_q2:
-        #         pass 
-        #     else:
-        #         messages.warming(request, 'Not allowed')
-        #         return redirect('login')
-        
-        # except:
-        #     messages.warming(request, 'Not allowed')
-        #     return redirect('login')
-        
-        # if token_of_user.verified == True:
         if request.user:
                 # if token_of_user:
                     # prepare question
@@ -995,16 +942,25 @@ def question9(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Yes, I was diagnosed with deep vein thrombosis AND I am NOT currently on anticoagulant treatment (The cause of the thrombosis was a recent surgery).':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 3
+                                    d.save()
 
 
                                 elif ans.answer == 'Yes, I was diagnosed with deep vein thrombosis AND I am NOT currently on anticoagulant treatment (The cause of the thrombosis is unknown or different from surgery).':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 4)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 4
+                                    d.save()
 
                                
                                 elif ans.answer == 'No, I have never had deep vein thrombosis.':
                                     pass 
              
+                                
+                                request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9]
+                                request.session.modified = True
+                      
+    
 
                         return redirect('question10')
                         # send question and answer to view
@@ -1034,9 +990,7 @@ def question9(request):
 def question10(request):
     
     context = {}
-    
-    user_agent = get_user_agent(request)
-    
+  
     if request.user.is_authenticated:
 
         
@@ -1047,21 +1001,7 @@ def question10(request):
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
-        
-        # try:
 
-        #     query_q2 = Question2Model.objects.get(token=token_of_user)
-        #     if query_q2:
-        #         pass 
-        #     else:
-        #         messages.warming(request, 'Not allowed')
-        #         return redirect('login')
-        
-        # except:
-        #     messages.warming(request, 'Not allowed')
-        #     return redirect('login')
-        
-        # if token_of_user.verified == True:
         if request.user:
                 # if token_of_user:
                     # prepare question
@@ -1089,29 +1029,43 @@ def question10(request):
                            for ans in check_answers:
                                
                                 if ans.answer == 'Homozygous factor V Leiden':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 3
+                                    d.save()
 
 
                                 elif ans.answer == 'Heterozygous factor V Leiden':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()
                                
                                 elif ans.answer == ' Homozygous prothrombin gene mutation':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)                                
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 3
+                                    d.save()                                
                                 elif ans.answer == 'Heterozygous prothrombin gene mutation':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()                                
                                 elif ans.answer == ' Protein C deficiency':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 3
+                                    d.save()
                                 elif ans.answer == ' Protein S deficiency':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 3
+                                    d.save()
                                 elif ans.answer == 'Obstetric antiphospholipid syndrome':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 3
+                                    d.save()
                                 elif ans.answer == 'Combination of Heterozygous factor V Leiden and  Heterozygous prothrombin gene mutation':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis').update(points=F("points") + 3)
-
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 3
+                                    d.save()
+                                    
+                                request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10]
+                                request.session.modified = True
                         return redirect('question11')
                         # send question and answer to view
                 
@@ -1141,14 +1095,10 @@ def question11(request):
     
     context = {}
     
-    user_agent = get_user_agent(request)
+    
     
     if request.user.is_authenticated:
     
-        browser_prop = request.user_agent.browser 
-    
-        device = request.user_agent.device 
-        
         user = request.user 
             # locate user on token 
             
@@ -1158,30 +1108,8 @@ def question11(request):
     
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile).first()
     
-        # to be added later 
-    
-        find_device = StoreDevice.objects.filter(browser=browser_prop, device=device).first()
-        
-    
-        # print(find_device,'device')
-            
-        # query question 2 (check if the person did question 1)
-        # try:
 
-        #     query_q2 = Question2Model.objects.get(token=token_of_user)
-        #     if query_q2:
-        #         pass 
-        #     else:
-        #         messages.warming(request, 'Not allowed')
-        #         return redirect('login')
-        
-        # except:
-        #     messages.warming(request, 'Not allowed')
-        #     return redirect('login')
-        
-        # if token_of_user.verified == True:
-        
-        
+
         if request.user:
             
                 # if token_of_user:
@@ -1236,9 +1164,12 @@ def question11(request):
                                
                                 elif ans.answer == 'I am not currently pregnant':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
+                                    d.points += 3
                                     d.save()
 
+                                
+                                request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10, 11]
+                                request.session.modified = True
                      
                         return redirect('question7')
                     
@@ -1260,7 +1191,7 @@ def question11(request):
         messages.warning(request, 'Authentication required')
         return redirect('login')
     
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/question5.html', context)
 
 
 
@@ -1272,7 +1203,7 @@ def question12(request):
     
     context = {}
     
-    user_agent = get_user_agent(request)
+    
     
     if request.user.is_authenticated:
 
@@ -1285,18 +1216,7 @@ def question12(request):
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
         
-        try:
-
-            query_q2 = Question2Model.objects.get(token=token_of_user)
-            if query_q2:
-                pass 
-            else:
-                messages.warming(request, 'Not allowed')
-                return redirect('login')
-        
-        except:
-            messages.warming(request, 'Not allowed')
-            return redirect('login')
+      
         
         if token_of_user.verified == True:
         # if request.user:
@@ -1379,7 +1299,7 @@ def question13(request):
     
     context = {}
     
-    user_agent = get_user_agent(request)
+    
     
     if request.user.is_authenticated:
 
@@ -1486,7 +1406,7 @@ def question14(request):
     
     context = {}
     
-    user_agent = get_user_agent(request)
+    
     
     if request.user.is_authenticated:
 
@@ -1499,18 +1419,7 @@ def question14(request):
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
         
-        try:
-
-            query_q2 = Question2Model.objects.get(token=token_of_user)
-            if query_q2:
-                pass 
-            else:
-                messages.warming(request, 'Not allowed')
-                return redirect('login')
-        
-        except:
-            messages.warming(request, 'Not allowed')
-            return redirect('login')
+      
         
         if token_of_user.verified == True:
         # if request.user:
@@ -1593,7 +1502,7 @@ def question15(request):
     
     context = {}
     
-    user_agent = get_user_agent(request)
+    
     
     if request.user.is_authenticated:
 
@@ -1605,21 +1514,7 @@ def question15(request):
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
-        
-        # try:
 
-        #     query_q2 = Question2Model.objects.get(token=token_of_user)
-        #     if query_q2:
-        #         pass 
-        #     else:
-        #         messages.warming(request, 'Not allowed')
-        #         return redirect('login')
-        
-        # except:
-        #     messages.warming(request, 'Not allowed')
-        #     return redirect('login')
-        
-        # if token_of_user.verified == True:
         if request.user:
                 # if token_of_user:
                     # prepare question
@@ -1702,7 +1597,7 @@ def question16(request):
     
     context = {}
     
-    user_agent = get_user_agent(request)
+    
     
     if request.user.is_authenticated:
 
@@ -1714,21 +1609,7 @@ def question16(request):
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
-        
-        # try:
 
-        #     query_q2 = Question2Model.objects.get(token=token_of_user)
-        #     if query_q2:
-        #         pass 
-        #     else:
-        #         messages.warming(request, 'Not allowed')
-        #         return redirect('login')
-        
-        # except:
-        #     messages.warming(request, 'Not allowed')
-        #     return redirect('login')
-        
-        # if token_of_user.verified == True:
         if request.user:
                 # if token_of_user:
                     # prepare question
