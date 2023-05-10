@@ -20,7 +20,7 @@ urlpatterns = [
     path('question8', question8, name='question8'),
     path('question9', question9, name='question9'),
     path('question10', question10, name='question10'),
-    path('question$', questionCombined, name='question$'),
+    path('questionCs', questionCombined, name='questionCs'),
     path('question15', question15, name='question15'),
     path('question16', question16, name='question16'),
 ]

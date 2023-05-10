@@ -1070,7 +1070,7 @@ def question10(request):
                                     
                                 request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10]
                                 request.session.modified = True
-                        return redirect('question11')
+                        return redirect('questionCs')
                         # send question and answer to view
                 
                
