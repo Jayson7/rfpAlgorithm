@@ -20,7 +20,7 @@ SECRET_KEY = 'django-insecure-(((#46fb3s7x@w7&85f@vdhovj085du@ue0%q9@*0b8=!8oqiv
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['.vercel.app', '.now.sh', ]
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'rfpalgporithm.com', 'www.rfpalgorithm.com' ]
 # ALLOWED_HOSTS = [ ]
 
 
