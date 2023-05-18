@@ -199,6 +199,12 @@ def question1(request):
                                         )
                                     disease10.save()
                                     
+                                    disease11 = Disease(
+                                            disease = 'pregnancy wellbeing',
+                                            user_diagnosed = token_of_user,
+                                            points = 0
+                                        )
+                                    disease11.save()
                                     
                                     
                                     print(forms.age)
@@ -1526,39 +1532,68 @@ def question15(request):
                            
                            for ans in check_answers:
                                
-                                if ans.answer == 'Yes':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
-                                    d.points +=1
+                                if ans.answer == 'You have been diagnosed with a previous or current psychiatric disorder including schizophrenia, bipolar disorder, obsessive-compulsive disorder, or eating disorder (such as bulimia or anorexia), amon':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d.points +=100
                                     d.save()
 
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    d.points += 1
-                                    d.save()
-
-                                elif ans.answer == 'No':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                    d.points+= 1
-                                    d.save()
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
-                                    d.points += 1
-                                    d.save()
                                
-                                elif ans.answer == 'I am not currently pregnant':
+
+                                elif ans.answer == 'You are currently undergoing psychiatric treatment with medication (including antidepressants, antipsychotics, mood stabilizers, stimulant medication or anxiety medication, among others).':
+                                    
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d.points +=100
+                                    d.save()
+
+                               
+                                elif ans.answer == 'You have had previous suicide attempts.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d.points +=100
+                                    d.save()
+
+
+                                elif ans.answer == 'You have a history of psychosis, depression, or anxiety (including previous pregnancies and postpartum).':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()
+                                
+                                elif ans.answer == 'You have a family history (parents, siblings or children) of mental illness (including postpartum psychosis, bipolar disorder, anxiety or depression).':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d.points +=1
+                                    d.save()
+
+                                elif ans.answer == 'You have problems living with your current partner.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d.points +=1
+                                    d.save()
 
                                 
+                                elif ans.answer == 'You have current financial problems.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d.points +=1
+                                    d.save()
+
                                 
+                                elif ans.answer == 'You have little or no family or friend support to rely on for the care of your baby.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d.points +=1
+                                    d.save()
+
+                                
+                                elif ans.answer == 'The current pregnancy is unwanted.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d.points +=1
+                                    d.save()
+
                                     
                                     
-                                request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13,14,15,16]
+                                request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13,14,15]
                                 request.session.modified = True
                                 
                                     
                                    
 
-                        return redirect('generate_results')
+                        return redirect('question16')
                         # send question and answer to view
                 
                
@@ -1626,16 +1661,14 @@ def question16(request):
                            
                            for ans in check_answers:
                                
-                                if ans.answer == 'Yes':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
-                                    d.points +=1
+                                if ans.answer == 'You have been diagnosed with a previous or current psychiatric disorder including schizophrenia, bipolar disorder, obsessive-compulsive disorder, or eating disorder (such as bulimia or anorexia), amon':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d.points +=100
                                     d.save()
 
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    d.points += 1
-                                    d.save()
+                               
 
-                                elif ans.answer == 'No':
+                                elif ans.answer == 'You are currently undergoing psychiatric treatment with medication (including antidepressants, antipsychotics, mood stabilizers, stimulant medication or anxiety medication, among others).':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
                                     d.points+= 1
                                     d.save()
@@ -1643,12 +1676,43 @@ def question16(request):
                                     d.points += 1
                                     d.save()
                                
-                                elif ans.answer == 'I am not currently pregnant':
+                                elif ans.answer == 'You have had previous suicide attempts.':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()
 
+                                elif ans.answer == 'You have a history of psychosis, depression, or anxiety (including previous pregnancies and postpartum).':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
                                 
+                                elif ans.answer == 'You have a family history (parents, siblings or children) of mental illness (including postpartum psychosis, bipolar disorder, anxiety or depression).':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
+                                
+                                elif ans.answer == 'You have problems living with your current partner.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
+                                
+                                elif ans.answer == 'You have current financial problems.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
+                                
+                                elif ans.answer == 'You have little or no family or friend support to rely on for the care of your baby.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
+                                
+                                elif ans.answer == 'The current pregnancy is unwanted.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points += 1
+                                    d.save()
+                                
+                                request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13,14,15, 16]
+                                request.session.modified = True
                                 
                                     
                                     
@@ -1669,7 +1733,7 @@ def question16(request):
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
-    return render(request, 'questions/question7.html', context)
+    return render(request, 'questions/question4.html', context)
 
 
 

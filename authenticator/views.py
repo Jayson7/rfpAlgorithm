@@ -39,6 +39,7 @@ def monitor_user(request):
 
 # ==================================== Basic functions and Algorithms =========================
 # login here 
+
 @csrf_exempt
 def login_page(request):
     user_agent = get_user_agent(request)
@@ -235,8 +236,6 @@ def login_page(request):
     return render(request, 'auth_pages/user_login.html', context)
 
 
-
-
 # complete user profile 
 @csrf_exempt
 def complete_user_info(request):
@@ -301,7 +300,6 @@ def complete_user_info(request):
     return render(request, 'auth_pages/complete_profile.html', context)
 
 
-
 # ========================================= Admin functions ===================================================
 @csrf_exempt
 def admin_login(request):
@@ -346,10 +344,6 @@ def admin_login(request):
     
     return render(request, 'admin_pages/admin_login.html', context)
  
-
-
-
-
 
 
 def admin_dashboard(request):
