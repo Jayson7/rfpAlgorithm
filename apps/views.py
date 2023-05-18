@@ -1669,29 +1669,26 @@ def question16(request):
                                
 
                                 elif ans.answer == 'You get easily angry or irritable.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                    d.points+= 1
-                                    d.save()
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
-                                    d.points += 1
-                                    d.save()
-                               
-                                elif ans.answer == 'You have had previous suicide attempts.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anxiety')
+                                    d.points +=1
                                     d.save()
 
-                                elif ans.answer == 'You have a history of psychosis, depression, or anxiety (including previous pregnancies and postpartum).':
+                                elif ans.answer == 'You have difficulty sleeping at night.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anxiety')
+                                    d.points +=1
+                                    d.save()
+                                    
+                                elif ans.answer == 'You feel anxious or nervous.':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()
                                 
-                                elif ans.answer == 'You have a family history (parents, siblings or children) of mental illness (including postpartum psychosis, bipolar disorder, anxiety or depression).':
+                                elif ans.answer == "You can't stop repeatedly thinking about the same thing.":
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()
                                 
-                                elif ans.answer == 'You have problems living with your current partner.':
+                                elif ans.answer == 'You are afraid that something bad will happen during your pregnancy.':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()
