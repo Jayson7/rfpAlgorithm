@@ -1679,35 +1679,39 @@ def question16(request):
                                     d.save()
                                     
                                 elif ans.answer == 'You feel anxious or nervous.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anxiety')
+                                    d.points +=1
                                     d.save()
-                                
+                                    
                                 elif ans.answer == "You can't stop repeatedly thinking about the same thing.":
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anxiety')
+                                    d.points +=1
                                     d.save()
-                                
                                 elif ans.answer == 'You are afraid that something bad will happen during your pregnancy.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anxiety')
+                                    d.points +=1
                                     d.save()
-                                
-                                elif ans.answer == 'You have current financial problems.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
+                                    
+                                elif ans.answer == 'You have constant negative thoughts.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'depression')
+                                    d.points +=1
                                     d.save()
-                                
-                                elif ans.answer == 'You have little or no family or friend support to rely on for the care of your baby.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
+                                    
+                                elif ans.answer == "You feel guilty about the problems you're currently experiencing.":
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'depression')
+                                    d.points +=1
                                     d.save()
-                                
-                                elif ans.answer == 'The current pregnancy is unwanted.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
+                                    
+                                elif ans.answer == 'Loss of interest in the people around you or everyday activities.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'depression')
+                                    d.points +=1
                                     d.save()
-                                
+                                    
+                                elif ans.answer == 'You feel sad, down or more easily prone to tears':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'depression')
+                                    d.points +=1
+                                    d.save()
+                                    
                                 request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13,14,15, 16]
                                 request.session.modified = True
                                 
