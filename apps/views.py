@@ -1661,14 +1661,14 @@ def question16(request):
                            
                            for ans in check_answers:
                                
-                                if ans.answer == 'You have been diagnosed with a previous or current psychiatric disorder including schizophrenia, bipolar disorder, obsessive-compulsive disorder, or eating disorder (such as bulimia or anorexia), amon':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
-                                    d.points +=100
+                                if ans.answer == 'You have difficulty concentrating.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anxiety')
+                                    d.points +=1
                                     d.save()
 
                                
 
-                                elif ans.answer == 'You are currently undergoing psychiatric treatment with medication (including antidepressants, antipsychotics, mood stabilizers, stimulant medication or anxiety medication, among others).':
+                                elif ans.answer == 'You get easily angry or irritable.':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
                                     d.points+= 1
                                     d.save()
