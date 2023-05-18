@@ -11,7 +11,6 @@ from django.db.models import F
 # Create your views here.
 
 
-
 def details(request, pk):
     context = {}
     
@@ -984,8 +983,6 @@ def question9(request):
 
 
 
-
-
 # ##############################################################################
 # question 10
 
@@ -1089,8 +1086,6 @@ def question10(request):
 
 
 
-
-
 # ##############################################################################
 # question 11, 12, 13, 14
 
@@ -1190,6 +1185,7 @@ def questionCombined(request):
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
                                     d.points +=100
                                     d.save()
+                                    
                                 elif ans.answer == 'Chronic hypertension (pre-pregnancy)':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
                                     d.points += 3
@@ -1202,6 +1198,7 @@ def questionCombined(request):
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Thyroid disorders')
                                     d.points += 1
                                     d.save()
+                                    
                                 elif ans.answer == 'Chronic kidney disease':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
                                     d.points += 2
@@ -1230,25 +1227,56 @@ def questionCombined(request):
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
                                     d.points +=1
                                     d.save()
-                            #    
-                                elif ans.answer == 'Non-alcoholic fatty liver':
+                                 #  
+                                elif ans.answer == 'Goiter':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Thyroid disorders')
+                                    d.points +=1
+                                    d.save()
+                                    
+                                elif ans.answer == 'Type I diabetes mellitus':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points +=2
+                                    d.save()
+                                    
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder')
+                                    d.points +=1
+                                    d.save()
+                                    
+                                elif ans.answer == 'Previous thyroiditis':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder ')
+                                    d.points +=1
+                                    d.save()
+                                elif ans.answer == 'Type 1 diabetes with renal involvement':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
                                     d.points +=1
                                     d.save()
-                                elif ans.answer == 'Non-alcoholic fatty liver':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                elif ans.answer == 'Type II diabetes':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points +=2
+                                    d.save()
+
+                                elif ans.answer == 'Active nephrotic syndrome (renal pathology)':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = ' thrombosis')
+                                    d.points +=3
+                                    d.save()
+
+                                elif ans.answer == 'Obstetric/thrombotic antiphospholipid syndrome':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points +=2
+                                    d.save()
+
+                                elif ans.answer == 'Subclinical hypothyroidism':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder ')
                                     d.points +=1
                                     d.save()
-                                elif ans.answer == 'Non-alcoholic fatty liver':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                    d.points +=1
+
+                                elif ans.answer == 'Active cancer (others)':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points +=3
                                     d.save()
-                                elif ans.answer == 'Non-alcoholic fatty liver':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                    d.points +=1
-                                    d.save()
-                                elif ans.answer == 'Non-alcoholic fatty liver':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                
+                                elif ans.answer == 'Previous inflammatory pathology/surgery affecting iron absorption (celiac disease, current H. pylori infection, or inflammatory bowel disease)':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
                                     d.points +=1
                                     d.save()
 
@@ -1256,13 +1284,174 @@ def questionCombined(request):
                                 
                                     
                         for i in list_checked2:
+                            
+                            if ans.answer == 'Immobilization (wheelchair, paraplegia)':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                d.points +=1
+                                d.save()
+
+                            elif ans.answer == 'Persistent positivity of antiphospholipid antibodies':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                d.points +=1
+                                d.save()
+                                
+                            elif ans.answer == 'Insulin resistance or prediabetes':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
+                                d.points +=1
+                                d.save()
+
+                            elif ans.answer == 'Interval between pregnancies < 1 year':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
+                                d.points +=1
+                                d.save()
+
+                                                        
+                            if ans.answer == 'Interval between pregnancies > 10 years)':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                d.points +=1
+                                d.save()
+
+                            elif ans.answer == 'Positivity of antithyroid antibodies':
                                 pass
+                             
+                            elif ans.answer == 'Current intravenous drug use':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                d.points +=3
+                                d.save()
+
+                            elif ans.answer == 'Palpable thick venous varices':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                d.points +=1
+                                d.save()                            
+                            elif ans.answer == 'Current smoker':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                d.points +=1
+                                d.save()     
+                                
+                            elif ans.answer == 'Preeclampsia in current pregnancy':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                d.points +=1
+                                d.save()   
+                                                         
+                            elif ans.answer == 'Palpable thick venous varices':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                d.points +=1
+                                d.save()                            
+                            elif ans.answer == 'Hyperemesis gravidarum in current pregnancy':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder')
+                                d.points +=1
+                                d.save()                            
+                            elif ans.answer == 'Currently on treatment with corticosteroids or antipsychotics':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes ')
+                                d.points +=1
+                                d.save()
+
+                            elif ans.answer == 'Previous pregnancy with a baby weighing >4.5 kg':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes ')
+                                d.points +=1
+                                d.save()
+
+                            elif ans.answer == 'History of liver enzyme abnormalities with oral contraceptives':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'intrahepatic cholestasis')
+                                d.points +=1
+                                d.save()
+                            
+                            elif ans.answer == 'Previous intravenous iron therapy':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
+                                d.points +=1
+                                d.save()
+                            elif ans.answer == 'Following a vegetarian or vegan diet':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
+                                d.points +=1
+                                d.save()
+                                
+                            elif ans.answer == 'Recent history of significant bleeding':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
+                                d.points +=1
+                                d.save()
+
+     
                                     
+                        for i in list_checked4:
+                           
+                            if ans.answer == 'thyroid disorder Familial autoimmune':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disease')
+                                d.points +=1
+                                d.save()
+
+                            elif ans.answer == 'Preeclampsia':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                d.points +=1
+                                d.save()
+                                
+                            elif ans.answer == 'Mother/sisters or daughters with intrahepatic cholestasis':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = ' intrahepatic cholestasis')
+                                d.points +=1
+                                d.save()
+
+                            elif ans.answer == 'Deep vein thrombosis':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                d.points +=1
+                                d.save()
+
+                                                        
+                            if ans.answer == 'Mother/sisters or daughters with hyperemesis gravidarum':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                d.points +=1
+                                d.save()
+
+                            if ans.answer == 'Mother/sisters or daughters with diabetes mellitus':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
+                                d.points +=1
+                                d.save()
+
+                            
+                                                         
                         for i in list_checked3:
+                            if ans.answer == 'Preeclampsia or chronic arterial hypertension':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                d.points +=2
+                                d.save()
+
+                            elif ans.answer == 'Persistent positivity of antiphospholipid antibodies':
+                                pass
+                                
+                            elif ans.answer == 'Gestational diabetes':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
+                                d.points +=1
+                                d.save()
+
+                            elif ans.answer == 'Hyperemesis gravidarum':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
+                                d.points +=1
+                                d.save()
+
+                                                        
+                            if ans.answer == 'Hypothyroidism/hyperthyroidism':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = ' thyroid disorder')
+                                d.points +=1
+                                d.save()
+
+                            elif ans.answer == 'Anaemia':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anaemia')
+                                d.points +=1
+                                d.save()
+                             
+                            elif ans.answer == 'Intrahepatic cholestasis':
+                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                d.points +=1
+                                d.save()
+
+                            elif ans.answer == 'None of the above':
                                 pass
                                                          
-                        for i in list_checked4:
-                                pass 
+                            elif ans.answer == 'I have not been pregnant':
+                                pass                  
+                            
+                            elif ans.answer == 'Familial genetic thrombophilia (including factor V Leiden, mutation of the prothrombin gene, protein C or S)':
+                                pass
+                            
+                     
                                 
    
 

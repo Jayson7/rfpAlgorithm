@@ -24,7 +24,6 @@ ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'rfpalgporithm.com', 'www.rfpalgorith
 # ALLOWED_HOSTS = [ ]
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
