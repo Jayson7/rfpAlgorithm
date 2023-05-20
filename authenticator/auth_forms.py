@@ -17,18 +17,5 @@ class RegisterClientForm(ModelForm):
 # Form class in forms.py
 
 
-class CompeteProfileForm(ModelForm):
-    
-    # date_of_birth = forms.DateField(widget=DateInput)
-    
-    class Meta:
-        model = Password_log_on_user
-        fields = (
-            'email',
-        )
-        exclude = ['full_name', 'password']
-        
-
-
 
             

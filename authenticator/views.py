@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .auth_forms import *
 from .models import *
+from apps.models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
@@ -16,14 +17,40 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
+
+# check if all details are complete during taking of assessments 
+def details_checker_questions(request):
+    try:
+        x = ['details', 'full_name', 'browser', 'app_password']
+   
+        # filter to check if x data exists
+        
+        for i in x:
+            if i in request.session:
+                pass 
+            else:
+                return redirect('login')
+    except:
+        messages.warning(request, 'Profile undocumented, login')
+        return redirect('login')    
+
 # helper functions 
 
 
 
 
 # auth check admin
-def basic_user_auth_check_admin(request):
+def basic_user_auth_check(request):
     if request.user.is_authenticated:
+        pass  
+    else:
+        messages.warning(request, 'authentication needed')
+        return redirect('login')
+
+
+# auth check admin
+def basic_user_auth_check_admin(request):
+    if request.user.is_superuser:
         pass  
     else:
         messages.warning(request, 'authentication needed')
@@ -32,18 +59,13 @@ def basic_user_auth_check_admin(request):
 
 
 
-def monitor_user(request):
-    pass 
-
-
 
 # ==================================== Basic functions and Algorithms =========================
 # login here 
 
 @csrf_exempt
 def login_page(request):
-    user_agent = get_user_agent(request)
-   
+
 #   set session expiry 
     request.session.set_expiry(0)
      
@@ -52,7 +74,9 @@ def login_page(request):
     context = {}
     if request.user.is_authenticated:
         # cleanup any leftover from user profile
+        
         try:
+            request.session.flush()
             logout(request)
    
         except:
@@ -68,25 +92,9 @@ def login_page(request):
         
         browser_prop = request.user_agent.browser 
         device = request.user_agent.device 
-        
-        try:
-            
-            devices_used_prev = StoreDevice.objects.filter(device=device, browser=browser_prop)
-            user_check = request.user.username 
+  
        
-                
-            
-            if devices_used_prev:
-                # check for token
-                if devices_used_prev.username_profile.username == user_check:
-                    pass
-                
-        
-        except:
-            pass 
-        
-        
-        # when the token contains current user fullname and token id, if not visit line 91
+
  
         
         
@@ -131,8 +139,7 @@ def login_page(request):
                     
                             if authenticate_user is not None:
                                 login(request, authenticate_user)
-                                auth_password_owner = RegisterClient.objects.get(username=request.user)
-                            
+                                
                         
                                 # create login token for user 
                                     # choose from all lowercase letter
@@ -140,59 +147,14 @@ def login_page(request):
                                 result_str = ''.join(random.choice(letters) for i in range(4))
                                 random_num = random.randint(1000, 9999)
                                 token_generated = f'{result_str} + {random_num} + {result_str}'
-                                print(token_generated)
                                 
-                                token_create = UserLoginToken(
-                                    token = token_generated,
-                                    password = password_check,
-                                    full_name = full_name,
-                                    username = auth_password_owner
-                                )
-                                
-                                token_create.save()
+                              
                                 
                                 
                                                         
-                                # check device and store whats needed
-                                
-                                get_token = UserLoginToken.objects.filter(full_name=full_name, password = password_check).first()
-                                    
-                                if user_agent.is_mobile or user_agent.is_tablet :
-                                   
-                                    
-                                        device_storage = StoreDevice(
-                                        device = device,
-                                        browser = browser_prop,
-                                        # user_client_password_profile = auth_password,
-                                        username_profile = auth_password_owner,
-                                        user_profile_token = get_token,
-                                        
-                                        )
-                                        device_storage.save()
-
-
-                                    
-                                elif user_agent.is_pc or user_agent.is_touchable:
-                                    browser_prop = request.user_agent.browser
-                                    device =   request.user_agent.os 
-                                
-                                    
-                                    device_storage = StoreDevice(
-                                        device = device,
-                                        browser = browser_prop,
-                                        # user_client_password_profile = auth_password,
-                                        username_profile = auth_password_owner,
-                                        user_profile_token = get_token,
-                                        
-                                        )
-                                    device_storage.save()
+                            
 
     
-                                        
-                                else:
-                                    messages.warning(request, 'Device not allowed')
-                                    return redirect('login')
-
                                               
                                 # update session details for user                         #  
                                 
@@ -202,8 +164,11 @@ def login_page(request):
                                 request.session['auth_password'] = auth_password
                                 request.session['app_password'] = password
                                 request.session['details'] = [browser_prop, device, full_name]
+
+                                
                                 # update session
                                 request.session.modified = True
+                                
                                 return redirect('user_info')
                                 
                             else:
@@ -240,64 +205,36 @@ def login_page(request):
 @csrf_exempt
 def complete_user_info(request):
     # confirm authentication status    
-
-    try:
-       
-        registered_client_profile = RegisterClient.objects.filter(username = request.user).first()
-        print(registered_client_profile, 'access owner')
-        
-        access_token = UserLoginToken.objects.get(username=registered_client_profile)
-        
-        # verify token
-        if access_token:
-            print(access_token.full_name)
-       
-        else:
-            messages.warning(request, 'Access not authorized')
-            return redirect('login')
-        
-        
-    except:
-        messages.warning(request, 'Authentication failed')
-        return redirect('login')
-    
-
-    context = {}
-    if access_token:
-        forms = CompeteProfileForm(request.POST)
+    basic_user_auth_check(request)
+    try:        
+   
         if request.method == 'POST':
-            if forms.is_valid():
+             if 'email' in request.session:
+                 return redirect('question1')
+             
+             else:
+                email = request.POST['email']
+                if email == '':
+                    messages.warning(request, 'email cannot be empty')
+                    return redirect('complete_info')
                 
-                new_forms = forms.save(commit=False)
-                # load full name and password
-                full_name = access_token.full_name 
-                print(full_name)
-                password = access_token.password
-                
-                #  trigger other left out details
-                new_forms.full_name = full_name
-                new_forms.password = password
-
-                new_forms.save()
-                
-                # verify user by adding verification to token
-                access_token.verified = True 
-                access_token.save()
-                
-         
-                # start questions 
-
-
-                return redirect('question1')
-            
-        else:
-            forms = CompeteProfileForm()
-            messages.success(request, 'One more thing')
-            
-    
-    context['forms'] = forms
-    
-    return render(request, 'auth_pages/complete_profile.html', context)
+                else:
+                    request.session['email'] = email 
+                    
+                    create_mom_data = Mom_data(
+                        full_name= request.session['details'][2],    
+                            app_password = request.session['app_password'], 
+                    browser = request.session['details'][0],  
+                    client_reference = request.user,
+                    device_token =  request.session['token_ses'],
+                    )
+                    create_mom_data.save()
+                    return redirect('question1')
+ 
+    except:
+        messages.warning(request, 'Authentication required fail')
+        return redirect('login')
+    return render(request, 'auth_pages/complete_profile.html')
 
 
 # ========================================= Admin functions ===================================================

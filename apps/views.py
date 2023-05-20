@@ -4,10 +4,11 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from authenticator.models import *
 from .models import *
-from .questionForm import *
 
+from authenticator.views import basic_user_auth_check, basic_user_auth_check_admin, details_checker_questions
 from django_user_agents.utils import get_user_agent
 from django.db.models import F
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
@@ -89,47 +90,35 @@ def Homepage(request):
 
 
 # question 1
-
+@csrf_exempt
 def question1(request):
-    
+    basic_user_auth_check(request)
+    details_checker_questions(request)
     context = {}
-    
 
     if request.user.is_authenticated:
-     
-        full_name = request.session['details'][2]
         
-        user = request.user 
+        try:
             # locate user on token 
-        # try:
-        reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name=full_name).first()
-        # to be added later 
-
-            
-            
-        if token_of_user.verified == True:
-                if token_of_user:
+            token_of_user = request.session['token_ses']
+        
+            if token_of_user:
                         # prepare question
                     question1 = Questions.objects.filter(id = 1).first()
                             
              
                             # get answers ans send form to frontend
-                    form = Question1Form(request.POST)
+                   
                     if request.method =='POST':
-                                if form.is_valid():
-                                    forms = form.save(commit=False) 
-                                    
-                                    forms.mom =token_of_user
-                                    forms.token =token_of_user
-                                    forms.username_used = token_of_user
-                                    forms.question = question1
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    forms.save()
+                                    age = request.POST['age']
+                                # convert to integer
+                                    try:
+                                      x =  int(age)
+                                    except:
+                                        messages.warning(request, 'Invalid input')
+                                        return redirect('question1')
+                        
+                                    request.session['age'] = x                
                                     
                                     disease = Disease(
                                             disease = 'thrombosis',
@@ -207,8 +196,12 @@ def question1(request):
                                     disease11.save()
                                     
                                     
-                                    print(forms.age)
-                                    x = int(forms.age)  
+                                    # create data into session
+                                    
+                                    
+                                    
+                                 
+                            
                                     if x <= 19:
                                        
                                        d =  Disease.objects.get(disease="Anaemia", user_diagnosed=token_of_user)
@@ -234,25 +227,27 @@ def question1(request):
                                         d.save()
                                     # create questions sessions and modify
                                     
+                                    
+                                    request.session['question1'] = [x]
+                                    
+                                    
                                     request.session['questions_answered'] = [1]
                                     request.session.modified = True
                                       
                                         
                                     return redirect('question2')
-                                else:
-                                    form = Question1Form(request.post)
+                       
                                     
                             # send question and answer to view
                     context['question'] = question1
-                    context['form'] = form
-                else:
+              
+            else:
                     messages.warning(request, 'Access denied')
                     return redirect('login')           
-        else:
-                messages.warning(request, 'User not verified')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+
+        except:
+            messages.warning(request, 'Error')
+            return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -266,7 +261,8 @@ def question1(request):
 # question 2
 
 def question2(request):
-    
+    basic_user_auth_check(request)
+    details_checker_questions(request)
     context = {}
     
     
@@ -274,39 +270,34 @@ def question2(request):
 
         
         user = request.user 
-        full_name = request.session['details'][2]
-        print(full_name)
-        reg_instance_profile = RegisterClient.objects.filter(username=user).first()
-        token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name=full_name).first()
- 
-    
+        token_of_user = request.session['token_ses']
         # verify if user answered question 1
  
         if token_of_user.verified == True:
+                
                 if token_of_user:
                         # prepare question
                     question2 = Questions.objects.filter(id = 2).first()
                             
                     print(question1) 
                     # get answers ans send form to frontend
-                    form = Question2Form(request.POST, request.FILES)
+         
                     if request.method =='POST':
-                        
-                                if form.is_valid():
-                                    forms = form.save(commit=False)
+                                    height = request.POST['height']
+                                    weight = request.POST['weight']
+ 
                                     # try coversions 
                                     try:
-                                        height  = float(forms.height)
-                                        weight = float(forms.weight)
+                                        height  = float(height)
+                                        weight = float(weight)
                                         
                                     except:
                                         messages.warning(request, 'No playing around')
                                         return redirect('login')  
                                     # add up missing form fields and calculate BMI
                                     
-                                    height  = forms.height
-                                    weight = forms.weight 
-                                    forms.question = question2
+                                   
+                                    
                                     
                                     # calculate BMI
                                     
@@ -314,31 +305,29 @@ def question2(request):
                                     bmi = weight / height_pow
                                     
                                     if bmi < 18.5:
-                                        forms.BMI = 'Under Weight'
+                                        BMI = 'Under Weight'
                                     elif bmi >= 18.5 and bmi <= 24.9:
-                                        forms.BMI = 'Mormal'
+                                        BMI = 'Mormal'
                                     elif bmi >= 25 and bmi <= 29.9:
-                                        forms.BMI = 'Over Weight'
+                                        BMI = 'Over Weight'
                                     elif bmi >= 30 and bmi <= 34.9:
-                                        forms.BMI = 'Obesity (Class I)'                   
+                                        BMI = 'Obesity (Class I)'                   
                                     elif bmi >= 35 and bmi <= 39.9:
-                                        forms.BMI = 'Obesity (Class II)'                                       
+                                        BMI = 'Obesity (Class II)'                                       
                                     elif bmi >= 40:
-                                        forms.BMI = 'Obesity (Extreme Obesity)'    
+                                        BMI = 'Obesity (Extreme Obesity)'    
                                     
-                                    forms.token = token_of_user
-                                    forms.save()
+                  
 
                                     request.session['questions_answered'] = [1,2]
                                     request.session.modified = True
                                         
                                     return redirect('question3')
-                                else:
-                                    form = Question2Form(request.post)
+                   
                                     
                             # send question and answer to view
                     context['question'] = question2
-                    context['form'] = form
+                  
                 else:
                     messages.warning(request, 'Access denied')
                     return redirect('login')           
@@ -365,22 +354,24 @@ def question3(request):
     context = {}
     
     
-    
-    if request.user.is_authenticated:
-
+    x=6
+    # if request.user.is_authenticated:
+    if x:
         user = request.user 
             # locate user on token 
         full_name = request.session['details'][2]
         # try:
         reg_instance_profile = RegisterClient.objects.filter(username=user).first()
         token_of_user = UserLoginToken.objects.filter(username=reg_instance_profile, full_name = full_name).first()
-        print(token_of_user)
-        # to be added later 
-
-            
+       
+        # collect user data from session 
+        print(request.session)
         
-        if token_of_user.verified == True:
-                if token_of_user:
+
+        x = 9
+        # if token_of_user.verified == True:
+        if x:
+                # if token_of_user:
                     # prepare question
                     question3 = Questions.objects.filter(id = 3).first()
                     
@@ -395,10 +386,10 @@ def question3(request):
                         
                         list_checked = request.POST.getlist('xlist_boxes')
                         print(list_checked)
-                        
+                        question1Session = request.session['question3'] = []
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
+                           question1Session.update(check_answers)
                            
                            
                            for ans in check_answers:
@@ -449,9 +440,9 @@ def question3(request):
                         # send question and answer to view
                 
                
-                else:
-                    messages.warning(request, 'Access denied')
-                    return redirect('login')           
+                # else:
+                    # messages.warning(request, 'Access denied')
+                    # return redirect('login')           
         else:
                 messages.warning(request, 'User not verified')
         # except:
@@ -511,7 +502,7 @@ def question4(request):
                         
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
+                           
                            
                            
                            for ans in check_answers:
@@ -613,7 +604,7 @@ def question5(request):
                         
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
+                           
                            
                            
                            for ans in check_answers:
@@ -696,7 +687,7 @@ def question6(request):
                         
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
+                           
                            
                            
                            for ans in check_answers:
@@ -784,7 +775,7 @@ def question7(request):
                         
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
+                           
                            
                            
                            
@@ -865,7 +856,7 @@ def question8(request):
                         
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
+                           
                            
                            
                            for ans in check_answers:
@@ -944,7 +935,7 @@ def question9(request):
                         
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
+                           
                            
                            
                            for ans in check_answers:
@@ -1030,7 +1021,7 @@ def question10(request):
                         
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
+                           
                            
                            
                            for ans in check_answers:
@@ -1154,7 +1145,7 @@ def questionCombined(request):
                         for i in list_checked1:
                            
                            check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
+                           
                            
                            for ans in check_answers:
 
@@ -1527,7 +1518,7 @@ def question15(request):
                         
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
+                           
                            
                            
                            for ans in check_answers:
@@ -1656,7 +1647,7 @@ def question16(request):
                         
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
-                           check_answers.update(verified=True, user_print=token_of_user)
+                           
                            
                            
                            for ans in check_answers:
@@ -1740,25 +1731,19 @@ def question16(request):
 
 
 
-def permanemtStorage(request):
-    # session info
-    
-    
-    user = request.user
-    if user.is_authenticated():
-        pass
-        
-        
-        
-        
-    else:
-        return redirect('login')
-    
-    # activate storage of results and check for validity 
-    # 1. token check 
-    token_check = UserLoginToken.objects.filter(username=user, verified=True).filter()
+
 def generateresult_user(request):
+    #  store needed data
+    
+    
+    # activate erasing of data
+    
+    
+    # generate results 
+    
+    
+    # log user out  
+    
     pass 
 
-def activate_deletions(request):
-    pass
+

@@ -44,64 +44,15 @@ class PasswordStorage(models.Model):
 
 
 
-# =========================================================================
-# take charge of usage of password by user 
-# when a user uses the password
-
-
-class Password_log_on_user(models.Model):
-    
-    # height = models.FloatField(help_text='in meters, e.g 1.67')
-    # weight = models.FloatField(help_text='in kilograms e.g 90kg')
-    email = models.EmailField(help_text='abc@efg.com')
-    # date_of_birth = models.DateField()
-    
-    # hidden, will be populated by api
-    full_name = models.CharField(max_length=40)
-    # BMI = models.FloatField(blank=True )
-    password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_patient_used')
-    # age = models.PositiveIntegerField( blank=True)
-    # classification = models.CharField(max_length=30)
-
-
-    
-    def __str__(self) -> str:
-        return str(self.full_name)
-    
 
 
 
 # _____________________________________________________________________
 # ============================================================================
 
-class UserLoginToken(models.Model):
-    token = models.CharField(max_length=10)
-    password = models.ForeignKey(PasswordStorage, on_delete=models.CASCADE, related_name='password_used_login')
-    full_name =  models.CharField(max_length=30)
-    username = models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='sign_on_user')
-    verified = models.BooleanField(default=False)
-    date_verified = models.DateTimeField(blank=True, null=True )
-    date_token_generated = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self) -> str:
-        return self.full_name 
-    
 
 
-class StoreDevice(models.Model):
-    device = models.CharField(max_length=300) 
-    browser = models.CharField(max_length=300)
-    username_profile= models.ForeignKey(RegisterClient, on_delete=models.CASCADE, related_name='profile_owner_mum')
 
-    user_profile_token = models.ForeignKey(UserLoginToken, on_delete=models.CASCADE, related_name='token_used')
-
-
-    def __str__(self) -> str:
-        return str(self.username_profile)
-    
-    
-    
-    
     
     
     

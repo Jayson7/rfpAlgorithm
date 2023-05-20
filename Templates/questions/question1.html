@@ -19,20 +19,27 @@
         <div
           class="mt-5 container d-flex flex-column align-items-center justify-content-center"
         >
-          <div class="header alert text-center bg-dark text-light">
-            <h3>Question 1</h3>
+          <div class="header alert text-center text-info">
+            <h3 class="font-weight-bold">Question 1</h3>
           </div>
-          <div
-            class="header alert text-center bg-secondary text-light col-6 mt-4"
-          >
+          <div class="header alert text-center text-dark col-6 mt-4">
             <h4>{{question}} ?</h4>
           </div>
           <form method="POST" class="col-md-6 col-sm-10 py-5">
-            {{form | crispy}} {% csrf_token %}
-            <button
-              class="btn btn-success col-md-12 col-sm-12 my-3"
-              type="submit"
-            >
+            <div class="form-group">
+              <label for="age">Age:</label>
+              <input
+                type="number"
+                class="form-control"
+                id="age"
+                name="age"
+                required
+                placeholder="Age"
+              />
+            </div>
+
+            {% csrf_token %}
+            <button class="btn btn-info col-md-12 col-sm-12 my-3" type="submit">
               Next
             </button>
           </form>
