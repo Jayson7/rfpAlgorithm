@@ -28,7 +28,7 @@ class Disease(models.Model):
 
 class Answer(models.Model):
     question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_to_ask')
-    answer = models.CharField(max_length=200, null=True)
+    answer = models.CharField(max_length=200)
 
     
     def __str__(self) -> str:
