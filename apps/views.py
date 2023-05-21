@@ -749,6 +749,8 @@ def question6(request):
 
 
 def question7(request):
+    basic_user_auth_check(request)
+    details_checker_questions(request)
     
     context = {}
 
@@ -832,6 +834,8 @@ def question7(request):
 
 
 def question8(request):
+    basic_user_auth_check(request)
+    details_checker_questions(request)
     
     context = {}
     
@@ -920,6 +924,8 @@ def question8(request):
 
 
 def question9(request):
+    basic_user_auth_check(request)
+    details_checker_questions(request)
     
     context = {}
  
@@ -1011,6 +1017,8 @@ def question9(request):
 
 
 def question10(request):
+    basic_user_auth_check(request)
+    details_checker_questions(request)
     
     context = {}
   
@@ -1121,6 +1129,8 @@ def question10(request):
 
 
 def questionCombined(request):
+    basic_user_auth_check(request)
+    details_checker_questions(request)
     
     context = {}
     
@@ -1186,10 +1196,11 @@ def questionCombined(request):
                         list_checked2 = request.POST.getlist('xlist_boxes')
                         list_checked3 = request.POST.getlist('xlist_boxes')
                         list_checked4 = request.POST.getlist('xlist_boxes')
-                        question11Session = request.session['question6'] = []
-                        question12Session = request.session['question6'] = []
-                        question13Session = request.session['question6'] = []
-                        question14Session = request.session['question6'] = []
+                        
+                        question11Session = request.session['question11'] = []
+                        question12Session = request.session['question12'] = []
+                        question13Session = request.session['question13'] = []
+                        question14Session = request.session['question14'] = []
                         
                         
                         for i in list_checked1:
@@ -1426,7 +1437,7 @@ def questionCombined(request):
                         for i in list_checked4:
                             
                             check_answers = Answer.objects.filter(pk=int(i))
-                            question13Session.append(str(check_answers.first())) 
+                            question14Session.append(str(check_answers.first())) 
                            
                             if ans.answer == 'thyroid disorder Familial autoimmune':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disease')
@@ -1464,7 +1475,7 @@ def questionCombined(request):
                         for i in list_checked3:
                             
                             check_answers = Answer.objects.filter(pk=int(i))
-                            question14Session.append(str(check_answers.first())) 
+                            question13Session.append(str(check_answers.first())) 
                             
                             
                             if ans.answer == 'Preeclampsia or chronic arterial hypertension':
@@ -1581,14 +1592,14 @@ def question15(request):
                     if request.method =='POST':
                         
                         list_checked = request.POST.getlist('xlist_boxes')
-                        question4Session = request.session['question3'] = []
+                        question15Session = request.session['question15'] = []
                         
                         for i in list_checked:
                             check_answers = Answer.objects.filter(pk=int(i))
+                            question15Session.append(str(check_answers.first()))    
                            
                            
-                           
-                        for ans in check_answers:
+                            for ans in check_answers:
                                
                                 if ans.answer == 'You have been diagnosed with a previous or current psychiatric disorder including schizophrenia, bipolar disorder, obsessive-compulsive disorder, or eating disorder (such as bulimia or anorexia), amon':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
