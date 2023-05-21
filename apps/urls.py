@@ -8,7 +8,7 @@ urlpatterns = [
     # admin functions 
     path('manage_access', manage_user, name='manage_access'),
     path('details/<int:pk>', details, name='details'),
-    path('home', Homepage, name='home'),
+    path('', Homepage, name='home'),
     
     
     # questions 
