@@ -228,7 +228,7 @@ def question1(request):
                                     # create questions sessions and modify
                                     
                                     
-                                    request.session['question1'] = [x]
+                                    request.session['q1'] = [x]
                                     
                                     
                                     request.session['questions_answered'] = [1]
@@ -317,7 +317,7 @@ def question2(request):
                                             BMI = 'Obesity (Extreme Obesity)'    
                                         
                     
-                                        request.session['question2'] = [BMI, height, weight]
+                                        request.session['q2'] = [BMI, height, weight]
                                         
                                         request.session['questions_answered'] = [1,2]
                                         request.session.modified = True
@@ -1818,13 +1818,49 @@ def question16(request):
 
 
 def generateresult_user(request):
+    
+    # get all sessions 
+    
+    mom_details = request.session['details']
+    token = request.session['token_ses']
+    
+    # get all diseases
+    diseases = Disease.objects.filter(user_diagonised = token)
+    for i in diseases:
+        
+        d = Disease_result(
+            disease = i.disease,
+            point = i.point,
+            mom_full_name= request.session['details'][2],
+            token =  request.session['token_ses'],
+            )
+        d.save()
+        
+    
+    
     #  store needed data
     
+    result = Result_owner(
+    full_name =  request.session['details'][2],
+    token = request.session['token_ses'],
+    auth_password = request.session['auth_password'],
+    app_password = request.session['app_password'],
+    browser = request.session['details'][0],
+    device = request.session['details'][1],
+    user_profile = request.session['user_profile'],  
     
+    )
+    result.save()
     # activate erasing of data
+    
+    # delete diseases
+    
+    # erase  session
     
     
     # generate results 
+    
+    
     
     
     # log user out  

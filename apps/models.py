@@ -54,6 +54,32 @@ class Mom_data(models.Model):
     
     
     
-
+class Disease_result(models.Model):
+    disease = models.CharField(max_length=30)
+    point = models.CharField(max_length=20)
+    mom_full_name = models.CharField(max_length=20)
+   
+    date_generated = models.DateTimeField(auto_now_add=True)
+    point = models.CharField(max_length=20)
     
+    
+    def __str__(self):
+        return self.mom_full_name    
+  
+    
+class Result_owner(models.Model):
+    disease_result = models.ForeignKey(Disease_result, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=50)
+    token = models.CharField(max_length=20)
+    auth_password = models.CharField(max_length=20)
+    app_password = models.CharField(max_length=20)
+    browser = models.CharField(max_length=100)
+    device = models.CharField(max_length=50)
+    user_profile = models.CharField(max_length=20)
+    auth_password = models.CharField(max_length=20)
+    email = models.EmailField()
+   
+        
+    def __str__(self):
+        return self.mom_full_name    
   
