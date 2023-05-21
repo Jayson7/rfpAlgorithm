@@ -1872,7 +1872,7 @@ def generate_pdf(request):
     except:
         messages.warning(request, 'Authentication needed')
         return redirect('login')
-    html_string=render_to_string('pages/generate_pdf.html', context)
+    html_string=render_to_string('pages/generate_pdf.html', {context})
     
     
     html=HTML(string=html_string)
