@@ -267,6 +267,7 @@
             </div>
           </div>
           <div class="table-responsive">
+            {% if disease %}
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -278,7 +279,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for i in disease %} {% if disease %}
+                {% for i in disease %}
 
                 <tr>
                   <th scope="row">#</th>
@@ -286,12 +287,12 @@
                   <td>{{i.client_location}}</td>
                   <td>{{i.date_registered}}</td>
                 </tr>
-                {% endfor %} {% else %}
-                <div class="alert alert-warning">No data available</div>
-
-                {% endif %}
+                {% endfor %}
               </tbody>
             </table>
+            {% else %}
+            <div class="alert alert-warning">No data available</div>
+            {% endif %}
           </div>
           <div class="collapse collapse-box" id="responsive-table">
             <div class="code-box">
