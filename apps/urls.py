@@ -10,7 +10,7 @@ urlpatterns = [
     path('admin_result', dashboard_result_view, name='admin_result'),
     path('details/<int:pk>', details, name='details'),
     path('', Homepage, name='home'),
-    path('pdf', generate_pdf, name='generate_pdf'),
+    # path('pdf', generate_pdf, name='generate_pdf'),
     
     
     # questions 

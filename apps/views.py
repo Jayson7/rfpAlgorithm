@@ -12,8 +12,8 @@ from django.db.models import F
 from django.views.decorators.csrf import csrf_exempt
 
 from django.template.loader import render_to_string
-from weasyprint import HTML 
-import tempfile 
+# from weasyprint import HTML 
+# import tempfile 
 
 
 
@@ -1863,39 +1863,39 @@ def save_result_user(request):
     return redirect('generate_pdf') 
 
 
-def generate_pdf(request):
-    context = {}
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'inline; attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
+# def generate_pdf(request):
+#     context = {}
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = 'inline; attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
      
-    response['Content-Transfer-Encoding']='binary'  
+#     response['Content-Transfer-Encoding']='binary'  
 
-    # all disease of current user
-    token = request.session['token_ses']
+#     # all disease of current user
+#     token = request.session['token_ses']
 
-    # result owner
-    disease_result = Disease_result.objects.filter(token=token)
-    context['disease_count'] = disease_result
-    owner_details = Result_owner.objects.get(token=token)
-    context['owner'] = owner_details
+#     # result owner
+#     disease_result = Disease_result.objects.filter(token=token)
+#     context['disease_count'] = disease_result
+#     owner_details = Result_owner.objects.get(token=token)
+#     context['owner'] = owner_details
 
 
-    html_string=render_to_string('pages/generate_pdf.html', context)
+#     html_string=render_to_string('pages/generate_pdf.html', context)
     
     
-    html=HTML(string=html_string)
+#     html=HTML(string=html_string)
     
-    result = html.write_pdf()
+#     result = html.write_pdf()
     
     
-    with tempfile.NamedTemporaryFile(delete=True) as output:
-        output.write(result)
-        output.flush()
-        output= open(output.name, 'rb')
+#     with tempfile.NamedTemporaryFile(delete=True) as output:
+#         output.write(result)
+#         output.flush()
+#         output= open(output.name, 'rb')
         
-        response.write(output.read())
+#         response.write(output.read())
         
-    return response
+#     return response
 
 
 def dashboard_result_view(request):
