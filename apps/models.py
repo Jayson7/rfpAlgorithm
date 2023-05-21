@@ -17,7 +17,7 @@ class Questions(models.Model):
     
 class Disease(models.Model):
     disease = models.CharField(max_length=100)
-    user_diagnosed =  models.CharField(max_length=200)
+    user_diagnosed =  models.CharField(max_length=100)
     points = models.FloatField() 
 
     
@@ -28,7 +28,7 @@ class Disease(models.Model):
 
 class Answer(models.Model):
     question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_to_ask')
-    answer = models.CharField(max_length=200)
+    answer = models.CharField(max_length=200, null=True)
 
     
     def __str__(self) -> str:
@@ -68,7 +68,7 @@ class Disease_result(models.Model):
   
     
 class Result_owner(models.Model):
-    disease_result = models.ForeignKey(Disease_result, on_delete=models.CASCADE)
+    # disease_result = models.ForeignKey(Disease_result, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=50)
     token = models.CharField(max_length=20)
     auth_password = models.CharField(max_length=20)
@@ -78,6 +78,8 @@ class Result_owner(models.Model):
     user_profile = models.CharField(max_length=20)
     auth_password = models.CharField(max_length=20)
     email = models.EmailField()
+    age = models.CharField(max_length=10)
+    
    
         
     def __str__(self):

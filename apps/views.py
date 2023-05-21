@@ -2,13 +2,21 @@
 
 from django.contrib import messages
 from django.shortcuts import render, redirect
+import datetime 
 from authenticator.models import *
 from .models import *
-
+from django.http import HttpResponse
 from authenticator.views import basic_user_auth_check, basic_user_auth_check_admin, details_checker_questions
 from django_user_agents.utils import get_user_agent
 from django.db.models import F
 from django.views.decorators.csrf import csrf_exempt
+
+from django.template.loader import render_to_string
+from weasyprint import HTML 
+import tempfile 
+
+
+
 # Create your views here.
 
 
@@ -45,9 +53,6 @@ def details(request, pk):
 
         
 
-
-def choose_test(request):
-    pass 
 
 
 # 404 here 
@@ -1795,7 +1800,7 @@ def question16(request):
                                     
                                    
 
-                        return redirect('generate_results')
+                        return redirect('save_result_user')
                         # send question and answer to view
                 
                
@@ -1817,11 +1822,11 @@ def question16(request):
 
 
 
-def generateresult_user(request):
+def save_result_user(request):
     
     # get all sessions 
     
-    mom_details = request.session['details']
+
     token = request.session['token_ses']
     
     # get all diseases
@@ -1847,24 +1852,55 @@ def generateresult_user(request):
     app_password = request.session['app_password'],
     browser = request.session['details'][0],
     device = request.session['details'][1],
-    user_profile = request.session['user_profile'],  
+    user_profile = request.session['user_profile'],
+    age = request.session['age'],  
+    email =  request.session['email'],
     
     )
     result.save()
-    # activate erasing of data
-    
-    # delete diseases
-    
-    # erase  session
     
     
-    # generate results 
-    
-    
-    
-    
-    # log user out  
-    
-    pass 
+    return redirect('generate_pdf') 
 
 
+def generate_pdf(request):
+    context = {}
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
+     
+    response['Content-Transfer-Encoding']='binary'  
+
+    # all disease of current user
+    token = request.session['token_ses']
+
+    # result owner
+    disease_result = Disease_result.objects.filter(token=token)
+    context['disease_count'] = disease_result
+    owner_details = Result_owner.objects.get(token=token)
+    context['owner'] = owner_details
+
+
+    html_string=render_to_string('pages/generate_pdf.html', context)
+    
+    
+    html=HTML(string=html_string)
+    
+    result = html.write_pdf()
+    
+    
+    with tempfile.NamedTemporaryFile(delete=True) as output:
+        output.write(result)
+        output.flush()
+        output= open(output.name, 'rb')
+        
+        response.write(output.read())
+        
+    return response
+
+
+def dashboard_result_view(request):
+    context = {}
+    disease = Disease.objects.all()
+    context['disease'] = disease
+    
+    return render(request, 'admin_pages/result.html', context)

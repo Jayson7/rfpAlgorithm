@@ -70,6 +70,7 @@ All right reserved
                       <p class="text-center text-info">
                         Please provide a pass code
                       </p>
+
                       <div class="form-outline mb-2">
                         <input
                           type="text"
@@ -85,18 +86,30 @@ All right reserved
                           >Full name</label
                         >
                       </div>
-                      <div class="form-outline mb-4">
+
+                      <div class="form-outline mb-1">
                         <input
                           type="password"
                           class="form-control"
-                          id="exampleInputPassword1"
                           placeholder="Password"
                           required
+                          id="myInput"
                           name="password1"
                         />
 
                         <label class="mt-2" for="exampleInputPassword1"
                           >Password</label
+                        >
+                      </div>
+
+                      <!-- show password -->
+                      <div
+                        class="form-outline col-12 mb-4 d-flex justify-content-evenly align-items-center row"
+                      >
+                        <input type="checkbox" onclick="myFunction()" />
+
+                        <small class="ml-2" for="exampleInputPassword1">
+                          show password</small
                         >
                       </div>
 
@@ -149,6 +162,15 @@ All right reserved
   <script>
     let date = new Date().getFullYear();
     document.getElementById("date").innerHTML = date;
+
+    function myFunction() {
+      var x = document.getElementById("myInput");
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+    }
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>

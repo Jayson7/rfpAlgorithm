@@ -36,9 +36,6 @@ def details_checker_questions(request):
 
 # helper functions 
 
-
-
-
 # auth check admin
 def basic_user_auth_check(request):
     if request.user.is_authenticated:
@@ -70,7 +67,6 @@ def login_page(request):
     request.session.set_expiry(0)
      
    
-    
     context = {}
     if request.user.is_authenticated:
         # cleanup any leftover from user profile
@@ -163,7 +159,9 @@ def login_page(request):
                                 request.session['token_ses'] = token_generated
                                 request.session['auth_password'] = auth_password
                                 request.session['app_password'] = password
+                                request.session['user_profile'] = request.user
                                 request.session['details'] = [browser_prop, device, full_name]
+                                
 
                                 
                                 # update session
@@ -290,7 +288,7 @@ def admin_dashboard(request):
     if request.user.is_authenticated:
         # check super user status 
         if request.user.is_superuser:
-            all_moms_login_data = Password_log_on_user.objects.all()[::-1]
+            all_moms_login_data = Disease_result.objects.all()[::-1]
             context['moms_login'] = all_moms_login_data
             return render(request, 'admin_pages/admin_dashboard.html', context)      
         

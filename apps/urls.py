@@ -9,6 +9,7 @@ urlpatterns = [
     path('manage_access', manage_user, name='manage_access'),
     path('details/<int:pk>', details, name='details'),
     path('', Homepage, name='home'),
+    path('pdf', generate_pdf, name='generate_pdf'),
     
     
     # questions 

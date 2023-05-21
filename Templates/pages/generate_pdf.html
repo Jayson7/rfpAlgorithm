@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RFP-Algorthm - Result</title>
+  </head>
+
+  <header></header>
+
+  <body>
+    <h1>Result</h1>
+
+    <div class="container-fluid wrappers-content mt-5">
+      {% for i in disease_count %}
+      <div class="row">
+        <div class="col-sm-6 bg-info text-dark">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{i.disease}}</h5>
+              <p class="card-text">{{i.points}}</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+
+  <style>
+    @page {
+      size: "A4";
+      margin: 2.5cm 1.5cm 3.5 1.5cm;
+
+      @top-center {
+        content: "RFP-Algorithm.com";
+      }
+    }
+    h1 {
+      text-align: center;
+    }
+  </style>
+</html>
