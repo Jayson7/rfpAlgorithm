@@ -92,8 +92,6 @@ def Homepage(request):
     return render(request, 'pages/home.html', context)
 
 
-
-
 # question 1
 @csrf_exempt
 def question1(request):
@@ -1526,10 +1524,6 @@ def questionCombined(request):
                             elif ans.answer == 'Familial genetic thrombophilia (including factor V Leiden, mutation of the prothrombin gene, protein C or S)':
                                 pass
                             
-                     
-                                
-   
-
                                 request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13, 14]
                                 request.session.modified = True
                                 
@@ -1796,9 +1790,7 @@ def question16(request):
                                 request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13,14,15, 16]
                                 request.session.modified = True
                                 
-                                    
-                                    
-                                   
+                     
 
                         return redirect('save_result_user')
                         # send question and answer to view
@@ -1816,10 +1808,6 @@ def question16(request):
         messages.warning(request, 'Authentication required')
         return redirect('login')
     return render(request, 'questions/question4.html', context)
-
-
-
-
 
 
 def save_result_user(request):
@@ -1841,8 +1829,7 @@ def save_result_user(request):
             )
         d.save()
         
-    
-    
+
     #  store needed data
     
     result = Result_owner(
@@ -1859,8 +1846,10 @@ def save_result_user(request):
     )
     result.save()
     
-    generate_pdf(request)
-    return redirect('home') 
+
+    return redirect('generate_pdf') 
+
+
 
 
 def generate_pdf(request):
@@ -1870,16 +1859,19 @@ def generate_pdf(request):
      
     response['Content-Transfer-Encoding']='binary'  
 
-    # all disease of current user
-    token = request.session['token_ses']
+    try:
+        # all disease of current user
+        token = request.session['token_ses']
 
-    # result owner
-    disease_result = Disease_result.objects.filter(token=token)
-    context['disease_count'] = disease_result
-    owner_details = Result_owner.objects.get(token=token)
-    context['owner'] = owner_details
+        # result owner
+        disease_result = Disease_result.objects.filter(token=token)
+        context['disease_count'] = disease_result
+        owner_details = Result_owner.objects.get(token=token)
+        context['owner'] = owner_details
 
-
+    except:
+        messages.warning(request, 'Authentication needed')
+        return redirect('login')
     html_string=render_to_string('pages/generate_pdf.html', context)
     
     
@@ -1895,7 +1887,8 @@ def generate_pdf(request):
         
         response.write(output.read())
         
-    return response
+    return response 
+    return redirect('home')
 
 
 def dashboard_result_view(request):

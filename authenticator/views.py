@@ -343,7 +343,7 @@ def generate_password(request, pk):
                                         count = int(count) + int(prev_count)  
                                         # proceed
                                         
-                                        client = RegisterClient.objects.get(client_name=user_in_question.client_name)
+                                        client = RegisterClient.objects.get(username=user_in_question.username)
                                        
                                         password_prev.usage_count = count
                                          
