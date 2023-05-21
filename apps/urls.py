@@ -7,6 +7,7 @@ from .views import *
 urlpatterns = [
     # admin functions 
     path('manage_access', manage_user, name='manage_access'),
+    path('admin_result', dashboard_result_view, name='admin_result'),
     path('details/<int:pk>', details, name='details'),
     path('', Homepage, name='home'),
     path('pdf', generate_pdf, name='generate_pdf'),
