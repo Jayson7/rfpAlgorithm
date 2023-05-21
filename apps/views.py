@@ -1728,11 +1728,11 @@ def question16(request):
                     if request.method =='POST':
                         
                         list_checked = request.POST.getlist('xlist_boxes')
-                        question4Session = request.session['question3'] = []
+                        question16Session = request.session['question16'] = []
                         
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
-                           question16Session.append(check_answers) 
+                           question16Session.append(check_answers.first()) 
                            
                            
                            for ans in check_answers:
