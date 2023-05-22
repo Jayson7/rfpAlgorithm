@@ -11,9 +11,9 @@ from django_user_agents.utils import get_user_agent
 from django.db.models import F
 from django.views.decorators.csrf import csrf_exempt
 
-from django.template.loader import render_to_string
-from weasyprint import HTML 
-import tempfile 
+# from django.template.loader import render_to_string
+# from weasyprint import HTML 
+# import tempfile 
 
 
 
@@ -1847,47 +1847,47 @@ def save_result_user(request):
     result.save()
     
 
-    return redirect('generate_pdf') 
+    return redirect('home') 
 
 
 
 
-def generate_pdf(request):
-    context = {}
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'inline; attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
+# def generate_pdf(request):
+#     context = {}
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = 'inline; attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
      
-    response['Content-Transfer-Encoding']='binary'  
+#     response['Content-Transfer-Encoding']='binary'  
 
-    try:
-        # all disease of current user
-        token = request.session['token_ses']
+#     try:
+#         # all disease of current user
+#         token = request.session['token_ses']
 
-        # result owner
-        disease_result = Disease_result.objects.filter(token=token)
-        context['disease_count'] = disease_result
-        owner_details = Result_owner.objects.get(token=token)
-        context['owner'] = owner_details
+#         # result owner
+#         disease_result = Disease_result.objects.filter(token=token)
+#         context['disease_count'] = disease_result
+#         owner_details = Result_owner.objects.get(token=token)
+#         context['owner'] = owner_details
 
-    except:
-        messages.warning(request, 'Authentication needed')
-        return redirect('login')
-    html_string=render_to_string('pages/generate_pdf.html', {context})
+#     except:
+#         messages.warning(request, 'Authentication needed')
+#         return redirect('login')
+#     html_string=render_to_string('pages/generate_pdf.html', {context})
     
     
-    html=HTML(string=html_string)
+#     html=HTML(string=html_string)
     
-    result = html.write_pdf()
+#     result = html.write_pdf()
     
     
-    with tempfile.NamedTemporaryFile(delete=True) as output:
-        output.write(result)
-        output.flush()
-        output= open(output.name, 'rb')
+#     with tempfile.NamedTemporaryFile(delete=True) as output:
+#         output.write(result)
+#         output.flush()
+#         output= open(output.name, 'rb')
         
-        response.write(output.read())
+#         response.write(output.read())
         
-    return render(request, 'pages/home.html', response)  
+#     return  response 
     
 
 
