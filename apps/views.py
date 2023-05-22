@@ -1887,8 +1887,8 @@ def generate_pdf(request):
         
         response.write(output.read())
         
-    return response 
-    return redirect('home')
+    return render(request, 'pages/home.html', response)  
+    
 
 
 def dashboard_result_view(request):
