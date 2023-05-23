@@ -159,7 +159,7 @@ def login_page(request):
                                 request.session['token_ses'] = token_generated
                                 request.session['auth_password'] = auth_password
                                 request.session['app_password'] = password
-                                request.session['user_profile'] = request.user
+                                request.session['user_profile'] = request.user.username
                                 request.session['details'] = [browser_prop, device, full_name]
                                 
 
@@ -359,7 +359,7 @@ def generate_password(request, pk):
                                     # generate password for user 
                             
                                     # define the alphabet
-                                client = RegisterClient.objects.get(client_name=user_in_question.client_name)
+                                client = RegisterClient.objects.get(username=user_in_question.username)
                                 letters = string.ascii_letters
                                 digits = string.digits
                                 special_chars = string.punctuation

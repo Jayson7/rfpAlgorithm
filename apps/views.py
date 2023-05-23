@@ -10,10 +10,10 @@ from authenticator.views import basic_user_auth_check, basic_user_auth_check_adm
 from django_user_agents.utils import get_user_agent
 from django.db.models import F
 from django.views.decorators.csrf import csrf_exempt
-
-# from django.template.loader import render_to_string
-# from weasyprint import HTML 
-# import tempfile 
+from django.db.models import F
+from django.template.loader import render_to_string
+from weasyprint import HTML 
+import tempfile 
 
 
 
@@ -109,7 +109,6 @@ def question1(request):
                         # prepare question
                     question1 = Questions.objects.filter(id = 1).first()
                             
-             
                             # get answers ans send form to frontend
                    
                     if request.method =='POST':
@@ -194,7 +193,7 @@ def question1(request):
                                     disease11 = Disease(
                                             disease = 'pregnancy wellbeing',
                                             user_diagnosed = token_of_user,
-                                            points = 0
+                                            points = 0,
                                         )
                                     disease11.save()
                                     
@@ -1689,26 +1688,17 @@ def question16(request):
     
     context = {}
     
-    
     token_of_user = request.session['token_ses']
-    
-    
+  
     if request.user.is_authenticated:
 
-        
-        user = request.user 
-            # locate user on token 
-            
-       
         # try:
         
         if 'question16' in request.session:
             del request.session['question16']
         else:
             pass
-         
-     
-
+   
         if request.user:
                 # if token_of_user:
                     # prepare question
@@ -1721,8 +1711,8 @@ def question16(request):
                     # get answers ans send form to frontend
                     
                     x_list = Answer.objects.filter(question=question16)
-                    question16Session = request.session['question7'] = []
-                  
+                    question16Session = request.session['question16'] = []
+                    
                     context['xlist'] = x_list
                     if request.method =='POST':
                         
@@ -1731,59 +1721,60 @@ def question16(request):
                         
                         for i in list_checked:
                            check_answers = Answer.objects.filter(pk=int(i))
-                           question16Session.append(check_answers.first()) 
+                           question16Session.append(str(check_answers.first())) 
                            
                            
                            for ans in check_answers:
                                
                                 if ans.answer == 'You have difficulty concentrating.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anxiety')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
                                     d.points +=1
                                     d.save()
 
                                
 
                                 elif ans.answer == 'You get easily angry or irritable.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anxiety')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
                                     d.points +=1
                                     d.save()
 
                                 elif ans.answer == 'You have difficulty sleeping at night.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anxiety')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
                                     d.points +=1
                                     d.save()
                                     
                                 elif ans.answer == 'You feel anxious or nervous.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anxiety')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
                                     d.points +=1
                                     d.save()
                                     
                                 elif ans.answer == "You can't stop repeatedly thinking about the same thing.":
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anxiety')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
                                     d.points +=1
                                     d.save()
                                 elif ans.answer == 'You are afraid that something bad will happen during your pregnancy.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anxiety')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
                                     d.points +=1
                                     d.save()
                                     
                                 elif ans.answer == 'You have constant negative thoughts.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'depression')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Depression')
                                     d.points +=1
                                     d.save()
                                     
                                 elif ans.answer == "You feel guilty about the problems you're currently experiencing.":
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'depression')
-                                    d.points +=1
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease ='Depression')
+                                    d.points += 1
                                     d.save()
                                     
                                 elif ans.answer == 'Loss of interest in the people around you or everyday activities.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'depression')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease ='Depression')
+                                  
                                     d.points +=1
                                     d.save()
                                     
                                 elif ans.answer == 'You feel sad, down or more easily prone to tears':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'depression')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Depression')
                                     d.points +=1
                                     d.save()
                                     
@@ -1818,14 +1809,14 @@ def save_result_user(request):
     token = request.session['token_ses']
     
     # get all diseases
-    diseases = Disease.objects.filter(user_diagonised = token)
+    diseases = Disease.objects.filter(user_diagnosed = token)
     for i in diseases:
         
         d = Disease_result(
             disease = i.disease,
-            point = i.point,
+            point = i.points,
             mom_full_name= request.session['details'][2],
-            token =  request.session['token_ses'],
+            token = request.session['token_ses'],
             )
         d.save()
         
@@ -1847,47 +1838,47 @@ def save_result_user(request):
     result.save()
     
 
-    return redirect('home') 
+    return redirect('generate_pdf') 
 
 
 
 
-# def generate_pdf(request):
-#     context = {}
-#     response = HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition'] = 'inline; attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
+def generate_pdf(request):
+    context = {}
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
      
-#     response['Content-Transfer-Encoding']='binary'  
+    response['Content-Transfer-Encoding']='binary'  
 
-#     try:
-#         # all disease of current user
-#         token = request.session['token_ses']
+    try:
+        # all disease of current user
+        token = request.session['token_ses']
 
-#         # result owner
-#         disease_result = Disease_result.objects.filter(token=token)
-#         context['disease_count'] = disease_result
-#         owner_details = Result_owner.objects.get(token=token)
-#         context['owner'] = owner_details
+        # result owner
+        disease_result = Disease_result.objects.filter(token=token)
+        context['disease_count'] = disease_result
+        owner_details = Result_owner.objects.get(token=token)
+        context['owner'] = owner_details
 
-#     except:
-#         messages.warning(request, 'Authentication needed')
-#         return redirect('login')
-#     html_string=render_to_string('pages/generate_pdf.html', {context})
+    except:
+        messages.warning(request, 'Authentication needed')
+        return redirect('login')
+    html_string=render_to_string('pages/generate_pdf.html', context)
     
     
-#     html=HTML(string=html_string)
+    html=HTML(string=html_string)
     
-#     result = html.write_pdf()
+    result = html.write_pdf()
     
     
-#     with tempfile.NamedTemporaryFile(delete=True) as output:
-#         output.write(result)
-#         output.flush()
-#         output= open(output.name, 'rb')
+    with tempfile.NamedTemporaryFile(delete=True) as output:
+        output.write(result)
+        output.flush()
+        output= open(output.name, 'rb')
         
-#         response.write(output.read())
+        response.write(output.read())
         
-#     return  response 
+    return  response 
     
 
 

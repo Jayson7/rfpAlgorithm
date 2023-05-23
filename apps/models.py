@@ -61,6 +61,7 @@ class Disease_result(models.Model):
    
     date_generated = models.DateTimeField(auto_now_add=True)
     point = models.CharField(max_length=20)
+    token = models.CharField(max_length=20, null=True)
     
     
     def __str__(self):
