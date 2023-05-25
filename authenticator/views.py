@@ -55,8 +55,6 @@ def basic_user_auth_check_admin(request):
 
 
 
-
-
 # ==================================== Basic functions and Algorithms =========================
 # login here 
 
@@ -288,7 +286,7 @@ def admin_dashboard(request):
     if request.user.is_authenticated:
         # check super user status 
         if request.user.is_superuser:
-            all_moms_login_data = Disease_result.objects.all()[::-1]
+            all_moms_login_data = Result_owner.objects.all()[::-1]
             context['moms_login'] = all_moms_login_data
             return render(request, 'admin_pages/admin_dashboard.html', context)      
         

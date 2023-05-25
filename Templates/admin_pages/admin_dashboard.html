@@ -267,7 +267,6 @@
               {% if moms_login %}
               <div class="table-responsive">
                 <table class="table table-striped">
-                  {% for moms_login in moms_login %}
                   <thead>
                     <tr>
                       <th scope="col">#</th>
@@ -277,15 +276,15 @@
                     </tr>
                   </thead>
                   <tbody>
+                    {% for moms_login in moms_login %}
                     <tr>
                       <th scope="row">*</th>
                       <th scope="row">{{moms_login.email}}</th>
                       <th scope="row">{{moms_login.full_name}}</th>
                       <th scope="row">{{moms_login.app_password}}</th>
                     </tr>
+                    {% endfor %}
                   </tbody>
-
-                  {% endfor %}
                 </table>
               </div>
               {% else %}
@@ -296,7 +295,7 @@
           </div>
           <!-- result generated  -->
           <div class="col-md-4 mb-20">
-            <div class="card-box height-100-p pd-20">
+            <div class="card-box pd-20">
               <div class="h5 mb-md-0">Results Generated</div>
               <!-- show result generated -->
             </div>
