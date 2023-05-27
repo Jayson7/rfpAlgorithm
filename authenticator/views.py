@@ -21,7 +21,7 @@ from django.views.decorators.csrf import csrf_exempt
 # check if all details are complete during taking of assessments 
 def details_checker_questions(request):
     try:
-        x = ['details', 'full_name', 'browser', 'app_password']
+        x = ['details', 'token_ses', 'browser', 'app_password']
    
         # filter to check if x data exists
         
@@ -173,7 +173,7 @@ def login_page(request):
                                 
                         else:
                             
-                            messages.warning(request, 'Account access is denied, contact Admin')
+                            messages.warning(request, 'Account access is denied')
                             return redirect('login')
                             
                     else:
