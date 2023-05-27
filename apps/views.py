@@ -10,16 +10,17 @@ from django.http import HttpResponse
 from authenticator.views import basic_user_auth_check, basic_user_auth_check_admin, details_checker_questions
 
 from django.http import HttpResponse
-from django.template.loader import render_to_string
-from weasyprint import HTML
-import tempfile
+
 from django.views.decorators.csrf import csrf_exempt
 
 
+
+from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
-from xhtml2pdf import pisa
-
+import xhtml2pdf.pisa as pisa
+from django.views.generic import View
+from django.utils import timezone
 
 
 # Create your views here.
@@ -1847,42 +1848,42 @@ def save_result_user(request):
 
 # generate pdf with weasyprint 
 
-def generate_pdf(request):
-    context = {}
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'inline; attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
+# def generate_pdf(request):
+#     context = {}
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = 'attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
      
-    response['Content-Transfer-Encoding']='binary'  
+#     response['Content-Transfer-Encoding']='binary'  
 
-    try:
-        # all disease of current user
-        token = request.session['token_ses']
+#     try:
+#         # all disease of current user
+#         token = request.session['token_ses']
 
-        # result owner
-        disease_result = Disease_result.objects.filter(token=token)
-        context['disease_count'] = disease_result
-        owner_details = Result_owner.objects.filter(token=token)
-        context['owner'] = owner_details
+#         # result owner
+#         disease_result = Disease_result.objects.filter(token=token)
+#         context['disease_count'] = disease_result
+#         owner_details = Result_owner.objects.filter(token=token)
+#         context['owner'] = owner_details
 
-    except:
-        messages.warning(request, 'Authentication needed')
-        return redirect('login')
-    html_string=render_to_string('pages/generate_pdf.html', context)
+#     except:
+#         messages.warning(request, 'Authentication needed')
+#         return redirect('login')
+#     html_string=render_to_string('pages/generate_pdf.html', context)
     
     
-    html=HTML(string=html_string)
+#     html=HTML(string=html_string)
     
-    result = html.write_pdf()
+#     result = html.write_pdf()
     
     
-    with tempfile.NamedTemporaryFile(delete=True) as output:
-        output.write(result)
-        output.flush()
-        output= open(output.name, 'rb')
+#     with tempfile.NamedTemporaryFile(delete=True) as output:
+#         output.write(result)
+#         output.flush()
+#         output= open(output.name, 'rb')
         
-        response.write(output.read())
+#         response.write(output.read())
         
-    return  response 
+#     return  response 
 
 
 
@@ -1908,11 +1909,33 @@ def generate_pdf(request):
 
 
 
+# class Render:
+
+#     @staticmethod
+#     def render(path: str, params: dict):
+#         template = get_template(path)
+#         html = template.render(params)
+#         response = BytesIO()
+#         pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), response)
+#         if not pdf.err:
+#             return HttpResponse(response.getvalue(), content_type='application/pdf')
+#         else:
+#             return HttpResponse("Error Rendering PDF", status=400)
 
 
 
 
+# class Generate_pdf(View):
 
+#     def get(self, request):
+#         sales = 'working'
+#         today = timezone.now()
+#         params = {
+#             'today': today,
+#             'sales': sales,
+#             'request': request
+#         }
+#         return Render.render('pages/generate_pdf.html', params)
 
 
 
