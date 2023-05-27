@@ -1,1 +1,1 @@
-web: gunicorn rfp_main.wsgi --log-file -
+web: gunicorn rfp_main.wsgi 
