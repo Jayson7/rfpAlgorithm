@@ -8,10 +8,10 @@ from authenticator.models import *
 from .models import *
 from django.http import HttpResponse
 from authenticator.views import basic_user_auth_check, basic_user_auth_check_admin, details_checker_questions
-from django_user_agents.utils import get_user_agent
-from django.db.models import F
+
+
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models import F
+
 
 from django.http import HttpResponse
 from django.template.loader import get_template
@@ -62,9 +62,6 @@ def page_not_found(request):
     pass 
 
 
-
-
-    
     
 # admin privileges needed for managing users 
 def manage_user(request):
@@ -1892,6 +1889,7 @@ def generate_pdf(request):
     context = {'myvar': 'this is your template context'}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
+
     response['Content-Disposition'] = 'attachment; filename="report.pdf"'
     # find the template and render it.
     template = get_template(template_path)
