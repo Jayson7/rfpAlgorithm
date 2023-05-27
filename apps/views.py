@@ -9,7 +9,10 @@ from .models import *
 from django.http import HttpResponse
 from authenticator.views import basic_user_auth_check, basic_user_auth_check_admin, details_checker_questions
 
-
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
+import tempfile
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -1844,64 +1847,64 @@ def save_result_user(request):
 
 # generate pdf with weasyprint 
 
-# def generate_pdf(request):
-#     context = {}
-#     response = HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition'] = 'inline; attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
-     
-#     response['Content-Transfer-Encoding']='binary'  
-
-#     try:
-#         # all disease of current user
-#         token = request.session['token_ses']
-
-#         # result owner
-#         disease_result = Disease_result.objects.filter(token=token)
-#         context['disease_count'] = disease_result
-#         owner_details = Result_owner.objects.filter(token=token)
-#         context['owner'] = owner_details
-
-#     except:
-#         messages.warning(request, 'Authentication needed')
-#         return redirect('login')
-#     html_string=render_to_string('pages/generate_pdf.html', context)
-    
-    
-#     html=HTML(string=html_string)
-    
-#     result = html.write_pdf()
-    
-    
-#     with tempfile.NamedTemporaryFile(delete=True) as output:
-#         output.write(result)
-#         output.flush()
-#         output= open(output.name, 'rb')
-        
-#         response.write(output.read())
-        
-#     return  response 
-
-
-
-
 def generate_pdf(request):
-    template_path = 'pages/generate_pdf.html'
-    context = {'myvar': 'this is your template context'}
-    # Create a Django response object, and specify content_type as pdf
+    context = {}
     response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
+     
+    response['Content-Transfer-Encoding']='binary'  
 
-    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-    # find the template and render it.
-    template = get_template(template_path)
-    html = template.render(context)
+    try:
+        # all disease of current user
+        token = request.session['token_ses']
 
-    # create a pdf
-    pisa_status = pisa.CreatePDF(
-       html, dest=response)
-    # if error then show some funny view
-    if pisa_status.err:
-       return HttpResponse('We had some errors <pre>' + html + '</pre>')
-    return response
+        # result owner
+        disease_result = Disease_result.objects.filter(token=token)
+        context['disease_count'] = disease_result
+        owner_details = Result_owner.objects.filter(token=token)
+        context['owner'] = owner_details
+
+    except:
+        messages.warning(request, 'Authentication needed')
+        return redirect('login')
+    html_string=render_to_string('pages/generate_pdf.html', context)
+    
+    
+    html=HTML(string=html_string)
+    
+    result = html.write_pdf()
+    
+    
+    with tempfile.NamedTemporaryFile(delete=True) as output:
+        output.write(result)
+        output.flush()
+        output= open(output.name, 'rb')
+        
+        response.write(output.read())
+        
+    return  response 
+
+
+
+
+# def generate_pdf(request):
+#     template_path = 'pages/generate_pdf.html'
+#     context = {'myvar': 'this is your template context'}
+#     # Create a Django response object, and specify content_type as pdf
+#     response = HttpResponse(content_type='application/pdf')
+
+#     response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+#     # find the template and render it.
+#     template = get_template(template_path)
+#     html = template.render(context)
+
+#     # create a pdf
+#     pisa_status = pisa.CreatePDF(
+#        html, dest=response)
+#     # if error then show some funny view
+#     if pisa_status.err:
+#        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+#     return response
 
 
 
