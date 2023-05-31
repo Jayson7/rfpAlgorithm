@@ -6,7 +6,7 @@ import datetime
 from authenticator.models import *
 from .models import *
 from django.http import HttpResponse
-from authenticator.views import basic_user_auth_check_spanish, basic_user_auth_check_admin_spanish, details_checker_questions_spanish
+from authenticator.views import basic_user_auth_check_spanish, details_checker_questions
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -16,7 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def question1Spanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions_spanish(request)
+    details_checker_questions(request)
     context = {}
 
     if request.user.is_authenticated:
@@ -184,7 +184,7 @@ def question1Spanish(request):
 
 def question2Spanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions_spanish(request)
+    details_checker_questions(request)
     context = {}
     
     
@@ -277,7 +277,7 @@ def question2Spanish(request):
 def question3Spanish(request):
     
     basic_user_auth_check_spanish(request)
-    details_checker_questions_spanish(request)
+    details_checker_questions(request)
     context = {}
    
     if request.user.is_authenticated:
@@ -382,10 +382,10 @@ def question3Spanish(request):
 # question 4
 
 
-def question4Sapnish(request):
+def question4Spanish(request):
         
     basic_user_auth_check_spanish(request)
-    details_checker_questions_spanish(request)
+    details_checker_questions(request)
     
     context = {}
  
@@ -480,12 +480,12 @@ def question4Sapnish(request):
 # question 5
 
 
-def question5(request):
+def question5Spanish(request):
 
     context = {}
     
     basic_user_auth_check_spanish(request)
-    details_checker_questions_spanish(request)
+    details_checker_questions(request)
    
     
     if request.user.is_authenticated:
@@ -569,12 +569,12 @@ def question5(request):
 # question 6
 
 
-def question6(request):
+def question6Spanish(request):
     
     context = {}
 
     basic_user_auth_check_spanish(request)
-    details_checker_questions_spanish(request)
+    details_checker_questions(request)
     
     
     
@@ -670,9 +670,9 @@ def question6(request):
 # question 7
 
 
-def question7(request):
+def question7Spanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions_spanish(request)
+    details_checker_questions(request)
     
     context = {}
 
@@ -755,9 +755,9 @@ def question7(request):
 # question 8
 
 
-def question8(request):
+def question8Spanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions_spanish(request)
+    details_checker_questions(request)
     
     context = {}
     
@@ -845,9 +845,9 @@ def question8(request):
 # question 9
 
 
-def question9(request):
+def question9Spanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions_spanish(request)
+    details_checker_questions(request)
     
     context = {}
  
@@ -938,9 +938,9 @@ def question9(request):
 # question 10
 
 
-def question10(request):
+def question10Spanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions_spanish(request)
+    details_checker_questions(request)
     
     context = {}
   
@@ -1050,9 +1050,9 @@ def question10(request):
 # question 11, 12, 13, 14
 
 
-def questionCombined(request):
+def questionCombinedSpanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions_spanish(request)
+    details_checker_questions(request)
     
     context = {}
     
@@ -1470,7 +1470,7 @@ def questionCombined(request):
 # question 15
 
 
-def question15(request):
+def question15Spanish(request):
     
     context = {}
     
@@ -1604,7 +1604,7 @@ def question15(request):
 # question 16
 
 
-def question16(request):
+def question16Spanish(request):
     
     context = {}
     
@@ -1719,167 +1719,4 @@ def question16(request):
         messages.warning(request, 'Autenticacion requerida')
         return redirect('login')
     return render(request, 'questions/question4.html', context)
-
-
-def save_result_user(request):
-    
-    # get all sessions 
-    
-
-    token = request.session['token_ses']
-    
-    # get all diseases
-    diseases = Disease.objects.filter(user_diagnosed = token)
-    for i in diseases:
-        
-        d = Disease_result(
-            disease = i.disease,
-            point = int(i.points),
-            mom_full_name= request.session['details'][2],
-            token = request.session['token_ses'],
-            )
-        d.save()
-
-
-    #  store needed data
-    
-    
-    result = Result_owner(
-    full_name =  request.session['details'][2],
-    token = request.session['token_ses'],
-    auth_password = request.session['auth_password'],
-    app_password = request.session['app_password'],
-    browser = request.session['details'][0],
-    device = request.session['details'][1],
-    user_profile = request.session['user_profile'],
-    age = request.session['age'],  
-    email =  request.session['email'],
-    
-    )
-    result.save()
-    
-
-    return redirect('success_page') 
-
-
-
-# generate pdf with weasyprint 
-
-# def generate_pdf(request):
-#     context = {}
-#     response = HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition'] = 'attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
-     
-#     response['Content-Transfer-Encoding']='binary'  
-
-#     try:
-#         # all disease of current user
-#         token = request.session['token_ses']
-
-#         # result owner
-#         disease_result = Disease_result.objects.filter(token=token)
-#         context['disease_count'] = disease_result
-#         owner_details = Result_owner.objects.filter(token=token)
-#         context['owner'] = owner_details
-
-#     except:
-#         messages.warning(request, 'Authentication needed')
-#         return redirect('login')
-#     html_string=render_to_string('pages/generate_pdf.html', context)
-    
-    
-#     html=HTML(string=html_string)
-    
-#     result = html.write_pdf()
-    
-    
-#     with tempfile.NamedTemporaryFile(delete=True) as output:
-#         output.write(result)
-#         output.flush()
-#         output= open(output.name, 'rb')
-        
-#         response.write(output.read())
-        
-#     return  response 
-
-
-
-
-# def generate_pdf(request):
-#     template_path = 'pages/generate_pdf.html'
-#     context = {'myvar': 'this is your template context'}
-#     # Create a Django response object, and specify content_type as pdf
-#     response = HttpResponse(content_type='application/pdf')
-
-#     response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-#     # find the template and render it.
-#     template = get_template(template_path)
-#     html = template.render(context)
-
-#     # create a pdf
-#     pisa_status = pisa.CreatePDF(
-#        html, dest=response)
-#     # if error then show some funny view
-#     if pisa_status.err:
-#        return HttpResponse('We had some errors <pre>' + html + '</pre>')
-#     return response
-
-
-
-# class Render:
-
-#     @staticmethod
-#     def render(path: str, params: dict):
-#         template = get_template(path)
-#         html = template.render(params)
-#         response = BytesIO()
-#         pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), response)
-#         if not pdf.err:
-#             return HttpResponse(response.getvalue(), content_type='application/pdf')
-#         else:
-#             return HttpResponse("Error Rendering PDF", status=400)
-
-
-
-
-# class Generate_pdf(View):
-
-#     def get(self, request):
-#         sales = 'working'
-#         today = timezone.now()
-#         params = {
-#             'today': today,
-#             'sales': sales,
-#             'request': request
-#         }
-#         return Render.render('pages/generate_pdf.html', params)
-
-
-
-
-
-
-# after success of test show page
-@login_required(login_url="login")
-def success_page(request):
-    context = {}
-    #  check requirements to comfirm user finished test
-    # x = ['question1', 'question2', 'question3','question4', 'question5', 'question6''question7', 'question7', 'question8''question9', 'question10', 'question11', 'question12', 'question13', 'question14''question15', 'question16']
-
-    # for i in x:
-    #     if i in request.session:
-    #         pass 
-    #     else:
-    #         messages.warning(request, 'You didnt complete your questions')
-    #         return redirect(i)
-    
-    
-    
-    # greet user and give option to download 
-    # user_full_name = request.session['details'][2]
-    # context['full_name'] = user_full_name
-    return render(request, 'pages/success_page.html', context)
-
-
-
 

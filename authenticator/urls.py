@@ -1,12 +1,14 @@
 
 from django.urls import path, include
 from .views import *
+from .spanish_views import *
 
 
 
 urlpatterns = [
     # user functions 
     path('login', login_page, name='login'),
+    path('loginspanish', login_page_spanish, name='loginspanish'),
     path('complete_info', complete_user_info, name='user_info'),
     
     # admin functions

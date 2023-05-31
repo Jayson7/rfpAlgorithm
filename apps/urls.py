@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import *
-
+from .spanish_views import *
 
 
 # 
@@ -29,4 +29,27 @@ urlpatterns = [
     path('questionCs', questionCombined, name='questionCs'),
     path('question15', question15, name='question15'),
     path('question16', question16, name='question16'),
+    
+    # questions in spanish
+    
+    path('question1S', question1Spanish, name='question1s'),
+    path('question2S', question2Spanish, name='question2s'),
+    path('question3S', question3Spanish, name='question3s'),
+    path('question4S', question4Spanish, name='question4s'),
+    path('question5S', question5Spanish, name='question5s'),
+    path('question6S', question6Spanish, name='question6s'),
+    path('question7S', question7Spanish, name='question7s'),
+    path('question8S', question8Spanish, name='question8s'),
+    path('question9S', question9Spanish, name='question9s'),
+    path('question10S', question10Spanish, name='question10s'),
+    path('questionCsS', questionCombinedSpanish, name='questionCss'),
+    path('question15S', question15Spanish, name='question15s'),
+    path('question16S', question16Spanish, name='question16s'),
+    
+    # choose language
+    path('language', choose_language, name='language'),
+    
 ]
+    
+    
+

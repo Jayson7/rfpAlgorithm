@@ -93,6 +93,10 @@ def manage_user(request):
 
 # Homepage to welcome user
 def Homepage(request):
+    
+    #   set session expiry 
+    request.session.set_expiry(0)
+    
     context = {}
     return render(request, 'pages/home.html', context)
 
@@ -1806,6 +1810,7 @@ def question16(request):
     return render(request, 'questions/question4.html', context)
 
 
+@login_required(login_url='login')
 def save_result_user(request):
     
     # get all sessions 
@@ -1844,7 +1849,20 @@ def save_result_user(request):
     result.save()
     
 
-    return redirect('success_page') 
+    if 'language' in request.session:
+        if request.session['language'] == 'spanish':
+            return redirect('success_page_spanish')
+    
+        elif request.session['language'] == 'english':
+            return redirect('success_page')
+            
+            
+    else:
+        messages.warning(request, 'Login required')
+        return redirect('login')
+    
+
+
 
 
 
@@ -1979,7 +1997,6 @@ def dashboard_result_view(request):
 
 # choose language 
 
-
 # @login_required('login_url="login')
 
 def  choose_language(request):
@@ -1991,18 +2008,33 @@ def  choose_language(request):
     else:
         pass
 
-
-
-    return render(request, 'language.html')
+    return render(request, 'pages/language.html')
+    
     
     
 def choose_language_spanish(request):
     
     request.session['language'] = 'spanish'
      
+    if 'language' in request.session or request.user.is_authenticated:
+        
+        request.session.flush()
+        deactivate_auth(request)
+        
+    else:
+        messages.warning(request, 'Choose a language')
+        return redirect('choose_language')
+    
+    
+
+    
+def choose_language_english(request):
+    
+    request.session['language'] = 'english'
+     
     if 'language' in request.session:
-        if request.session['language'] == 'spanish':
-            return redirect('loginSpanish') 
+        if request.session['language'] == 'english':
+            return redirect('login') 
 
     else:
         messages.warning(request, 'Choose a language')

@@ -144,12 +144,6 @@ def login_page_spanish(request):
                                 token_generated = f'{result_str} + {random_num} + {result_str}'
                                 
                               
-                                
-                                
-                                                        
-                            
-
-    
                                               
                                 # update session details for user                         #  
                                 

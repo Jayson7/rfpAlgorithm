@@ -36,8 +36,16 @@ def details_checker_questions(request):
 
 # helper functions 
 
-# auth check admin
+# auth check user
 def basic_user_auth_check(request):
+    if request.user.is_authenticated:
+        pass  
+    else:
+        messages.warning(request, 'authentication needed')
+        return redirect('login')
+    
+# auth check user
+def basic_user_auth_check_spanish(request):
     if request.user.is_authenticated:
         pass  
     else:
@@ -61,8 +69,8 @@ def basic_user_auth_check_admin(request):
 @csrf_exempt
 def login_page(request):
 
-#   set session expiry 
-    request.session.set_expiry(0)
+
+    
      
    
     context = {}
@@ -556,4 +564,14 @@ def regenerate_password(request, pk):
         messages.warning(request, 'Account does not exist')
         return redirect('manage_access')
     
+    
+
+# deactivate authentication 
+
+def deactivate_auth(request):
+    if request.user.is_authenticated:
+        logout(request)
+        
+    else:
+        pass 
     
