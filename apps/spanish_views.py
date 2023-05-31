@@ -366,7 +366,7 @@ def question3Spanish(request):
                     # messages.warning(request, 'Acceso denegado')
                     # return redirect('login')           
         else:
-                messages.warning(request, 'User not verified')
+                messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
@@ -382,7 +382,7 @@ def question3Spanish(request):
 # question 4
 
 
-def question4(request):
+def question4Sapnish(request):
         
     basic_user_auth_check_spanish(request)
     details_checker_questions_spanish(request)
@@ -463,7 +463,7 @@ def question4(request):
                 
                       
         else:
-                messages.warning(request, 'User not verified')
+                messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
@@ -554,7 +554,7 @@ def question5(request):
                 
                       
         else:
-                messages.warning(request, 'User not verified')
+                messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
@@ -654,7 +654,7 @@ def question6(request):
                 #     messages.warning(request, 'Acceso denegado')
                 #     return redirect('login')           
         else:
-                messages.warning(request, 'User not verified')
+                messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
@@ -738,7 +738,7 @@ def question7(request):
                 #     messages.warning(request, 'Acceso denegado')
                 #     return redirect('login')           
         else:
-                messages.warning(request, 'User not verified')
+                messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
@@ -830,7 +830,7 @@ def question8(request):
                 #     messages.warning(request, 'Acceso denegado')
                 #     return redirect('login')           
         else:
-                messages.warning(request, 'User not verified')
+                messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
@@ -923,7 +923,7 @@ def question9(request):
                 #     messages.warning(request, 'Acceso denegado')
                 #     return redirect('login')           
         else:
-                messages.warning(request, 'User not verified')
+                messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
@@ -1035,7 +1035,7 @@ def question10(request):
                 #     messages.warning(request, 'Acceso denegado')
                 #     return redirect('login')           
         else:
-                messages.warning(request, 'User not verified')
+                messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
@@ -1456,7 +1456,7 @@ def questionCombined(request):
                 #     messages.warning(request, 'Acceso denegado')
                 #     return redirect('login')           
         else:
-                messages.warning(request, 'User not verified')
+                messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
@@ -1588,7 +1588,7 @@ def question15(request):
                 #     messages.warning(request, 'Acceso denegado')
                 #     return redirect('login')           
         else:
-                messages.warning(request, 'User not verified')
+                messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
@@ -1711,7 +1711,7 @@ def question16(request):
                 #     messages.warning(request, 'Acceso denegado')
                 #     return redirect('login')           
         else:
-                messages.warning(request, 'User not verified')
+                messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
@@ -1881,13 +1881,5 @@ def success_page(request):
     return render(request, 'pages/success_page.html', context)
 
 
-
-
-def dashboard_result_view(request):
-    context = {}
-    disease = Disease.objects.all()
-    context['disease'] = disease
-    
-    return render(request, 'admin_pages/result.html', context)
 
 
