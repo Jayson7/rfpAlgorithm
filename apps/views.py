@@ -7,14 +7,16 @@ import datetime
 from authenticator.models import *
 from .models import *
 from django.http import HttpResponse
-from authenticator.views import basic_user_auth_check, basic_user_auth_check_admin, details_checker_questions
 
-from django.http import HttpResponse
+#  import auth managers 
+from authenticator.views import basic_user_auth_check, basic_user_auth_check_admin, details_checker_questions, deactivate_auth
 
+
+# remove csrf
 from django.views.decorators.csrf import csrf_exempt
 
 
-
+# generate pdf 
 from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
@@ -1972,3 +1974,44 @@ def dashboard_result_view(request):
     context['disease'] = disease
     
     return render(request, 'admin_pages/result.html', context)
+
+
+
+# choose language 
+
+
+# @login_required('login_url="login')
+
+def  choose_language(request):
+    
+    
+    if 'language' in request.session:
+        del request.session['language']
+        
+    else:
+        pass
+
+
+
+    return render(request, 'language.html')
+    
+    
+def choose_language_spanish(request):
+    
+    request.session['language'] = 'spanish'
+     
+    if 'language' in request.session:
+        if request.session['language'] == 'spanish':
+            return redirect('loginSpanish') 
+
+    else:
+        messages.warning(request, 'Choose a language')
+        return redirect('choose_language')
+    
+    
+
+
+
+    
+    
+    
