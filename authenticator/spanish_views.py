@@ -19,7 +19,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 # check if all details are complete during taking of assessments 
-def details_checker_questions(request):
+def details_checker_questions_spanish(request):
     try:
         x = ['details', 'token_ses', 'browser', 'app_password']
    
@@ -36,7 +36,7 @@ def details_checker_questions(request):
     
     
 
-def basic_user_auth_check(request):
+def basic_user_auth_check_spanish(request):
     if request.user.is_authenticated:
         pass  
     else:
@@ -45,7 +45,7 @@ def basic_user_auth_check(request):
 
 
 # auth check admin
-def basic_user_auth_check_admin(request):
+def basic_user_auth_check_admin_spanish(request):
     if request.user.is_superuser:
         pass  
     else:
@@ -60,7 +60,7 @@ def basic_user_auth_check_admin(request):
 # login here 
 
 @csrf_exempt
-def login_page(request):
+def login_page_spanish(request):
 
 #   set session expiry 
     request.session.set_expiry(0)
@@ -188,10 +188,10 @@ def login_page(request):
                     # send user to info page
                     pass 
                 else:
-                    messages.warning(request, 'Incorrect Password')
+                    messages.warning(request, 'Contraseña incorrecta')
                     return redirect('login')
             except:
-                messages.warning(request, 'Invalid Password')
+                messages.warning(request, 'Contraseña invalida')
                 return redirect('login')        
 
 
@@ -200,9 +200,9 @@ def login_page(request):
 
 # complete user profile 
 @csrf_exempt
-def complete_user_info(request):
+def complete_user_info_spanish(request):
     # confirm authentication status    
-    basic_user_auth_check(request)
+    basic_user_auth_check_spanish(request)
     try:        
    
         if request.method == 'POST':
@@ -212,7 +212,7 @@ def complete_user_info(request):
              else:
                 email = request.POST['email']
                 if email == '':
-                    messages.warning(request, 'email cannot be empty')
+                    messages.warning(request, 'el correo electrónico no puede estar vacío')
                     return redirect('complete_info')
                 
                 else:
@@ -229,7 +229,7 @@ def complete_user_info(request):
                     return redirect('question1')
  
     except:
-        messages.warning(request, 'Authentication required fail')
+        messages.warning(request, 'Autenticacion requerida')
         return redirect('login')
     return render(request, 'auth_pages/complete_profile.html')
 

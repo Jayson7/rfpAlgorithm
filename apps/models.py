@@ -13,6 +13,14 @@ class Questions(models.Model):
 
     def __str__(self) -> str:
         return self.question
+    # questions model
+
+class QuestionsSpanish(models.Model):
+    question = models.CharField(max_length=200) 
+
+
+    def __str__(self) -> str:
+        return self.question
     
     
 class Disease(models.Model):
@@ -28,6 +36,15 @@ class Disease(models.Model):
 
 class Answer(models.Model):
     question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_to_ask')
+    answer = models.CharField(max_length=200, null=True)
+
+    
+    def __str__(self) -> str:
+        return str(self.answer)
+
+
+class AnswerSpanish(models.Model):
+    question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_to_ask_spanish')
     answer = models.CharField(max_length=200, null=True)
 
     
@@ -86,3 +103,4 @@ class Result_owner(models.Model):
     def __str__(self):
         return self.mom_full_name    
   
+
