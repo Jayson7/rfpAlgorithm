@@ -20,9 +20,8 @@ from django.views.decorators.csrf import csrf_exempt
 from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
-import xhtml2pdf.pisa as pisa
-from django.views.generic import View
-from django.utils import timezone
+from django.views import View
+from xhtml2pdf import pisa
 
 
 # Create your views here.
@@ -58,9 +57,6 @@ def details(request, pk):
             pass 
         
     return render(request, 'admin_pages/details.html', context)
-
-        
-
 
 
 # 404 here 
@@ -130,6 +126,21 @@ def question1(request):
                                         return redirect('question1')
                         
                                     request.session['age'] = x                
+                                    
+                                    
+                                    
+                                    
+                                    # delete all previous diseases 
+                                    
+                                    try:
+                                        disease = Disease.objects.filter(user_diagnosed=request.session['token_ses'])
+                                        
+                                        for i in disease:
+                                            i.delete()
+                                    except:
+                                        pass         
+                                    
+                                    
                                     
                                     disease = Disease(
                                             disease = 'thrombosis',
@@ -1070,6 +1081,10 @@ def question10(request):
                         list_checked = request.POST.getlist('xlist_boxes')
                         question10Session = request.session['question310'] = []
                         
+                        
+                       
+                        
+                        
                         for i in list_checked:
                             
                             check_answers = Answer.objects.filter(pk=int(i))
@@ -1537,7 +1552,7 @@ def questionCombined(request):
                                 
                                                                        
 
-                        return redirect('question16')
+                        return redirect('question15')
                         # send question and answer to view
                 
                
@@ -1609,7 +1624,7 @@ def question15(request):
                             for ans in check_answers:
                                
                                 if ans.answer == 'You have been diagnosed with a previous or current psychiatric disorder including schizophrenia, bipolar disorder, obsessive-compulsive disorder, or eating disorder (such as bulimia or anorexia), amon':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=100
                                     d.save()
 
@@ -1617,47 +1632,47 @@ def question15(request):
 
                                 elif ans.answer == 'You are currently undergoing psychiatric treatment with medication (including antidepressants, antipsychotics, mood stabilizers, stimulant medication or anxiety medication, among others).':
                                     
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=100
                                     d.save()
 
                                
                                 elif ans.answer == 'You have had previous suicide attempts.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=100
                                     d.save()
 
 
                                 elif ans.answer == 'You have a history of psychosis, depression, or anxiety (including previous pregnancies and postpartum).':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()
                                 
                                 elif ans.answer == 'You have a family history (parents, siblings or children) of mental illness (including postpartum psychosis, bipolar disorder, anxiety or depression).':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
                                 elif ans.answer == 'You have problems living with your current partner.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
                                 
                                 elif ans.answer == 'You have current financial problems.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
                                 
                                 elif ans.answer == 'You have little or no family or friend support to rely on for the care of your baby.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
                                 
                                 elif ans.answer == 'The current pregnancy is unwanted.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
@@ -1801,6 +1816,7 @@ def question16(request):
                 #     return redirect('login')           
         else:
                 messages.warning(request, 'User not verified')
+                return redirect('login')
         # except:
         #     messages.warning(request, 'Error')
         #     return redirect('login')     
@@ -1808,6 +1824,7 @@ def question16(request):
         messages.warning(request, 'Authentication required')
         return redirect('login')
     return render(request, 'questions/question4.html', context)
+
 
 
 @login_required(login_url='login')
@@ -1864,98 +1881,51 @@ def save_result_user(request):
 
 
 
+#generate PDF
+
+def render_to_pdf(template_src, context_dict={}):
+	template = get_template(template_src)
+	html  = template.render(context_dict)
+	result = BytesIO()
+	pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+	if not pdf.err:
+		return HttpResponse(result.getvalue(), content_type='application/pdf')
+	return None
 
 
-# generate pdf with weasyprint 
+data = {
+	"company": "RFP-Algorithm",
+	"address": "United Kingdom",
+	"website": "rfpalgorithm.com",
+	}
 
-# def generate_pdf(request):
-#     context = {}
-#     response = HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition'] = 'attachment; filename=RFPAlgorithm_Result' + str(datetime.datetime.now()) + '.pdf'
-     
-#     response['Content-Transfer-Encoding']='binary'  
-
-#     try:
-#         # all disease of current user
-#         token = request.session['token_ses']
-
-#         # result owner
-#         disease_result = Disease_result.objects.filter(token=token)
-#         context['disease_count'] = disease_result
-#         owner_details = Result_owner.objects.filter(token=token)
-#         context['owner'] = owner_details
-
-#     except:
-#         messages.warning(request, 'Authentication needed')
-#         return redirect('login')
-#     html_string=render_to_string('pages/generate_pdf.html', context)
-    
-    
-#     html=HTML(string=html_string)
-    
-#     result = html.write_pdf()
-    
-    
-#     with tempfile.NamedTemporaryFile(delete=True) as output:
-#         output.write(result)
-#         output.flush()
-#         output= open(output.name, 'rb')
+#Opens up page as PDF
+class ViewPDF(View):
+    def get(self, request, *args, **kwargs):
+        context = {}
+        # get all results for current user 
+        disease = Disease_result.objects.filter(token=request.session['token_ses'])
+        context['disease'] = disease
+        context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
         
-#         response.write(output.read())
+        pdf = render_to_pdf('pages/generate_pdf.html', context)
+        return HttpResponse(pdf, content_type='application/pdf')
+
+
+#Automaticaly downloads to PDF file
+class DownloadPDF(View):
+    def get(self, request, *args, **kwargs):
+        context = {}
+        disease = Disease_result.objects.filter(token=request.session['token_ses'])
+        context['disease'] = disease
+        context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
+        pdf = render_to_pdf('pages/generate_pdf.html', context)
+        response = HttpResponse(pdf, content_type='application/pdf')
         
-#     return  response 
-
-
-
-
-# def generate_pdf(request):
-#     template_path = 'pages/generate_pdf.html'
-#     context = {'myvar': 'this is your template context'}
-#     # Create a Django response object, and specify content_type as pdf
-#     response = HttpResponse(content_type='application/pdf')
-
-#     response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-#     # find the template and render it.
-#     template = get_template(template_path)
-#     html = template.render(context)
-
-#     # create a pdf
-#     pisa_status = pisa.CreatePDF(
-#        html, dest=response)
-#     # if error then show some funny view
-#     if pisa_status.err:
-#        return HttpResponse('We had some errors <pre>' + html + '</pre>')
-#     return response
-
-
-
-# class Render:
-
-#     @staticmethod
-#     def render(path: str, params: dict):
-#         template = get_template(path)
-#         html = template.render(params)
-#         response = BytesIO()
-#         pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), response)
-#         if not pdf.err:
-#             return HttpResponse(response.getvalue(), content_type='application/pdf')
-#         else:
-#             return HttpResponse("Error Rendering PDF", status=400)
-
-
-
-
-# class Generate_pdf(View):
-
-#     def get(self, request):
-#         sales = 'working'
-#         today = timezone.now()
-#         params = {
-#             'today': today,
-#             'sales': sales,
-#             'request': request
-#         }
-#         return Render.render('pages/generate_pdf.html', params)
+        filename = "Invoice_%s.pdf" %("12341231")
+        content = "attachment; filename='%s'" %(filename)
+        response['Content-Disposition'] = content
+        return response
 
 
 
@@ -2004,6 +1974,7 @@ def  choose_language(request):
     
     if 'language' in request.session:
         del request.session['language']
+        request.session.modified = True
         
     else:
         pass
@@ -2015,7 +1986,8 @@ def  choose_language(request):
 def choose_language_spanish(request):
     
     request.session['language'] = 'spanish'
-     
+    request.session.modified = True
+    
     if 'language' in request.session or request.user.is_authenticated:
         
         request.session.flush()
@@ -2031,7 +2003,8 @@ def choose_language_spanish(request):
 def choose_language_english(request):
     
     request.session['language'] = 'english'
-     
+    request.session.modified = True
+    
     if 'language' in request.session:
         if request.session['language'] == 'english':
             return redirect('login') 

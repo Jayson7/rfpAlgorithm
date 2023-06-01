@@ -49,6 +49,10 @@ urlpatterns = [
     # choose language
     path('language', choose_language, name='language'),
     
+    # result
+    path('result', ViewPDF.as_view(), name='vresult'),
+    path('download', DownloadPDF.as_view(), name='dresult'),
+    
 ]
     
     

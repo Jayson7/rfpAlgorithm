@@ -26,7 +26,7 @@ class QuestionsSpanish(models.Model):
 class Disease(models.Model):
     disease = models.CharField(max_length=100)
     user_diagnosed =  models.CharField(max_length=100)
-    points = models.FloatField() 
+    points = models.IntegerField(default=0) 
 
     
     def __str__(self) -> str:

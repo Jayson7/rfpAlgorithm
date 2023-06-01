@@ -157,14 +157,14 @@ def question1Spanish(request):
               
             else:
                     messages.warning(request, 'Acceso denegado')
-                    return redirect('login')           
+                    return redirect('loginspanish')           
 
         except:
             messages.warning(request, 'Error')
-            return redirect('login')     
+            return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('login')
+        return redirect('loginspansih')
     return render(request, 'questions/spanish/question1spanish.html', context)
 
 
@@ -1436,7 +1436,7 @@ def questionCombinedSpanish(request):
                                 
                                                                        
 
-                        return redirect('question16')
+                        return redirect('question15')
                         # send question and answer to view
                 
                
