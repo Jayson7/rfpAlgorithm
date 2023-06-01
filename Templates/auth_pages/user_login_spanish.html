@@ -1,0 +1,187 @@
+{% load static %}
+
+<!-- Author == Jayson
+
+jayontechnologies@gmail.com
+
+All right reserved
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charsedevice-widtht="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- bootstrap -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- static files -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static '/css/user/user_login.css' %}"
+    />
+
+    <title>RFP Algorithm - Login</title>
+  </head>
+
+  <body>
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+      <br />
+      <button
+        type="button"
+        class="btn close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message }}
+    </div>
+    {% endfor %}
+    <section class="h-100 gradient-form" style="background-color: #eee">
+      <div class="container-fluid py-2 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-xl-10">
+            <div class="card rounded-3 text-black">
+              <div class="row g-0">
+                <div class="col-lg-6">
+                  <div class="card-body p-md-5 mx-md-4">
+                    <div class="text-center">
+                      <img
+                        src="https://res.cloudinary.com/dlvlxpja3/image/upload/v1683170405/logo_t8yj0q.jpg"
+                        style="width: 185px"
+                        alt="logo"
+                      />
+                      <h4 class="mt-1 mb-3 pb-1">RFP Algorithm</h4>
+                    </div>
+
+                    <form method="POST" autocomplete="off">
+                      <p class="text-center text-info">
+                        Proporcione un código de acceso
+                      </p>
+
+                      <div class="form-outline mb-2">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="exampleInputText"
+                          placeholder=" Nombre y apellido "
+                          required
+                          name="fullname"
+                        />
+
+                        {% csrf_token %}
+                        <label class="mt-2" for="exampleInputPassword1"
+                          >Nombre completo</label
+                        >
+                      </div>
+
+                      <div class="form-outline mb-1">
+                        <input
+                          type="password"
+                          class="form-control"
+                          placeholder=" Contraseña"
+                          required
+                          id="myInput"
+                          name="password1"
+                        />
+
+                        <label class="mt-2" for="exampleInputPassword1"
+                          >Contraseña</label
+                        >
+                      </div>
+
+                      <!-- show password -->
+                      <div
+                        class="form-outline col-12 mb-4 d-flex justify-content-evenly align-items-center row"
+                      >
+                        <input type="checkbox" onclick="myFunction()" />
+
+                        <small class="ml-2" for="exampleInputPassword1">
+                          mostrar contraseña</small
+                        >
+                      </div>
+
+                      <div class="text-center pt-1 mb-5 pb-1">
+                        <button
+                          class="btn btn-primary btn-block fa-lg py-2 px-4 mb-3"
+                          type="submit"
+                        >
+                          Log in
+                        </button>
+                        <a class="text-muted" href="#">¿Teniendo problemas?</a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div
+                  class="col-lg-6 d-flex align-items-center gradient-custom-2"
+                >
+                  <div
+                    class="text-white px-3 py-3 p-md-5 mx-md-4 text-center mt-4"
+                  >
+                    <h4 class="mb-4">
+                      Obtenga una referencia en cuestión de minutos
+                    </h4>
+                    <p class="small mb-0">
+                      Entra para crear un plan único y personalizado para tu
+                      embarazo. Te ayudará a reducir las complicaciones que tú y
+                      tu bebé puedan tener durante el embarazo.
+                    </p>
+                    <div class="triggers my-5">
+                      <a href="#" class="btn btn-info px-2 mt-2">
+                        Contacta con nosotras
+                      </a>
+                      <a
+                        href="{% url 'admin_login' %}"
+                        class="btn btn-success px-4 mt-2 ml-2"
+                      >
+                        Administradora
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+  <footer class="footer col-12 text-center mt-5">
+    <span class="text-info font-italic"
+      >&copy; RFP-Algotithm <span id="date"></span>
+    </span>
+  </footer>
+  <script>
+    let date = new Date().getFullYear();
+    document.getElementById("date").innerHTML = date;
+
+    function myFunction() {
+      var x = document.getElementById("myInput");
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+    }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <!-- Popper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</html>

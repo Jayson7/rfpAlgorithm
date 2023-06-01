@@ -8,8 +8,16 @@ from .spanish_views import *
 urlpatterns = [
     # user functions 
     path('login', login_page, name='login'),
-    path('loginspanish', login_page_spanish, name='loginspanish'),
     path('complete_info', complete_user_info, name='user_info'),
+    
+    
+    # spanish
+    path('loginspanish', login_page_spanish, name='loginspanish'),
+    path('complete_info_spanish', complete_user_info_spanish, name='user_info_spanish'),
+    
+    
+    
+    
     
     # admin functions
     path('admin_login', admin_login, name='admin_login'),

@@ -44,7 +44,7 @@ class Answer(models.Model):
 
 
 class AnswerSpanish(models.Model):
-    question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_to_ask_spanish')
+    question = models.ForeignKey(QuestionsSpanish, on_delete=models.CASCADE, related_name='question_to_ask_spanish')
     answer = models.CharField(max_length=200, null=True)
 
     

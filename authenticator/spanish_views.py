@@ -164,12 +164,12 @@ def login_page_spanish(request):
                                 
                             else:
                                 messages.warning(request, 'La contraseña no es válida')
-                                return redirect('login')
+                                return redirect('loginspanish')
                                 
                         else:
                             
                             messages.warning(request, 'Se deniega el acceso a la cuenta')
-                            return redirect('login')
+                            return redirect('loginspanish')
                             
                     else:
                         messages.warning(request, '¡Tu contraseña ha expirado!')
@@ -183,13 +183,16 @@ def login_page_spanish(request):
                     pass 
                 else:
                     messages.warning(request, 'Contraseña incorrecta')
-                    return redirect('login')
+                    return redirect('loginspanish')
             except:
                 messages.warning(request, 'Contraseña invalida')
-                return redirect('login')        
+                return redirect('loginspanish')        
 
 
-    return render(request, 'auth_pages/user_login.html', context)
+    return render(request, 'auth_pages/user_login_spanish.html', context)
+
+
+
 
 
 # complete user profile 
@@ -201,7 +204,7 @@ def complete_user_info_spanish(request):
    
         if request.method == 'POST':
              if 'email' in request.session:
-                 return redirect('question1')
+                 return redirect('question1Spanish')
              
              else:
                 email = request.POST['email']
@@ -220,10 +223,10 @@ def complete_user_info_spanish(request):
                     device_token =  request.session['token_ses'],
                     )
                     create_mom_data.save()
-                    return redirect('question1')
+                    return redirect('question1Spanish')
  
     except:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('login')
-    return render(request, 'auth_pages/complete_profile.html')
+    return render(request, 'auth_pages/complete_profile_spanish.html')
 
