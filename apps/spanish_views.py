@@ -1,4 +1,3 @@
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -7,9 +6,7 @@ from authenticator.models import *
 from .models import *
 from django.http import HttpResponse
 from authenticator.views import basic_user_auth_check_spanish, details_checker_questions
-
 from django.views.decorators.csrf import csrf_exempt
-
 
 
 # question 1
@@ -119,11 +116,6 @@ def question1Spanish(request):
                                     
                                     
                                     # create data into session
-                                    
-                                    
-                                    
-                                 
-                            
                                     if x <= 19:
                                        
                                        d =  Disease.objects.get(disease="Anaemia", user_diagnosed=token_of_user)
@@ -157,7 +149,7 @@ def question1Spanish(request):
                                     request.session.modified = True
                                       
                                         
-                                    return redirect('question2')
+                                    return redirect('question2s')
                        
                                     
                             # send question and answer to view
@@ -173,11 +165,7 @@ def question1Spanish(request):
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('login')
-    return render(request, 'questions/question1.html', context)
-
-
-
-
+    return render(request, 'questions/spanish/question1spanish.html', context)
 
 
 # question 2
@@ -214,7 +202,7 @@ def question2Spanish(request):
                                             
                                         except:
                                             messages.warning(request, 'Se requiere una entrada válida')
-                                            return redirect('login')  
+                                            return redirect('loginspanish')  
                                         # add up missing form fields and calculate BMI
                                         
                                     
@@ -244,7 +232,7 @@ def question2Spanish(request):
                                         request.session['questions_answered'] = [1,2]
                                         request.session.modified = True
                                             
-                                        return redirect('question3')
+                                        return redirect('question3s')
                     
                                         
                                 # send question and answer to view
@@ -259,11 +247,11 @@ def question2Spanish(request):
             
         except:
             messages.warning(request, 'Error de verificación de usuario') 
-            return redirect('login')
+            return redirect('loginspanish')
         
     else:
             messages.warning(request, 'Autenticacion requerida')
-            return redirect('login')
+            return redirect('loginspanish')
     return render(request, 'questions/question2.html', context)
 
 

@@ -96,7 +96,7 @@ def login_page_spanish(request):
         # validate credentials
         if password == '' or full_name == '':
             messages.warning(request, 'credenciales incorrectas')
-            return redirect('login')
+            return redirect('loginspanish')
         else:
             try:
                 password_check = PasswordStorage.objects.get(password=password)
@@ -173,7 +173,7 @@ def login_page_spanish(request):
                             
                     else:
                         messages.warning(request, '¡Tu contraseña ha expirado!')
-                        return redirect('spanish_login')
+                        return redirect('loginspanish')
                     # if count limit isn't reached add 1 
                     
                     # generate token for user login using org username + count
@@ -204,7 +204,7 @@ def complete_user_info_spanish(request):
    
         if request.method == 'POST':
              if 'email' in request.session:
-                 return redirect('question1Spanish')
+                 return redirect('question1s')
              
              else:
                 email = request.POST['email']
@@ -223,7 +223,7 @@ def complete_user_info_spanish(request):
                     device_token =  request.session['token_ses'],
                     )
                     create_mom_data.save()
-                    return redirect('question1Spanish')
+                    return redirect('question1s')
  
     except:
         messages.warning(request, 'Autenticacion requerida')
