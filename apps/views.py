@@ -1936,21 +1936,21 @@ class DownloadPDF(View):
 @login_required(login_url="login")
 def success_page(request):
     context = {}
-    #  check requirements to comfirm user finished test
-    # x = ['question1', 'question2', 'question3','question4', 'question5', 'question6''question7', 'question7', 'question8''question9', 'question10', 'question11', 'question12', 'question13', 'question14''question15', 'question16']
+    # check requirements to comfirm user finished test
+    x = ['question1', 'question2', 'question3','question4', 'question5', 'question6''question7', 'question7', 'question8''question9', 'question10', 'question11', 'question12', 'question13', 'question14''question15', 'question16']
 
-    # for i in x:
-    #     if i in request.session:
-    #         pass 
-    #     else:
-    #         messages.warning(request, 'You didnt complete your questions')
-    #         return redirect(i)
+    for i in x:
+        if i in request.session:
+            pass 
+        else:
+            messages.warning(request, 'You didnt complete your questions')
+            return redirect(i)
     
     
     
     # greet user and give option to download 
-    # user_full_name = request.session['details'][2]
-    # context['full_name'] = user_full_name
+    user_full_name = request.session['details'][2]
+    context['full_name'] = user_full_name
     return render(request, 'pages/success_page.html', context)
 
 
