@@ -40,8 +40,6 @@ def question1Spanish(request):
                                     request.session['age'] = x                
                                     
                                     
-                                    
-                                          
                                     # delete all previous diseases 
                                     
                                     try:
@@ -260,7 +258,7 @@ def question2Spanish(request):
                     messages.warning(request, 'Usuario no verificada')
             # except:
             #     messages.warning(request, 'Error')
-            #     return redirect('login')     
+            #     return redirect('loginspanish')     
             
         except:
             messages.warning(request, 'Error de verificación de usuario') 
@@ -269,7 +267,7 @@ def question2Spanish(request):
     else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
-    return render(request, 'questions/question2.html', context)
+    return render(request, 'questions/spanish/question2spanish.html', context)
 
 
 
@@ -367,16 +365,16 @@ def question3Spanish(request):
                
                 # else:
                     # messages.warning(request, 'Acceso denegado')
-                    # return redirect('login')           
+                    # return redirect('loginspanish')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('loginspanish')
-    return render(request, 'questions/question3.html', context)
+    return render(request, 'questions/spanish/question3spanish.html', context)
 
 
 
@@ -468,11 +466,11 @@ def question4Spanish(request):
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('loginspanish')
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
 
 
@@ -557,11 +555,11 @@ def question5Spanish(request):
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('login')
-    return render(request, 'questions/question4.html', context)
+        return redirect('loginspanish')
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
 
 
@@ -652,16 +650,16 @@ def question6Spanish(request):
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+                #     return redirect('loginspanish')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('login')
-    return render(request, 'questions/question4.html', context)
+        return redirect('loginspanish')
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
 
 
@@ -736,16 +734,16 @@ def question7Spanish(request):
 
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+                #     return redirect('loginspanish')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('login')
-    return render(request, 'questions/question4.html', context)
+        return redirect('loginspanish')
+    return render(request, 'questions/spanish/questions4panish.html', context)
 
 
 
@@ -828,16 +826,16 @@ def question8Spanish(request):
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+                #     return redirect('loginspanish')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('login')
-    return render(request, 'questions/question4.html', context)
+        return redirect('loginspanish')
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
 
 
@@ -921,16 +919,16 @@ def question9Spanish(request):
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+                #     return redirect('loginspanish')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('login')
-    return render(request, 'questions/question4.html', context)
+        return redirect('loginspanish')
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
 
 
@@ -1033,16 +1031,16 @@ def question10Spanish(request):
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+                #     return redirect('loginspanish')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('login')
-    return render(request, 'questions/question5.html', context)
+        return redirect('loginspanish')
+    return render(request, 'questions/spanish/question5spanish.html', context)
 
 
 
@@ -1448,22 +1446,22 @@ def questionCombinedSpanish(request):
                                 
                                                                        
 
-                        return redirect('question15')
+                        return redirect('question15s')
                         # send question and answer to view
                 
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+                #     return redirect('loginspanish')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('login')
-    return render(request, 'questions/question6.html', context)
+        return redirect('loginspanish')
+    return render(request, 'questions/spanish/question6spanish.html', context)
 
 
 # ##############################################################################
@@ -1578,22 +1576,22 @@ def question15Spanish(request):
                                 request.session.modified = True
                                 
                                     
-                        return redirect('question16')
+                        return redirect('question16s')
                         # send question and answer to view
                 
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+                #     return redirect('loginspanish')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('login')
-    return render(request, 'questions/question5.html', context)
+        return redirect('loginspanish')
+    return render(request, 'questions/spanish/question5spanish.html', context)
 
 
 
@@ -1707,14 +1705,14 @@ def question16Spanish(request):
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+                #     return redirect('loginspanish')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('login')
-    return render(request, 'questions/question4.html', context)
+        return redirect('loginspanish')
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
