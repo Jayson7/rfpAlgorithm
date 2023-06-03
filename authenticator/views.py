@@ -74,33 +74,24 @@ def login_page(request):
      
    
     context = {}
-    if request.user.is_authenticated:
-        # cleanup any leftover from user profile
-        
-        try:
-            request.session.flush()
-            logout(request)
-   
-        except:
-            logout(request)
-            
-    else:
-        pass 
+
     
-    
-    # check language selection 
-    
-    if 'language' in request.session:
-        pass 
-    else:
-        messages.warning(request, 'Select a language to continue')
-        return redirect('language')
-    
-    
-    
+
     
     
     if request.method == "POST":
+    
+    
+        # check language selection 
+    
+        if 'language' in request.session:
+            pass
+         
+        else:
+            messages.warning(request, 'Select a language to continue')
+            return redirect('language')
+    
+    
     
         password = request.POST['password1']
         full_name = request.POST['fullname']

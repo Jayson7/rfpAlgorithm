@@ -2,6 +2,7 @@
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.shortcuts import render, redirect
 import datetime 
 from authenticator.models import *
@@ -265,10 +266,16 @@ def question1(request):
               
             else:
                     messages.warning(request, 'Access denied')
+                    
+                    request.session.flush()
+                    logout(request)
                     return redirect('login')           
 
         except:
             messages.warning(request, 'Error')
+            
+            request.session.flush()
+            logout(request)
             return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
@@ -314,6 +321,9 @@ def question2(request):
                                             
                                         except:
                                             messages.warning(request, 'A valid input is required')
+                                            
+                                            request.session.flush()
+                                            logout(request)
                                             return redirect('login')  
                                         # add up missing form fields and calculate BMI
                                         
@@ -355,7 +365,10 @@ def question2(request):
                     messages.warning(request, 'User not verified')
             # except:
             #     messages.warning(request, 'Error')
-            #     return redirect('login')     
+            #     
+            # request.session.flush()
+            # logout(request)
+            # return redirect('login')     
             
         except:
             messages.warning(request, 'User verification error') 
@@ -464,12 +477,18 @@ def question3(request):
                
                 # else:
                     # messages.warning(request, 'Access denied')
+                    # 
+                    # request.session.flush()
+                    # logout(request)
                     # return redirect('login')           
         else:
                 messages.warning(request, 'User not verified')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     
+        # request.session.flush()
+        # logout(request)
+        # return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -566,7 +585,10 @@ def question4(request):
                 messages.warning(request, 'User not verified')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     
+        # request.session.flush()
+        # logout(request)
+        # return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -657,7 +679,10 @@ def question5(request):
                 messages.warning(request, 'User not verified')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     
+        # request.session.flush()
+        # logout(request)
+        # return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -752,12 +777,18 @@ def question6(request):
                
                 # else:
                 #     messages.warning(request, 'Access denied')
-                #     return redirect('login')           
+                #     
+                # request.session.flush()
+                # logout(request)
+                # return redirect('login')           
         else:
                 messages.warning(request, 'User not verified')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     
+        # request.session.flush()
+        # logout(request)
+        # return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -836,12 +867,18 @@ def question7(request):
 
                 # else:
                 #     messages.warning(request, 'Access denied')
-                #     return redirect('login')           
+                #     
+                # request.session.flush()
+                # logout(request)
+                # return redirect('login')           
         else:
                 messages.warning(request, 'User not verified')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     
+        # request.session.flush()
+        # logout(request)
+        # return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -928,12 +965,18 @@ def question8(request):
                
                 # else:
                 #     messages.warning(request, 'Access denied')
-                #     return redirect('login')           
+                #     
+                # request.session.flush()
+                # logout(request)
+                # return redirect('login')           
         else:
                 messages.warning(request, 'User not verified')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     
+        # request.session.flush()
+        # logout(request)
+        # return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -1021,12 +1064,18 @@ def question9(request):
                
                 # else:
                 #     messages.warning(request, 'Access denied')
-                #     return redirect('login')           
+                #     
+                # request.session.flush()
+                # logout(request)
+                # return redirect('login')           
         else:
                 messages.warning(request, 'User not verified')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     
+        # request.session.flush()
+        # logout(request)
+        # return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -1137,12 +1186,18 @@ def question10(request):
                
                 # else:
                 #     messages.warning(request, 'Access denied')
-                #     return redirect('login')           
+                #     
+                # request.session.flush()
+                # logout(request)
+                # return redirect('login')           
         else:
                 messages.warning(request, 'User not verified')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     
+        # request.session.flush()
+        # logout(request)
+        # return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -1558,12 +1613,18 @@ def questionCombined(request):
                
                 # else:
                 #     messages.warning(request, 'Access denied')
-                #     return redirect('login')           
+                #     
+                # request.session.flush()
+                # logout(request)
+                # return redirect('login')           
         else:
                 messages.warning(request, 'User not verified')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     
+        # request.session.flush()
+        # logout(request)
+        # return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -1690,12 +1751,18 @@ def question15(request):
                
                 # else:
                 #     messages.warning(request, 'Access denied')
-                #     return redirect('login')           
+                #     
+                # request.session.flush()
+                # logout(request)
+                # return redirect('login')           
         else:
                 messages.warning(request, 'User not verified')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     
+        # request.session.flush()
+        # logout(request)
+        # return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -1813,13 +1880,19 @@ def question16(request):
                
                 # else:
                 #     messages.warning(request, 'Access denied')
-                #     return redirect('login')           
+                #     
+                # request.session.flush()
+                # logout(request)
+                # return redirect('login')           
         else:
                 messages.warning(request, 'User not verified')
                 return redirect('login')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        #     
+        # request.session.flush()
+        # logout(request)
+        # return redirect('login')     
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -1988,14 +2061,7 @@ def choose_language_spanish(request):
     request.session['language'] = 'spanish'
     request.session.modified = True
     
-    if 'language' in request.session or request.user.is_authenticated:
-        
-        request.session.flush()
-        deactivate_auth(request)
-        
-    else:
-        messages.warning(request, 'Choose a language')
-        return redirect('choose_language')
+    return redirect('loginspanish')
     
     
 
@@ -2005,13 +2071,7 @@ def choose_language_english(request):
     request.session['language'] = 'english'
     request.session.modified = True
     
-    if 'language' in request.session:
-        if request.session['language'] == 'english':
-            return redirect('login') 
-
-    else:
-        messages.warning(request, 'Choose a language')
-        return redirect('choose_language')
+    return redirect('login')
     
     
 

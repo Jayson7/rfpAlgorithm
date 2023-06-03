@@ -91,12 +91,12 @@ def login_page_spanish(request):
   
   
        
-    if 'language' in request.session:
-        pass 
+        if 'language' in request.session:
+            pass 
     
-    else:
-        messages.warning(request, 'Select a language to continue')
-        return redirect('language')
+        else:
+            messages.warning(request, 'Select a language to continue')
+            return redirect('language')
     
  
         
