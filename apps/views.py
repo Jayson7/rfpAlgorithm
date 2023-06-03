@@ -1908,6 +1908,9 @@ def save_result_user(request):
 
     token = request.session['token_ses']
     
+    
+    
+    
     # get all diseases
     diseases = Disease.objects.filter(user_diagnosed = token)
     for i in diseases:
@@ -1918,7 +1921,7 @@ def save_result_user(request):
             mom_full_name= request.session['details'][2],
             token = request.session['token_ses'],
             )
-        d.save()
+        
 
 
     #  store needed data
@@ -1936,6 +1939,9 @@ def save_result_user(request):
     email =  request.session['email'],
     
     )
+
+        
+    d.save()
     result.save()
     
 
@@ -1986,6 +1992,7 @@ class ViewPDF(View):
 
 
 #Automaticaly downloads to PDF file
+
 class DownloadPDF(View):
     def get(self, request, *args, **kwargs):
         context = {}
@@ -1995,7 +2002,7 @@ class DownloadPDF(View):
         pdf = render_to_pdf('pages/generate_pdf.html', context)
         response = HttpResponse(pdf, content_type='application/pdf')
         
-        filename = "Invoice_%s.pdf" %("12341231")
+        filename = "Result_RFP-Algorithm_%s.pdf" %("12341231")
         content = "attachment; filename='%s'" %(filename)
         response['Content-Disposition'] = content
         return response
@@ -2010,14 +2017,14 @@ class DownloadPDF(View):
 def success_page(request):
     context = {}
     # check requirements to comfirm user finished test
-    x = ['question1', 'question2', 'question3','question4', 'question5', 'question6''question7', 'question7', 'question8''question9', 'question10', 'question11', 'question12', 'question13', 'question14''question15', 'question16']
+    # x = ['question1', 'question2', 'question3','question4', 'question5', 'question6''question7', 'question7', 'question8''question9', 'question10', 'question11', 'question12', 'question13', 'question14''question15', 'question16']
 
-    for i in x:
-        if i in request.session:
-            pass 
-        else:
-            messages.warning(request, 'You didnt complete your questions')
-            return redirect(i)
+    # for i in x:
+    #     if i in request.session:
+    #         pass 
+    #     else:
+    #         messages.warning(request, 'You didnt complete your questions')
+    #         return redirect(i)
     
     
     
@@ -2058,8 +2065,6 @@ def  choose_language(request):
     
 def choose_language_spanish(request):
     
-    request.session['language'] = 'spanish'
-    request.session.modified = True
     
     return redirect('loginspanish')
     
@@ -2067,9 +2072,6 @@ def choose_language_spanish(request):
 
     
 def choose_language_english(request):
-    
-    request.session['language'] = 'english'
-    request.session.modified = True
     
     return redirect('login')
     

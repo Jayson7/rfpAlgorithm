@@ -88,19 +88,7 @@ def login_page_spanish(request):
         browser_prop = request.user_agent.browser 
         device = request.user_agent.device 
   
-  
-  
-       
-        if 'language' in request.session:
-            pass 
-    
-        else:
-            messages.warning(request, 'Select a language to continue')
-            return redirect('language')
-    
- 
-        
-        
+
         # validate credentials
         if password == '' or full_name == '':
             messages.warning(request, 'credenciales incorrectas')
@@ -163,7 +151,9 @@ def login_page_spanish(request):
                                 request.session['user_profile'] = request.user.username
                                 request.session['details'] = [browser_prop, device, full_name]
                                 
-
+                                
+                                request.session['language'] = 'spanish'
+                                print(request.session['language'] )
                                 
                                 # update session
                                 request.session.modified = True

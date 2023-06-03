@@ -68,28 +68,23 @@ def basic_user_auth_check_admin(request):
 
 @csrf_exempt
 def login_page(request):
-
-
-    
-     
+   
    
     context = {}
 
-    
-
-    
+   
+    if request.user.is_authenticated:
+        # cleanup any leftover from user profile
+        
+        try:
+            request.session.flush()
+            logout(request)
+   
+        except:
+            logout(request)
+            
     
     if request.method == "POST":
-    
-    
-        # check language selection 
-    
-        if 'language' in request.session:
-            pass
-         
-        else:
-            messages.warning(request, 'Select a language to continue')
-            return redirect('language')
     
     
     
@@ -100,10 +95,7 @@ def login_page(request):
         browser_prop = request.user_agent.browser 
         device = request.user_agent.device 
   
-       
-
- 
-        
+      
         
         # validate credentials
         if password == '' or full_name == '':
@@ -173,8 +165,9 @@ def login_page(request):
                                 request.session['user_profile'] = request.user.username
                                 request.session['details'] = [browser_prop, device, full_name]
                                 
+                                request.session['language'] = 'english'
+                                print(request.session['language'] )
 
-                                
                                 # update session
                                 request.session.modified = True
                                 
