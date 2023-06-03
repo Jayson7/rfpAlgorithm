@@ -86,6 +86,20 @@ def login_page(request):
             
     else:
         pass 
+    
+    
+    # check language selection 
+    
+    if 'language' in request.session:
+        pass 
+    else:
+        messages.warning(request, 'Select a language to continue')
+        return redirect('language')
+    
+    
+    
+    
+    
     if request.method == "POST":
     
         password = request.POST['password1']

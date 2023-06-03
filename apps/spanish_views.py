@@ -39,25 +39,11 @@ def question1Spanish(request):
                         
                                     request.session['age'] = x                
                                     
-                                    
-                                    # delete all previous diseases 
-                                    
-                                    try:
-                                        disease = Disease.objects.filter(user_diagnosed=request.session['token_ses'])
-                                        
-                                        for i in disease:
-                                            i.delete()
-                                    except:
-                                        pass         
-                                    
-                                    
-                                    
                                     disease = Disease(
                                             disease = 'thrombosis',
                                             user_diagnosed = token_of_user,
                                             points = 0
                                         )
-                                    
                                     disease.save()
                                         
                                     disease2 = Disease(
@@ -182,7 +168,6 @@ def question1Spanish(request):
     return render(request, 'questions/spanish/question1spanish.html', context)
 
 
-
 # question 2
 
 def question2Spanish(request):
@@ -203,6 +188,7 @@ def question2Spanish(request):
                             # prepare question
                         question2 = QuestionsSpanish.objects.filter(id = 2).first()
                                 
+        
                         # get answers ans send form to frontend
             
                         if request.method =='POST':
@@ -217,11 +203,10 @@ def question2Spanish(request):
                                         except:
                                             messages.warning(request, 'Se requiere una entrada válida')
                                             return redirect('loginspanish')  
-                                        
-                                        
                                         # add up missing form fields and calculate BMI
                                         
-                                
+                                    
+                                        
                                         
                                         # calculate BMI
                                         
@@ -258,7 +243,7 @@ def question2Spanish(request):
                     messages.warning(request, 'Usuario no verificada')
             # except:
             #     messages.warning(request, 'Error')
-            #     return redirect('loginspanish')     
+            #     return redirect('login')     
             
         except:
             messages.warning(request, 'Error de verificación de usuario') 
@@ -267,7 +252,9 @@ def question2Spanish(request):
     else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
-    return render(request, 'questions/spanish/question2spanish.html', context)
+    return render(request, 'questions/question2.html', context)
+
+
 
 
 
@@ -313,6 +300,8 @@ def question3Spanish(request):
                             question3Session.append(str(check_answers.first())) 
                      
                            
+                          
+                           
                             for ans in check_answers:
                                 if ans.answer == 'Asian':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
@@ -328,8 +317,6 @@ def question3Spanish(request):
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
                                     d.points += 1
                                     d.save()
-                                    
-                                    
                                 elif ans.answer == 'Latino':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
                                     d.points += 1
@@ -343,8 +330,6 @@ def question3Spanish(request):
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
                                     d.points += 1
                                     d.save()
-                                    
-                                    
                                 elif ans.answer == 'Other':
                                     pass
                                 elif ans.answer == 'Native American':
@@ -355,26 +340,28 @@ def question3Spanish(request):
                                 elif ans.answer == 'White race':
                                     pass 
                                 
-                          
+                                    
+                                    
+                                   
                                 request.session['questions_answered'] = [1,2,3]
                                 request.session.modified = True
                                 
-                        return redirect('question4s')
+                        return redirect('question4')
                         # send question and answer to view
                 
                
                 # else:
                     # messages.warning(request, 'Acceso denegado')
-                    # return redirect('loginspanish')           
+                    # return redirect('login')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('loginspanish')     
+        #     return redirect('login')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspanish')
-    return render(request, 'questions/spanish/question3spanish.html', context)
+        return redirect('login')
+    return render(request, 'questions/question3.html', context)
 
 
 
@@ -393,6 +380,7 @@ def question4Spanish(request):
     if request.user.is_authenticated:
 
   
+             
         user = request.user 
         token_of_user = request.session['token_ses']
       
@@ -458,7 +446,7 @@ def question4Spanish(request):
                                     
                                    
 
-                        return redirect('question5s')
+                        return redirect('question5')
                         # send question and answer to view
                 
                       
@@ -466,11 +454,11 @@ def question4Spanish(request):
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('loginspanish')     
+        #     return redirect('login')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspanish')
-    return render(request, 'questions/spanish/question4spanish.html', context)
+        return redirect('login')
+    return render(request, 'questions/question4.html', context)
 
 
 
@@ -502,7 +490,9 @@ def question5Spanish(request):
         else:
                 pass
          
-
+     
+        
+      
         
         if token_of_user:
       
@@ -547,7 +537,7 @@ def question5Spanish(request):
                       
     
 
-                        return redirect('question6s')
+                        return redirect('question6')
                         # send question and answer to view
                 
                       
@@ -555,11 +545,11 @@ def question5Spanish(request):
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('loginspanish')     
+        #     return redirect('login')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspanish')
-    return render(request, 'questions/spanish/question4spanish.html', context)
+        return redirect('login')
+    return render(request, 'questions/question4.html', context)
 
 
 
@@ -650,16 +640,16 @@ def question6Spanish(request):
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('loginspanish')           
+                #     return redirect('login')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('loginspanish')     
+        #     return redirect('login')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspanish')
-    return render(request, 'questions/spanish/question4spanish.html', context)
+        return redirect('login')
+    return render(request, 'questions/question4.html', context)
 
 
 
@@ -734,16 +724,16 @@ def question7Spanish(request):
 
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('loginspanish')           
+                #     return redirect('login')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('loginspanish')     
+        #     return redirect('login')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspanish')
-    return render(request, 'questions/spanish/questions4panish.html', context)
+        return redirect('login')
+    return render(request, 'questions/question4.html', context)
 
 
 
@@ -826,16 +816,16 @@ def question8Spanish(request):
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('loginspanish')           
+                #     return redirect('login')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('loginspanish')     
+        #     return redirect('login')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspanish')
-    return render(request, 'questions/spanish/question4spanish.html', context)
+        return redirect('login')
+    return render(request, 'questions/question4.html', context)
 
 
 
@@ -919,16 +909,16 @@ def question9Spanish(request):
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('loginspanish')           
+                #     return redirect('login')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('loginspanish')     
+        #     return redirect('login')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspanish')
-    return render(request, 'questions/spanish/question4spanish.html', context)
+        return redirect('login')
+    return render(request, 'questions/question4.html', context)
 
 
 
@@ -1031,16 +1021,16 @@ def question10Spanish(request):
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('loginspanish')           
+                #     return redirect('login')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('loginspanish')     
+        #     return redirect('login')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspanish')
-    return render(request, 'questions/spanish/question5spanish.html', context)
+        return redirect('login')
+    return render(request, 'questions/question5.html', context)
 
 
 
@@ -1446,22 +1436,22 @@ def questionCombinedSpanish(request):
                                 
                                                                        
 
-                        return redirect('question15s')
+                        return redirect('question15')
                         # send question and answer to view
                 
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('loginspanish')           
+                #     return redirect('login')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('loginspanish')     
+        #     return redirect('login')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspanish')
-    return render(request, 'questions/spanish/question6spanish.html', context)
+        return redirect('login')
+    return render(request, 'questions/question6.html', context)
 
 
 # ##############################################################################
@@ -1518,7 +1508,7 @@ def question15Spanish(request):
                             for ans in check_answers:
                                
                                 if ans.answer == 'You have been diagnosed with a previous or current psychiatric disorder including schizophrenia, bipolar disorder, obsessive-compulsive disorder, or eating disorder (such as bulimia or anorexia), amon':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=100
                                     d.save()
 
@@ -1526,47 +1516,47 @@ def question15Spanish(request):
 
                                 elif ans.answer == 'You are currently undergoing psychiatric treatment with medication (including antidepressants, antipsychotics, mood stabilizers, stimulant medication or anxiety medication, among others).':
                                     
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=100
                                     d.save()
 
                                
                                 elif ans.answer == 'You have had previous suicide attempts.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=100
                                     d.save()
 
 
                                 elif ans.answer == 'You have a history of psychosis, depression, or anxiety (including previous pregnancies and postpartum).':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()
                                 
                                 elif ans.answer == 'You have a family history (parents, siblings or children) of mental illness (including postpartum psychosis, bipolar disorder, anxiety or depression).':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
                                 elif ans.answer == 'You have problems living with your current partner.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
                                 
                                 elif ans.answer == 'You have current financial problems.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
                                 
                                 elif ans.answer == 'You have little or no family or friend support to rely on for the care of your baby.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
                                 
                                 elif ans.answer == 'The current pregnancy is unwanted.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
@@ -1576,28 +1566,30 @@ def question15Spanish(request):
                                 request.session.modified = True
                                 
                                     
-                        return redirect('question16s')
+                                   
+
+                        return redirect('question16')
                         # send question and answer to view
                 
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('loginspanish')           
+                #     return redirect('login')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('loginspanish')     
+        #     return redirect('login')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspanish')
-    return render(request, 'questions/spanish/question5spanish.html', context)
+        return redirect('login')
+    return render(request, 'questions/question5.html', context)
+
 
 
 
 # ##############################################################################
 # question 16
-
 
 
 def question16Spanish(request):
@@ -1705,14 +1697,14 @@ def question16Spanish(request):
                
                 # else:
                 #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('loginspanish')           
+                #     return redirect('login')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
         #     messages.warning(request, 'Error')
-        #     return redirect('loginspanish')     
+        #     return redirect('login')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspanish')
-    return render(request, 'questions/spanish/question4spanish.html', context)
+        return redirect('login')
+    return render(request, 'questions/question4.html', context)
 

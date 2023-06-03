@@ -88,8 +88,16 @@ def login_page_spanish(request):
         browser_prop = request.user_agent.browser 
         device = request.user_agent.device 
   
+  
+  
        
-
+    if 'language' in request.session:
+        pass 
+    
+    else:
+        messages.warning(request, 'Select a language to continue')
+        return redirect('language')
+    
  
         
         
