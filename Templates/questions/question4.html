@@ -15,7 +15,7 @@
   </head>
   <body>
     <div class="question-wrapper">
-      <div class="container-fluid py-5 px-5">
+      <div class="container-fluid py-5 px-2">
         <div
           class="mt-5 container-fluid d-flex flex-column align-items-center justify-content-center"
         >
@@ -28,9 +28,9 @@
             <h5>{{question}} ?</h5>
           </div>
 
-          <form method="POST" autocomplete="off" class="col-6">
+          <form method="POST" autocomplete="off" class="col-md-6 col-sm-12">
             {% csrf_token %}
-            <table class="table table-striped mt-4">
+            <table class="table mt-4">
               <thead>
                 <tr></tr>
               </thead>
