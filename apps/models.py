@@ -101,6 +101,6 @@ class Result_owner(models.Model):
    
         
     def __str__(self):
-        return self.mom_full_name    
+        return self.full_name    
   
 
