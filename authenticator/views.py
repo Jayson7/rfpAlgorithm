@@ -69,6 +69,7 @@ def basic_user_auth_check_admin(request):
 @csrf_exempt
 def login_page(request):
    
+    request.session.set_expiry(0)
    
     context = {}
 

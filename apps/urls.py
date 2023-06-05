@@ -12,8 +12,9 @@ urlpatterns = [
     path('', Homepage, name='home'),
     # path('pdf', Generate_pdf.as_view()),
     path('success_page', success_page, name='success_page'),
+    path('success_page_spanish', success_page_spanish, name='success_page_spanish'),
     path('save_result_user', save_result_user, name='save_result_user'),
-    
+ 
     
     # questions 
     path('question1', question1, name='question1'),

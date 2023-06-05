@@ -27,7 +27,7 @@ from xhtml2pdf import pisa
 
 # Create your views here.
 
-
+   
 def details(request, pk):
     context = {}
     
@@ -92,7 +92,7 @@ def manage_user(request):
 def Homepage(request):
     
     #   set session expiry 
-    request.session.set_expiry(0)
+    
     
     context = {}
     return render(request, 'pages/home.html', context)
@@ -149,6 +149,7 @@ def question1(request):
                                             points = 0
                                         )
                                     disease.save()
+                                    
                                         
                                     disease2 = Disease(
                                             disease = 'Intrahepatic cholestasis',
@@ -569,7 +570,8 @@ def question4(request):
                                     d.points += 1
                                     d.save()
 
-                                
+                                else:
+                                    pass
                                 
                                 request.session['questions_answered'] = [1,2,3,4]
                                 request.session.modified = True
@@ -2015,6 +2017,7 @@ class DownloadPDF(View):
 # after success of test show page
 @login_required(login_url="login")
 def success_page(request):
+    request.session.set_expiry(240)
     context = {}
     # check requirements to comfirm user finished test
     # x = ['question1', 'question2', 'question3','question4', 'question5', 'question6''question7', 'question7', 'question8''question9', 'question10', 'question11', 'question12', 'question13', 'question14''question15', 'question16']

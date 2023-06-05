@@ -285,8 +285,7 @@ def question3Spanish(request):
         if token_of_user:
 
                     question3 = QuestionsSpanish.objects.filter(id = 3).first()
-                    
-  
+          
                     context['question'] = question3
                     # get answers ans send form to frontend
                     
@@ -297,7 +296,9 @@ def question3Spanish(request):
                     if 'question3' in request.session:
                         del request.session['question3']
                     else:
-                            pass 
+                        pass 
+                  
+                            
                     if request.method =='POST':
                         
                         list_checked = request.POST.getlist('xlist_boxes')
@@ -313,7 +314,7 @@ def question3Spanish(request):
                           
                            
                             for ans in check_answers:
-                                if ans.answer == 'Asian':
+                                if ans.answer == 'Asiático':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
                                     d.points += 1
                                     d.save()
@@ -323,7 +324,7 @@ def question3Spanish(request):
                                     d.save()
                                    
                                    
-                                elif ans.answer == 'Black race':
+                                elif ans.answer == 'Raza negra':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
                                     d.points += 1
                                     d.save()
@@ -336,18 +337,18 @@ def question3Spanish(request):
                                     d.points += 1
                                     d.save()
                                     
-                                elif ans.answer == 'Middle Eastern / Arab':
+                                elif ans.answer == 'Oriente Medio/árabe':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
                                     d.points += 1
                                     d.save()
-                                elif ans.answer == 'Other':
+                                elif ans.answer == 'Otro':
                                     pass
-                                elif ans.answer == 'Native American':
+                                elif ans.answer == 'Nativo americano':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
                                     d.points += 1
                                     d.save()
                                    
-                                elif ans.answer == 'White race':
+                                elif ans.answer == 'Raza blanca':
                                     pass 
                                 
                                     
@@ -356,7 +357,7 @@ def question3Spanish(request):
                                 request.session['questions_answered'] = [1,2,3]
                                 request.session.modified = True
                                 
-                        return redirect('question4')
+                        return redirect('question4s')
                         # send question and answer to view
                 
                
@@ -371,7 +372,7 @@ def question3Spanish(request):
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('login')
-    return render(request, 'questions/question3.html', context)
+    return render(request, 'questions/spanish/question3spanish.html', context)
 
 
 
@@ -389,8 +390,6 @@ def question4Spanish(request):
  
     if request.user.is_authenticated:
 
-  
-             
         user = request.user 
         token_of_user = request.session['token_ses']
       
@@ -400,8 +399,8 @@ def question4Spanish(request):
                     question4 = QuestionsSpanish.objects.filter(id = 4).first()
                     
                     context['question'] = question4
-                    context['question_tag'] = 'Question 4'
-                    context['question_tag_eng'] = 'Four'
+                    context['question_tag'] = 'Pregunta 4'
+                    context['question_tag_eng'] = 'cuatro'
                     
                     # get answers ans send form to frontend
                     
@@ -423,10 +422,9 @@ def question4Spanish(request):
                             check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question4Session.append(str(check_answers.first())) 
                            
-                           
                             for ans in check_answers:
                                
-                                if ans.answer == 'First pregnancy or gestational loss less than 20 weeks':
+                                if ans.answer == 'Primer embarazo ó pérdida gestacional menor 20 semanas':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
                                     d.points +=1
                                     d.save()
@@ -435,7 +433,7 @@ def question4Spanish(request):
                                     d.points += 1
                                     d.save()
 
-                                elif ans.answer == '2 deliveries':
+                                elif ans.answer == '2 partos':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
                                     d.points+= 1
                                     d.save()
@@ -443,11 +441,13 @@ def question4Spanish(request):
                                     d.points += 1
                                     d.save()
                                
-                                elif ans.answer == '3 or more deliveries':
+                                elif ans.answer == '3 ó más partos':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()
 
+                                else:
+                                    pass
                                 
                                 
                                 request.session['questions_answered'] = [1,2,3,4]
@@ -456,7 +456,7 @@ def question4Spanish(request):
                                     
                                    
 
-                        return redirect('question5')
+                        return redirect('question5s')
                         # send question and answer to view
                 
                       
@@ -468,7 +468,7 @@ def question4Spanish(request):
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('login')
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
 
 
@@ -510,8 +510,8 @@ def question5Spanish(request):
                     question5 = QuestionsSpanish.objects.filter(id = 5).first()
                     
                     context['question'] = question5
-                    context['question_tag'] = 'Question 5'
-                    context['question_tag_eng'] = 'Five'
+                    context['question_tag'] = 'Pregunta 5'
+                    context['question_tag_eng'] = 'cinco'
                     
                     # get answers ans send form to frontend
                     
@@ -533,12 +533,12 @@ def question5Spanish(request):
                                
                                 if ans.answer == 'No':
                                     pass
-                                elif ans.answer == 'Yes':
+                                elif ans.answer == 'Sí':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
                                     d.points+= 1
                                     d.save()
                            
-                                elif ans.answer == 'I am not currently pregnant':
+                                elif ans.answer == 'No estoy embarazada actualmente':
                                     pass
                                 
                                     
@@ -547,7 +547,7 @@ def question5Spanish(request):
                       
     
 
-                        return redirect('question6')
+                        return redirect('question6s')
                         # send question and answer to view
                 
                       
@@ -559,7 +559,7 @@ def question5Spanish(request):
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('login')
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
 
 
@@ -601,8 +601,8 @@ def question6Spanish(request):
                     question6 = QuestionsSpanish.objects.filter(id = 6).first()
                     
                     context['question'] = question6
-                    context['question_tag'] = 'Question 6'
-                    context['question_tag_eng'] = 'Six'
+                    context['question_tag'] = 'Pregunta 6'
+                    context['question_tag_eng'] = 'Seis'
                     
                     # get answers ans send form to frontend
                     
@@ -622,12 +622,13 @@ def question6Spanish(request):
                            
                             for ans in check_answers:
                                
-                                if ans.answer == 'Yes':
+                                if ans.answer == 'Sí':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
                                     d.points +=1
                                     d.save()
 
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    
                                     d.points += 1
                                     d.save()
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anaemia')
@@ -636,7 +637,7 @@ def question6Spanish(request):
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()
-                                elif ans.answer == 'No' or ans.answer == 'I am not currently pregnant':
+                                elif ans.answer == 'No' or ans.answer == 'No estoy embarazada actualmente':
                                     pass 
                                 
                                 
@@ -644,7 +645,7 @@ def question6Spanish(request):
                                 request.session.modified = True
                       
 
-                        return redirect('question7')
+                        return redirect('question7s')
                         # send question and answer to view
                 
                
@@ -659,7 +660,7 @@ def question6Spanish(request):
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('login')
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
 
 
@@ -695,8 +696,8 @@ def question7Spanish(request):
                     question7 = QuestionsSpanish.objects.filter(id = 7).first()
                     
                     context['question'] = question7
-                    context['question_tag'] = 'Question 7'
-                    context['question_tag_eng'] = 'Seven'
+                    context['question_tag'] = 'Pregunta 7'
+                    context['question_tag_eng'] = 'Siete'
                     
                     # get answers ans send form to frontend
                     
@@ -717,19 +718,19 @@ def question7Spanish(request):
                            
                             for ans in check_answers:
                                
-                                if ans.answer == 'Yes, I have been diagnosed with deep vein thrombosis AND I am currently on anticoagulant treatment.':
+                                if ans.answer == 'Sí, he sido diagnosticada de trombosis venosa profunda Y estoy actualmente en tratamiento anticoagulante.':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 100 
                                     d.save()
                                 
                                 
-                                elif ans.answer == 'No, I am not on anticoagulant treatment for a previous deep vein thrombosis.':
+                                elif ans.answer == 'No, no estoy en tratamiento anticoagulante para una trombosis venosa profunda previa.':
                                     pass
            
                                 request.session['questions_answered'] = [1,2,3,4,5,6,7]
                                 request.session.modified = True
 
-                        return redirect('question8')
+                        return redirect('question8s')
                         # send question and answer to view
 
                 # else:
@@ -743,7 +744,7 @@ def question7Spanish(request):
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('login')
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
 
 
@@ -776,8 +777,7 @@ def question8Spanish(request):
         else:
             pass
          
-            
-        print(request.session['question7'])
+
         
         if request.user:
                 # if token_of_user:
@@ -785,8 +785,8 @@ def question8Spanish(request):
                     question8 = QuestionsSpanish.objects.filter(id = 8).first()
                     
                     context['question'] = question8
-                    context['question_tag'] = 'Question 8'
-                    context['question_tag_eng'] = 'Eight'
+                    context['question_tag'] = 'Pregunta 8'
+                    context['question_tag_eng'] = 'Ocho'
                     
                     # get answers ans send form to frontend
                     
@@ -806,13 +806,13 @@ def question8Spanish(request):
                            
                             for ans in check_answers:
                                
-                                if ans.answer == 'Yes, I have been diagnosed with antithrombin deficiency or antiphospholipid syndrome.':
+                                if ans.answer == 'Sí, he sido diagnosticada de deficiencia de antitrombina ó síndrome antifosfolípido trombótico.':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 100 
                                     d.save()
 
 
-                                elif ans.answer == 'No, I have not been diagnosed with antithrombin deficiency or antiphospholipid syndrome.':
+                                elif ans.answer == 'No, no he sido diagnosticada de deficiencia de antitrombina ó síndrome antifosfolípido trombótico.':
                                     pass
                             
                                     
@@ -820,7 +820,7 @@ def question8Spanish(request):
                         request.session['questions_answered'] = [1,2,3,4,5,6,7,8]
                         request.session.modified = True
 
-                        return redirect('question9')
+                        return redirect('question9s')
                         # send question and answer to view
                 
                
@@ -835,7 +835,7 @@ def question8Spanish(request):
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('login')
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
 
 
@@ -870,7 +870,7 @@ def question9Spanish(request):
                     question9 = QuestionsSpanish.objects.filter(id = 9).first()
                     
                     context['question'] = question9
-                    context['question_tag'] = 'Question 9'
+                    context['question_tag'] = 'Pregunta 9'
                     context['question_tag_eng'] = 'Nine'
                     
                     # get answers ans send form to frontend
@@ -928,7 +928,7 @@ def question9Spanish(request):
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('login')
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
 
 
@@ -965,7 +965,7 @@ def question10Spanish(request):
                     question10 = QuestionsSpanish.objects.filter(id = 10).first()
                     
                     context['question'] = question10
-                    context['question_tag'] = 'Question 10'
+                    context['question_tag'] = 'Pregunta 10'
                     context['question_tag_eng'] = 'Ten'
                     
                     # get answers ans send form to frontend
@@ -1095,7 +1095,7 @@ def questionCombinedSpanish(request):
                     context['question2'] = question12
                     context['question3'] = question13
                     context['question4'] = question14
-                    context['question_tag'] = 'Question 11, 12, 13 & 14'
+                    context['question_tag'] = 'Pregunta 11, 12, 13 & 14'
                     context['question_tag_eng'] = 'Eleven, Twelve, Thirteen and Fourteen'
                     
                     # get answers ans send form to frontend
@@ -1496,7 +1496,7 @@ def question15Spanish(request):
                     question15 = QuestionsSpanish.objects.filter(id = 15).first()
                     
                     context['question'] = question15
-                    context['question_tag'] = 'Question 15'
+                    context['question_tag'] = 'Pregunta 15'
                     context['question_tag_eng'] = 'Fifteen'
                     
                     # get answers ans send form to frontend
@@ -1623,7 +1623,7 @@ def question16Spanish(request):
                     question16 = QuestionsSpanish.objects.filter(id = 16).first()
                     
                     context['question'] = question16
-                    context['question_tag'] = 'Question 16'
+                    context['question_tag'] = 'Pregunta 16'
                     context['question_tag_eng'] = 'Sixteen'
                     
                     # get answers ans send form to frontend
@@ -1716,5 +1716,27 @@ def question16Spanish(request):
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('login')
-    return render(request, 'questions/question4.html', context)
+    return render(request, 'questions/spanish/question4spanish.html', context)
 
+
+# after success of test show page
+@login_required(login_url="login")
+def success_page_spanish(request):
+    request.session.set_expiry(240)
+    context = {}
+    # check requirements to comfirm user finished test
+    # x = ['question1', 'question2', 'question3','question4', 'question5', 'question6''question7', 'question7', 'question8''question9', 'question10', 'question11', 'question12', 'question13', 'question14''question15', 'question16']
+
+    # for i in x:
+    #     if i in request.session:
+    #         pass 
+    #     else:
+    #         messages.warning(request, 'You didnt complete your questions')
+    #         return redirect(i)
+    
+    
+    
+    # greet user and give option to download 
+    user_full_name = request.session['details'][2]
+    context['full_name'] = user_full_name
+    return render(request, 'pages/success_page_spanish.html', context)
