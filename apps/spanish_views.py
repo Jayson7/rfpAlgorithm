@@ -290,7 +290,7 @@ def question3Spanish(request):
                     context['question'] = question3
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question3)
+                    x_list = AnswerSpanish.objects.filter(question=question3)
                    
                     context['xlist'] = x_list
                     
@@ -306,7 +306,7 @@ def question3Spanish(request):
                         question3Session = request.session['question3'] = []
                         
                         for i in list_checked:
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question3Session.append(str(check_answers.first())) 
                      
                            
@@ -405,7 +405,7 @@ def question4Spanish(request):
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question4)
+                    x_list = AnswerSpanish.objects.filter(question=question4)
                     
                     if 'question4' in request.session:
                         del request.session['question4']
@@ -420,7 +420,7 @@ def question4Spanish(request):
                         question4Session = request.session['question4'] = []
                         
                         for i in list_checked:
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question4Session.append(str(check_answers.first())) 
                            
                            
@@ -515,7 +515,7 @@ def question5Spanish(request):
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question5)
+                    x_list = AnswerSpanish.objects.filter(question=question5)
                     
                   
                     context['xlist'] = x_list
@@ -525,7 +525,7 @@ def question5Spanish(request):
                         question5Session = request.session['question5'] = []
                         
                         for i in list_checked:
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question5Session.append(str(check_answers.first())) 
                            
                            
@@ -606,7 +606,7 @@ def question6Spanish(request):
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question6)
+                    x_list = AnswerSpanish.objects.filter(question=question6)
                     
                   
                     context['xlist'] = x_list
@@ -616,7 +616,7 @@ def question6Spanish(request):
                         question6Session = request.session['question6'] = []
                         
                         for i in list_checked:
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question6Session.append(str(check_answers.first())) 
                            
                            
@@ -700,7 +700,7 @@ def question7Spanish(request):
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question7)
+                    x_list = AnswerSpanish.objects.filter(question=question7)
                     
                   
                     context['xlist'] = x_list
@@ -710,7 +710,7 @@ def question7Spanish(request):
                         question7Session = request.session['question7'] = []
                         
                         for i in list_checked:
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
         
                             question7Session.append(str(check_answers.first())) 
                            
@@ -790,7 +790,7 @@ def question8Spanish(request):
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question8)
+                    x_list = AnswerSpanish.objects.filter(question=question8)
                     
                   
                     context['xlist'] = x_list
@@ -800,7 +800,7 @@ def question8Spanish(request):
                         question8Session = request.session['question8'] = []
                         
                         for i in list_checked:
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question8Session.append(str(check_answers.first())) 
                            
                            
@@ -875,7 +875,7 @@ def question9Spanish(request):
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question9)
+                    x_list = AnswerSpanish.objects.filter(question=question9)
                     
                   
                     context['xlist'] = x_list
@@ -885,7 +885,7 @@ def question9Spanish(request):
                         question9Session = request.session['question9'] = []
                         
                         for i in list_checked:
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question9Session.append(str(check_answers.first())) 
                            
                            
@@ -970,7 +970,7 @@ def question10Spanish(request):
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question10)
+                    x_list = AnswerSpanish.objects.filter(question=question10)
                     
                   
                     context['xlist'] = x_list
@@ -981,7 +981,7 @@ def question10Spanish(request):
                         
                         for i in list_checked:
                             
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question10Session.append(str(check_answers.first())) 
                            
                            
@@ -1100,10 +1100,10 @@ def questionCombinedSpanish(request):
                     
                     # get answers ans send form to frontend
                     
-                    x_list1 = Answer.objects.filter(question=question11)
-                    x_list2 = Answer.objects.filter(question=question12)
-                    x_list3 = Answer.objects.filter(question=question13)
-                    x_list4 = Answer.objects.filter(question=question14)
+                    x_list1 = AnswerSpanish.objects.filter(question=question11)
+                    x_list2 = AnswerSpanish.objects.filter(question=question12)
+                    x_list3 = AnswerSpanish.objects.filter(question=question13)
+                    x_list4 = AnswerSpanish.objects.filter(question=question14)
                     
                  
                     context['xlist1'] = x_list1
@@ -1125,7 +1125,7 @@ def questionCombinedSpanish(request):
                         
                         for i in list_checked1:
                            
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question11Session.append(str(check_answers.first())) 
                            
                             for ans in check_answers:
@@ -1263,7 +1263,7 @@ def questionCombinedSpanish(request):
                                     
                         for i in list_checked2:
                             
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question12Session.append(str(check_answers.first())) 
                             
                             
@@ -1356,7 +1356,7 @@ def questionCombinedSpanish(request):
                                     
                         for i in list_checked4:
                             
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question14Session.append(str(check_answers.first())) 
                            
                             if ans.answer == 'thyroid disorder Familial autoimmune':
@@ -1394,7 +1394,7 @@ def questionCombinedSpanish(request):
                                                          
                         for i in list_checked3:
                             
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question13Session.append(str(check_answers.first())) 
                             
                             
@@ -1501,7 +1501,7 @@ def question15Spanish(request):
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question15)
+                    x_list = AnswerSpanish.objects.filter(question=question15)
                     
                   
                     context['xlist'] = x_list
@@ -1511,7 +1511,7 @@ def question15Spanish(request):
                         question15Session = request.session['question15'] = []
                         
                         for i in list_checked:
-                            check_answers = Answer.objects.filter(pk=int(i))
+                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question15Session.append(str(check_answers.first()))    
                            
                            
@@ -1628,7 +1628,7 @@ def question16Spanish(request):
                     
                     # get answers ans send form to frontend
                     
-                    x_list = Answer.objects.filter(question=question16)
+                    x_list = AnswerSpanish.objects.filter(question=question16)
                     question16Session = request.session['question16'] = []
                     
                     context['xlist'] = x_list
@@ -1638,7 +1638,7 @@ def question16Spanish(request):
                         question16Session = request.session['question16'] = []
                         
                         for i in list_checked:
-                           check_answers = Answer.objects.filter(pk=int(i))
+                           check_answers = AnswerSpanish.objects.filter(pk=int(i))
                            question16Session.append(str(check_answers.first())) 
                            
                            
