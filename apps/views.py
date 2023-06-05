@@ -1478,10 +1478,7 @@ def questionCombined(request):
                                 d.points +=1
                                 d.save()   
                                                          
-                            elif ans.answer == 'Palpable thick venous varices':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                d.points +=1
-                                d.save()                            
+                                                     
                             elif ans.answer == 'Hyperemesis gravidarum in current pregnancy':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder')
                                 d.points +=1
@@ -1543,15 +1540,19 @@ def questionCombined(request):
                                 d.save()
 
                                                         
-                            if ans.answer == 'Mother/sisters or daughters with hyperemesis gravidarum':
+                            elif ans.answer == 'Mother/sisters or daughters with hyperemesis gravidarum':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
                                 d.points +=1
                                 d.save()
 
-                            if ans.answer == 'Mother/sisters or daughters with diabetes mellitus':
+                            elif ans.answer == 'Mother/sisters or daughters with diabetes mellitus':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
                                 d.points +=1
-                                d.save()
+                                d.save()   
+                            
+                            elif ans.answer == 'Familial genetic thrombophilia (including factor V Leiden, mutation of the prothrombin gene, protein C or S)':
+                                pass 
+                                # refer
 
                             
                                                          

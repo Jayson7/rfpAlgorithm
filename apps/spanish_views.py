@@ -282,7 +282,8 @@ def question3Spanish(request):
         user = request.user 
         token_of_user = request.session['token_ses']
 
-        if token_of_user:
+        try:
+            if token_of_user:
 
                     question3 = QuestionsSpanish.objects.filter(id = 3).first()
           
@@ -364,11 +365,11 @@ def question3Spanish(request):
                 # else:
                     # messages.warning(request, 'Acceso denegado')
                     # return redirect('login')           
-        else:
+            else:
                 messages.warning(request, 'Usuario no verificado')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+        except:
+            messages.warning(request, 'Error')
+            return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('loginspanish')
@@ -1021,7 +1022,7 @@ def question10Spanish(request):
                                 request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9, 10]
                                 request.session.modified = True
                        
-                        return redirect('questionCs')
+                        return redirect('questionCss')
                         # send question and answer to view
               
                 # else:
@@ -1061,14 +1062,14 @@ def questionCombinedSpanish(request):
         
         token_of_user = request.session['token_ses']
         
-        if 'question11' in request.session:
-            del request.session['question11']
-        elif 'question12' in request.session:
-            del request.session['question12']
-        elif 'question13' in request.session:
-            del request.session['question13']
+        if 'question11s' in request.session:
+            del request.session['question11s']
+        elif 'question12s' in request.session:
+            del request.session['question12s']
+        elif 'question13s' in request.session:
+            del request.session['question13s']
         elif 'question14' in request.session:
-            del request.session['question14']
+            del request.session['question14s']
         else:
             pass
          
@@ -1262,82 +1263,79 @@ def questionCombinedSpanish(request):
                                 d.points +=1
                                 d.save()
 
-                            elif ans.answer == 'Persistent positivity of antiphospholipid antibodies':
+                            elif ans.answer == 'Positividad persistente de anticuerpos antifosfolípidos':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
                                 d.points +=1
                                 d.save()
                                 
-                            elif ans.answer == 'Insulin resistance or prediabetes':
+                            elif ans.answer == 'Resistencia a la insulina ó prediabetes':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
                                 d.points +=1
                                 d.save()
 
-                            elif ans.answer == 'Interval between pregnancies < 1 year':
+                            elif ans.answer == 'Intervalo entre embarazos < 1 año':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
                                 d.points +=1
                                 d.save()
 
                                                         
-                            if ans.answer == 'Interval between pregnancies > 10 years)':
+                            if ans.answer == 'Intervalo entre embarazos > 10 años':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
                                 d.points +=1
                                 d.save()
 
-                            elif ans.answer == 'Positivity of antithyroid antibodies':
+                            elif ans.answer == 'Positividad de anticuerpos antitiroideos':
                                 pass
                              
-                            elif ans.answer == 'Current intravenous drug use':
+                            elif ans.answer == 'Usuaria de drogas endovenosas actual':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                 d.points +=3
                                 d.save()
 
-                            elif ans.answer == 'Palpable thick venous varices':
+                            elif ans.answer == 'Varices venosas gruesas palpables':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                 d.points +=1
                                 d.save()                            
-                            elif ans.answer == 'Current smoker':
+                            elif ans.answer == 'Fumadora actual':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                 d.points +=1
                                 d.save()     
                                 
-                            elif ans.answer == 'Preeclampsia in current pregnancy':
+                            elif ans.answer == 'Preeclampsia en el embarazo actual':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                 d.points +=1
                                 d.save()   
                                                          
-                            elif ans.answer == 'Palpable thick venous varices':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                d.points +=1
-                                d.save()                            
-                            elif ans.answer == 'Hyperemesis gravidarum in current pregnancy':
+                                                     
+                            elif ans.answer == 'Hiperémesis gravídica en el embarazo actual':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder')
                                 d.points +=1
                                 d.save()                            
-                            elif ans.answer == 'Currently on treatment with corticosteroids or antipsychotics':
+                            elif ans.answer == 'En tratamiento actual con corticoides ó antipsicóticos':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes ')
                                 d.points +=1
                                 d.save()
 
-                            elif ans.answer == 'Previous pregnancy with a baby weighing >4.5 kg':
+                            elif ans.answer == 'Embarazo previo en el cual su hijo pesó >4,5 kg':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes ')
                                 d.points +=1
                                 d.save()
 
-                            elif ans.answer == 'History of liver enzyme abnormalities with oral contraceptives':
+                            elif ans.answer == 'Historia de alteración de enzimas del hígado con anticonceptivos orales':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'intrahepatic cholestasis')
                                 d.points +=1
                                 d.save()
                             
-                            elif ans.answer == 'Previous intravenous iron therapy':
+                            elif ans.answer == 'Has precisado de tratamiento endovenoso con hierro previo.':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
                                 d.points +=1
                                 d.save()
-                            elif ans.answer == 'Following a vegetarian or vegan diet':
+                            elif ans.answer == 'Sigues una dieta vegetariana o vegana':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
                                 d.points +=1
                                 d.save()
                                 
-                            elif ans.answer == 'Recent history of significant bleeding':
+                            elif ans.answer == 'Historia reciente de sangrado importante':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
                                 d.points +=1
                                 d.save()
@@ -1349,7 +1347,7 @@ def questionCombinedSpanish(request):
                             check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question14Session.append(str(check_answers.first())) 
                            
-                            if ans.answer == 'thyroid disorder Familial autoimmune':
+                            if ans.answer == 'Trastorno tiroideo autoinmune familiar':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disease')
                                 d.points +=1
                                 d.save()
@@ -1359,84 +1357,81 @@ def questionCombinedSpanish(request):
                                 d.points +=1
                                 d.save()
                                 
-                            elif ans.answer == 'Mother/sisters or daughters with intrahepatic cholestasis':
+                            elif ans.answer == 'Trombofilia genética (incluyendo factor V Leiden, mutación del gen de la protrombina, proteína C o S) familiar':
+                                pass 
+                                # refer
+                   
+                            elif ans.answer == 'Madre/hermanas ó hijas con colestasis intrahepática':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = ' intrahepatic cholestasis')
                                 d.points +=1
                                 d.save()
 
-                            elif ans.answer == 'Deep vein thrombosis':
+                            elif ans.answer == 'Trombosis venosa profunda':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                 d.points +=1
                                 d.save()
 
                                                         
-                            if ans.answer == 'Mother/sisters or daughters with hyperemesis gravidarum':
+                            elif ans.answer == 'Madre/hermanas ó hijas con hiperémesis gravídica':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
                                 d.points +=1
                                 d.save()
 
-                            if ans.answer == 'Mother/sisters or daughters with diabetes mellitus':
+                            elif ans.answer == 'Madre/hermanas ó hijas con diabetes mellitus':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
                                 d.points +=1
                                 d.save()
 
-                            
-                                                         
+                                                    
                         for i in list_checked3:
                             
                             check_answers = AnswerSpanish.objects.filter(pk=int(i))
                             question13Session.append(str(check_answers.first())) 
                             
-                            
-                            if ans.answer == 'Preeclampsia or chronic arterial hypertension':
+                            if ans.answer == 'Preeclampsia o hipertensión arterial crónica':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
                                 d.points +=2
                                 d.save()
-
-                            elif ans.answer == 'Persistent positivity of antiphospholipid antibodies':
-                                pass
                                 
-                            elif ans.answer == 'Gestational diabetes':
+                            elif ans.answer == 'Diabetes gestacional ':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
                                 d.points +=1
                                 d.save()
 
-                            elif ans.answer == 'Hyperemesis gravidarum':
+                            elif ans.answer == 'Hiperémesis gravídica ':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
                                 d.points +=1
                                 d.save()
 
                                                         
-                            if ans.answer == 'Hypothyroidism/hyperthyroidism':
+                            elif ans.answer == 'Hipotiroidismo / hipertiroidismo':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = ' thyroid disorder')
                                 d.points +=1
                                 d.save()
 
-                            elif ans.answer == 'Anaemia':
+                            elif ans.answer == 'Anemia':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anaemia')
                                 d.points +=1
                                 d.save()
                              
-                            elif ans.answer == 'Intrahepatic cholestasis':
+                            elif ans.answer == 'Colestasis intrahepática':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
                                 d.points +=1
                                 d.save()
 
-                            elif ans.answer == 'None of the above':
+                            elif ans.answer == 'Ninguno de los anteriores':
                                 pass
                                                          
-                            elif ans.answer == 'I have not been pregnant':
+                            elif ans.answer == 'No he estado embarazada previamente':
                                 pass                  
-                            
-                            elif ans.answer == 'Familial genetic thrombophilia (including factor V Leiden, mutation of the prothrombin gene, protein C or S)':
-                                pass
+                     
                             
                                 request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13, 14]
                                 request.session.modified = True
                                 
                                                                        
 
-                        return redirect('question15')
+                        return redirect('question15s')
                         # send question and answer to view
                 
                
@@ -1451,7 +1446,7 @@ def questionCombinedSpanish(request):
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('loginspanish')
-    return render(request, 'questions/question6.html', context)
+    return render(request, 'questions/spanish/question6spanish.html', context)
 
 
 # ##############################################################################
@@ -1507,55 +1502,55 @@ def question15Spanish(request):
                            
                             for ans in check_answers:
                                
-                                if ans.answer == 'You have been diagnosed with a previous or current psychiatric disorder including schizophrenia, bipolar disorder, obsessive-compulsive disorder, or eating disorder (such as bulimia or anorexia), amon':
+                                if ans.answer == 'Has sido diagnosticada de patología psiquiátrica previa ó actual incluyendo esquizofrenia, trastorno bipolar, trastorno obsesivo compulsivo ó trastorno alimentario (como bulimia o anorexia), entre otros':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=100
                                     d.save()
 
                                
 
-                                elif ans.answer == 'You are currently undergoing psychiatric treatment with medication (including antidepressants, antipsychotics, mood stabilizers, stimulant medication or anxiety medication, among others).':
+                                elif ans.answer == 'Estás en tratamiento psiquiátrico actual con fármacos (incluyendo antidepresivos, antipsicóticos, estabilizantes del humor, medicamentos estimulantes o medicación para ansiedad, entre otras)':
                                     
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=100
                                     d.save()
 
                                
-                                elif ans.answer == 'You have had previous suicide attempts.':
+                                elif ans.answer == 'Has presentado intento(s) de suicidio previo':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=100
                                     d.save()
 
 
-                                elif ans.answer == 'You have a history of psychosis, depression, or anxiety (including previous pregnancies and postpartum).':
+                                elif ans.answer == 'Tienes una historia previa de psicosis, depresión o ansiedad (incluyendo embarazos previos y postparto)':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                     d.points += 1
                                     d.save()
                                 
-                                elif ans.answer == 'You have a family history (parents, siblings or children) of mental illness (including postpartum psychosis, bipolar disorder, anxiety or depression).':
+                                elif ans.answer == 'Tienes historia familiar (padres, herman@s o hij@s) de patología mental (incluyendo psicosis postparto, trastorno bipolar, ansiedad ó depresión) ':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
-                                elif ans.answer == 'You have problems living with your current partner.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
-                                    d.points +=1
-                                    d.save()
-
-                                
-                                elif ans.answer == 'You have current financial problems.':
+                                elif ans.answer == 'Tienes problemas de convivencia con su pareja actual':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
                                 
-                                elif ans.answer == 'You have little or no family or friend support to rely on for the care of your baby.':
+                                elif ans.answer == 'Tienes problemas económicos actuales':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
 
                                 
-                                elif ans.answer == 'The current pregnancy is unwanted.':
+                                elif ans.answer == 'Tienes escaso o ningún apoyo familiar ó de amistades en los que apoyarse para el cuidado de tu bebé':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                    d.points +=1
+                                    d.save()
+
+                                
+                                elif ans.answer == 'Embarazo actual no deseado.':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                     d.points +=1
                                     d.save()
@@ -1634,54 +1629,54 @@ def question16Spanish(request):
                            
                            for ans in check_answers:
                                
-                                if ans.answer == 'You have difficulty concentrating.':
+                                if ans.answer == 'Tienes dificultad para concentrarte.':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
                                     d.points +=1
                                     d.save()
 
                                
 
-                                elif ans.answer == 'You get easily angry or irritable.':
+                                elif ans.answer == 'Te enfadas fácilmente ó estás más irritable.':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
                                     d.points +=1
                                     d.save()
 
-                                elif ans.answer == 'You have difficulty sleeping at night.':
+                                elif ans.answer == 'Tienes dificultad para dormir por la noche.':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
                                     d.points +=1
                                     d.save()
                                     
-                                elif ans.answer == 'You feel anxious or nervous.':
+                                elif ans.answer == 'Te sientes ansiosa o nerviosa.':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
                                     d.points +=1
                                     d.save()
                                     
-                                elif ans.answer == "You can't stop repeatedly thinking about the same thing.":
+                                elif ans.answer == "No puedes parar de pensar repetidamente en lo mismo.":
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
                                     d.points +=1
                                     d.save()
-                                elif ans.answer == 'You are afraid that something bad will happen during your pregnancy.':
+                                elif ans.answer == 'Tienes miedo a que algo malo ocurra en tu embarazo.':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
                                     d.points +=1
                                     d.save()
                                     
-                                elif ans.answer == 'You have constant negative thoughts.':
+                                elif ans.answer == 'Presentas pensamientos negativos constantemente.':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Depression')
                                     d.points +=1
                                     d.save()
                                     
-                                elif ans.answer == "You feel guilty about the problems you're currently experiencing.":
+                                elif ans.answer == "Tienes sentimiento de culpa por lo problemas que presentas actualmente.":
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease ='Depression')
                                     d.points += 1
                                     d.save()
                                     
-                                elif ans.answer == 'Loss of interest in the people around you or everyday activities.':
+                                elif ans.answer == 'Pérdida de interés por la gente que te rodea o las actividades de la vida rutinaria.':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease ='Depression')
                                   
                                     d.points +=1
                                     d.save()
                                     
-                                elif ans.answer == 'You feel sad, down or more easily prone to tears':
+                                elif ans.answer == 'Te sientes triste, baja de ánimo o con más facilidad para llorar.':
                                     d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Depression')
                                     d.points +=1
                                     d.save()
