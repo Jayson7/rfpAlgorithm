@@ -38,6 +38,18 @@ def question1Spanish(request):
                                         return redirect('question1s')
                         
                                     request.session['age'] = x                
+                              
+                              
+                                    # delete all previous diseases 
+                                    
+                                    try:
+                                        disease = Disease.objects.filter(user_diagnosed=request.session['token_ses'])
+                                        
+                                        for i in disease:
+                                            i.delete()
+                                    except:
+                                        pass         
+                                    
                                     
                                     disease = Disease(
                                             disease = 'thrombosis',
@@ -139,15 +151,13 @@ def question1Spanish(request):
                                         d = Disease.objects.get(disease = 'thrombosis', user_diagnosed=token_of_user)
                                         d.points += 2
                                         d.save()
+                                        
+                                        
                                     # create questions sessions and modify
-                                    
-                                    
                                     request.session['q1'] = [x]
-                                    
-                                    
                                     request.session['questions_answered'] = [1]
                                     request.session.modified = True
-                                      
+                                    
                                         
                                     return redirect('question2s')
                        
@@ -252,7 +262,7 @@ def question2Spanish(request):
     else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
-    return render(request, 'questions/question2.html', context)
+    return render(request, 'questions/spanish/question2spanish.html', context)
 
 
 
