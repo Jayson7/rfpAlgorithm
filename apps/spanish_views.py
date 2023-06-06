@@ -266,8 +266,6 @@ def question2Spanish(request):
 
 
 
-
-
 # ##############################################################################
 # question 3
 
@@ -1264,8 +1262,12 @@ def questionCombinedSpanish(request):
                                 d.save()
 
                             elif ans.answer == 'Positividad persistente de anticuerpos antifosfolípidos':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                d.points +=1
+                                d = Referal(
+                                    token= request.session['token_ses'],
+                                    patient= request.session['details'][2],
+                                    answer = ans.answer,
+                                    comment = 'high-risk Pregnancy team/Rheumatology'
+                                )
                                 d.save()
                                 
                             elif ans.answer == 'Resistencia a la insulina ó prediabetes':

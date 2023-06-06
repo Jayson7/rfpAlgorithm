@@ -50,8 +50,18 @@ class AnswerSpanish(models.Model):
     
     def __str__(self) -> str:
         return str(self.answer)
+    
+    
+class Referal(models.Model):
+    token = models.CharField(max_length=30)
+    patient = models.CharField(max_length=40)
+    answer = models.CharField(max_length=50)
+    comment = models.CharField(max_length=200)
 
-
+    
+    
+    def __str__(self) -> str:
+        return str(self.patient)
 
 
 #  ========================================== All questions model ============================

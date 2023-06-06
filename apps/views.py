@@ -1436,8 +1436,12 @@ def questionCombined(request):
                                 d.save()
 
                             elif ans.answer == 'Persistent positivity of antiphospholipid antibodies':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                d.points +=1
+                                d = Referal(
+                                    token= request.session['token_ses'],
+                                    patient= request.session['details'][2],
+                                    answer = ans.answer,
+                                    comment = 'high-risk Pregnancy team/Rheumatology'
+                                )
                                 d.save()
                                 
                             elif ans.answer == 'Insulin resistance or prediabetes':
@@ -1551,8 +1555,13 @@ def questionCombined(request):
                                 d.save()   
                             
                             elif ans.answer == 'Familial genetic thrombophilia (including factor V Leiden, mutation of the prothrombin gene, protein C or S)':
-                                pass 
-                                # refer
+                                d = Referal(
+                                    token= request.session['token_ses'],
+                                    patient= request.session['details'][2],
+                                    answer = ans.answer,
+                                    comment = 'Visit Hematology'
+                                )
+                                d.save
 
                             
                                                          
@@ -1566,9 +1575,6 @@ def questionCombined(request):
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
                                 d.points +=2
                                 d.save()
-
-                            elif ans.answer == 'Persistent positivity of antiphospholipid antibodies':
-                                pass
                                 
                             elif ans.answer == 'Gestational diabetes':
                                 d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
@@ -1602,8 +1608,7 @@ def questionCombined(request):
                             elif ans.answer == 'I have not been pregnant':
                                 pass                  
                             
-                            elif ans.answer == 'Familial genetic thrombophilia (including factor V Leiden, mutation of the prothrombin gene, protein C or S)':
-                                pass
+                            
                             
                                 request.session['questions_answered'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13, 14]
                                 request.session.modified = True
@@ -1960,8 +1965,6 @@ def save_result_user(request):
         messages.warning(request, 'Login required')
         return redirect('login')
     
-
-
 
 #generate PDF
 
