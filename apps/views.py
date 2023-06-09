@@ -310,7 +310,12 @@ def question2(request):
                             # prepare question
                         question2 = Questions.objects.filter(id = 2).first()
                                 
-        
+
+                
+                
+                
+                
+                
                         # get answers ans send form to frontend
             
                         if request.method =='POST':
@@ -353,6 +358,10 @@ def question2(request):
                                         
                     
                                         request.session['q2'] = [BMI, height, weight]
+                                        
+                                        
+                                        
+                                        
                                         
                                         request.session['questions_answered'] = [1,2]
                                         request.session.modified = True
@@ -1952,13 +1961,6 @@ def save_result_user(request):
     
     # trigger BMI and get references if any
     
-    bmi = BMI(
-        bmi = request.session['q2'][0],
-        height =  request.session['q2'][1],
-        weight =  request.session['q2'][2],
-        token = request.session['token_ses'],
-        full_name =  request.session['details'][2],  
-    )
 
     # save  
     d.save()
