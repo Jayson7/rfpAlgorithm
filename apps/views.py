@@ -30,7 +30,7 @@ from xhtml2pdf import pisa
    
 def details(request, pk):
     context = {}
-    
+   
     user = RegisterClient.objects.get(id=pk)
     
     if user:
@@ -58,6 +58,7 @@ def details(request, pk):
             pass 
         
     return render(request, 'admin_pages/details.html', context)
+
 
 
 # 404 here 
@@ -140,6 +141,7 @@ def question1(request):
                                             i.delete()
                                     except:
                                         pass         
+                                    
                                     
                                     
                                     
@@ -1947,8 +1949,18 @@ def save_result_user(request):
     email =  request.session['email'],
     
     )
+    
+    # trigger BMI and get references if any
+    
+    bmi = BMI(
+        bmi = request.session['q2'][0],
+        height =  request.session['q2'][1],
+        weight =  request.session['q2'][2],
+        token = request.session['token_ses'],
+        full_name =  request.session['details'][2],  
+    )
 
-        
+    # save  
     d.save()
     result.save()
     

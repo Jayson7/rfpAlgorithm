@@ -116,3 +116,12 @@ class Result_owner(models.Model):
         return self.full_name    
   
 
+class BMI(models.Model):
+    bmi = models.CharField(max_length=30)
+    height = models.CharField(max_length=10)
+    weight = models.CharField(max_length=10)
+    token = models.CharField(max_length=30)
+    full_name = models.CharField(max_length=40)
+    
+    def __str__(self):
+        return str(self.bmi)
