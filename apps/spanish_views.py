@@ -252,12 +252,7 @@ def question2Spanish(request):
                                         except:
                                             pass 
                                         
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
+                                     
                                         
                                         # save bmi to database
                                         
@@ -423,86 +418,91 @@ def question4Spanish(request):
     details_checker_questions(request)
     
     context = {}
- 
-    if request.user.is_authenticated:
+    
+    try:
+            
+        if request.user.is_authenticated:
 
-        user = request.user 
-        token_of_user = request.session['token_ses']
-      
-        if token_of_user:
-      
-                    # prepare question
-                    question4 = QuestionsSpanish.objects.filter(id = 4).first()
-                    
-                    context['question'] = question4
-                    context['question_tag'] = 'Pregunta 4'
-                    context['question_tag_eng'] = 'cuatro'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list = AnswerSpanish.objects.filter(question=question4)
-                    
-                    if 'question4s' in request.session:
-                        del request.session['question4s']
-                    else:
-                        pass
-         
-                    context['xlist'] = x_list
-                    if request.method =='POST':
+            user = request.user 
+            token_of_user = request.session['token_ses']
+        
+            if token_of_user:
+        
+                        # prepare question
+                        question4 = QuestionsSpanish.objects.filter(id = 4).first()
                         
-                        list_checked = request.POST.getlist('xlist_boxes')
-                       
-                        question4Session = request.session['question4s'] = []
+                        context['question'] = question4
+                        context['question_tag'] = 'Pregunta 4'
+                        context['question_tag_eng'] = 'cuatro'
                         
-                        for i in list_checked:
-                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                            question4Session.append(str(check_answers.first())) 
-                           
-                            for ans in check_answers:
-                               
-                                if ans.answer == 'Primer embarazo ó pérdida gestacional menor 20 semanas':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
-                                    d.points +=1
-                                    d.save()
-
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    d.points += 1
-                                    d.save()
-
-                                elif ans.answer == '2 partos':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                    d.points+= 1
-                                    d.save()
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anaemia')
-                                    d.points += 1
-                                    d.save()
-                               
-                                elif ans.answer == '3 ó más partos':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
-                                    d.save()
-
-                                else:
-                                    pass
+                        # get answers ans send form to frontend
+                        
+                        x_list = AnswerSpanish.objects.filter(question=question4)
+                        
+                        if 'question4s' in request.session:
+                            del request.session['question4s']
+                        else:
+                            pass
+            
+                        context['xlist'] = x_list
+                        if request.method =='POST':
+                            
+                            list_checked = request.POST.getlist('xlist_boxes')
+                        
+                            question4Session = request.session['question4s'] = []
+                            
+                            for i in list_checked:
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                question4Session.append(str(check_answers.first())) 
+                            
+                                for ans in check_answers:
                                 
+                                    if ans.answer == 'Primer embarazo ó pérdida gestacional menor 20 semanas':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                        d.points +=1
+                                        d.save()
+
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                        d.points += 1
+                                        d.save()
+
+                                    elif ans.answer == '2 partos':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                        d.points+= 1
+                                        d.save()
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                        d.points += 1
+                                        d.save()
                                 
-                                request.session['questions_answered_spanish'] = [1,2,3,4]
-                                request.session.modified = True
-                                # print(request.session['questions_answered_spanish'])
+                                    elif ans.answer == '3 ó más partos':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 1
+                                        d.save()
+
+                                    else:
+                                        pass
                                     
-                                   
+                                    
+                                    request.session['questions_answered_spanish'] = [1,2,3,4]
+                                    request.session.modified = True
+                                    # print(request.session['questions_answered_spanish'])
+                                        
+                                    
 
-                        return redirect('question5s')
-                        # send question and answer to view
-                
-                      
+                            return redirect('question5s')
+                            # send question and answer to view
+                    
+                        
+            else:
+                    messages.warning(request, 'Usuario no verificado')
+            # except:
+            #     messages.warning(request, 'Error')
+            #     return redirect('login')     
         else:
-                messages.warning(request, 'Usuario no verificado')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
-    else:
-        messages.warning(request, 'Autenticacion requerida')
+            messages.warning(request, 'Autenticacion requerida')
+            return redirect('loginspanish')
+    except:
+        messages.warning(request, 'Usuario no verificado')
         return redirect('loginspanish')
     return render(request, 'questions/spanish/question4spanish.html', context)
 
@@ -521,77 +521,82 @@ def question5Spanish(request):
     basic_user_auth_check_spanish(request)
     details_checker_questions(request)
    
-    
-    if request.user.is_authenticated:
-
-        token_of_user = request.session['token_ses']
-        user = request.user 
-            # locate user on token 
+    try:
             
-        full_name = request.session['details'][2]
-        # try:
-        
-        if 'question5s' in request.session:
-            del request.session['question5s']
-        else:
-                pass
-         
-     
-        
-      
-        
-        if token_of_user:
-      
-                    # prepare question
-                    question5 = QuestionsSpanish.objects.filter(id = 5).first()
-                    
-                    context['question'] = question5
-                    context['question_tag'] = 'Pregunta 5'
-                    context['question_tag_eng'] = 'cinco'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list = AnswerSpanish.objects.filter(question=question5)
-                    
-                  
-                    context['xlist'] = x_list
-                    if request.method =='POST':
-                        
-                        list_checked = request.POST.getlist('xlist_boxes')
-                        question5Session = request.session['question5s'] = []
-                        
-                        for i in list_checked:
-                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                            question5Session.append(str(check_answers.first())) 
-                           
-                           
-                            for ans in check_answers:
-                               
-                                if ans.answer == 'No':
-                                    pass
-                                elif ans.answer == 'Sí':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                    d.points+= 1
-                                    d.save()
-                           
-                                elif ans.answer == 'No estoy embarazada actualmente':
-                                    pass
-                                
-                                    
-                                request.session['questions_answered_spanish'] = [1,2,3,4,5]
-                                request.session.modified = True
-                      
-                        return redirect('question6s')
-                        # send question and answer to view
+        if request.user.is_authenticated:
+
+            token_of_user = request.session['token_ses']
+            user = request.user 
+                # locate user on token 
                 
-                      
+            full_name = request.session['details'][2]
+            # try:
+            
+            if 'question5s' in request.session:
+                del request.session['question5s']
+            else:
+                    pass
+            
+        
+            
+        
+            
+            if token_of_user:
+        
+                        # prepare question
+                        question5 = QuestionsSpanish.objects.filter(id = 5).first()
+                        
+                        context['question'] = question5
+                        context['question_tag'] = 'Pregunta 5'
+                        context['question_tag_eng'] = 'cinco'
+                        
+                        # get answers ans send form to frontend
+                        
+                        x_list = AnswerSpanish.objects.filter(question=question5)
+                        
+                    
+                        context['xlist'] = x_list
+                        if request.method =='POST':
+                            
+                            list_checked = request.POST.getlist('xlist_boxes')
+                            question5Session = request.session['question5s'] = []
+                            
+                            for i in list_checked:
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                question5Session.append(str(check_answers.first())) 
+                            
+                            
+                                for ans in check_answers:
+                                
+                                    if ans.answer == 'No':
+                                        pass
+                                    elif ans.answer == 'Sí':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                        d.points+= 1
+                                        d.save()
+                            
+                                    elif ans.answer == 'No estoy embarazada actualmente':
+                                        pass
+                                    
+                                        
+                                    request.session['questions_answered_spanish'] = [1,2,3,4,5]
+                                    request.session.modified = True
+                        
+                            return redirect('question6s')
+                            # send question and answer to view
+                    
+                        
+            else:
+                    messages.warning(request, 'Usuario no verificado')
+            # except:
+            #     messages.warning(request, 'Error')
+            #     return redirect('login')     
         else:
-                messages.warning(request, 'Usuario no verificado')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
-    else:
-        messages.warning(request, 'Autenticacion requerida')
+            messages.warning(request, 'Autenticacion requerida')
+            return redirect('loginspanish')
+    
+    except:
+        messages.warning(request, 'Usuario no verificado')
         return redirect('loginspanish')
     return render(request, 'questions/spanish/question4spanish.html', context)
 
@@ -608,91 +613,94 @@ def question6Spanish(request):
     basic_user_auth_check_spanish(request)
     details_checker_questions(request)
     
-    
-    
-    if request.user.is_authenticated:
-
+    try:
         
-        user = request.user 
-            # locate user on token 
+        if request.user.is_authenticated:
+
             
-        full_name = request.session['details'][2]
-        # try:
-        token_of_user = request.session['token_ses']
-        
-        if 'question6s' in request.session:
-            del request.session['question6s']
-        else:
-            pass
-         
-     
-        
-
-        if token_of_user:
-        # if request.user:
-                # if token_of_user:
-                    # prepare question
-                    question6 = QuestionsSpanish.objects.filter(id = 6).first()
-                    
-                    context['question'] = question6
-                    context['question_tag'] = 'Pregunta 6'
-                    context['question_tag_eng'] = 'Seis'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list = AnswerSpanish.objects.filter(question=question6)
-                    
-                  
-                    context['xlist'] = x_list
-                    if request.method =='POST':
-                        
-                        list_checked = request.POST.getlist('xlist_boxes')
-                        question6Session = request.session['question6s'] = []
-                        
-                        for i in list_checked:
-                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                            question6Session.append(str(check_answers.first())) 
-                           
-                           
-                            for ans in check_answers:
-                               
-                                if ans.answer == 'Sí':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
-                                    d.points +=1
-                                    d.save()
-
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    
-                                    d.points += 1
-                                    d.save()
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anaemia')
-                                    d.points += 1
-                                    d.save()
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
-                                    d.save()
-                                elif ans.answer == 'No' or ans.answer == 'No estoy embarazada actualmente':
-                                    pass 
-                                
-                                
-                                request.session['questions_answered_spanish'] = [1,2,3,4,5,6]
-                                request.session.modified = True
-                      
-
-                        return redirect('question7s')
-                        # send question and answer to view
+            user = request.user 
+                # locate user on token 
                 
-               
-                # else:
-                #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+            full_name = request.session['details'][2]
+            # try:
+            token_of_user = request.session['token_ses']
+            
+            if 'question6s' in request.session:
+                del request.session['question6s']
+            else:
+                pass
+            
+        
+            
+
+            if token_of_user:
+            # if request.user:
+                    # if token_of_user:
+                        # prepare question
+                        question6 = QuestionsSpanish.objects.filter(id = 6).first()
+                        
+                        context['question'] = question6
+                        context['question_tag'] = 'Pregunta 6'
+                        context['question_tag_eng'] = 'Seis'
+                        
+                        # get answers ans send form to frontend
+                        
+                        x_list = AnswerSpanish.objects.filter(question=question6)
+                        
+                    
+                        context['xlist'] = x_list
+                        if request.method =='POST':
+                            
+                            list_checked = request.POST.getlist('xlist_boxes')
+                            question6Session = request.session['question6s'] = []
+                            
+                            for i in list_checked:
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                question6Session.append(str(check_answers.first())) 
+                            
+                            
+                                for ans in check_answers:
+                                
+                                    if ans.answer == 'Sí':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                        d.points +=1
+                                        d.save()
+
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                        
+                                        d.points += 1
+                                        d.save()
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                        d.points += 1
+                                        d.save()
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 1
+                                        d.save()
+                                    elif ans.answer == 'No' or ans.answer == 'No estoy embarazada actualmente':
+                                        pass 
+                                    
+                                    
+                                    request.session['questions_answered_spanish'] = [1,2,3,4,5,6]
+                                    request.session.modified = True
+                        
+
+                            return redirect('question7s')
+                            # send question and answer to view
+                    
+                
+                    # else:
+                    #     messages.warning(request, 'Acceso denegado')
+                    #     return redirect('login')           
+            else:
+                    messages.warning(request, 'Usuario no verificado')
+            # except:
+            #     messages.warning(request, 'Error')
+            #     return redirect('login')     
         else:
-                messages.warning(request, 'Usuario no verificado')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
-    else:
-        messages.warning(request, 'Autenticacion requerida')
+            messages.warning(request, 'Autenticacion requerida')
+            return redirect('loginspanish')
+    except:
+        messages.warning(request, 'Usuario no verificado')
         return redirect('loginspanish')
     return render(request, 'questions/spanish/question4spanish.html', context)
 
@@ -709,75 +717,81 @@ def question7Spanish(request):
     
     context = {}
 
-    if request.user.is_authenticated:
+    try:
+            
+        if request.user.is_authenticated:
 
-        user = request.user 
-        # locate user on token 
+            user = request.user 
+            # locate user on token 
 
-        full_name = request.session['details'][2]
-        # try:
-        if 'question7s' in request.session:
-            del request.session['question7s']
-        else:
-            pass
-         
-            token_of_user = request.session['token_ses']
-        
-        
-        if request.user:
-                # if token_of_user:
-                    # prepare question
-                    question7 = QuestionsSpanish.objects.filter(id = 7).first()
-                    
-                    context['question'] = question7
-                    context['question_tag'] = 'Pregunta 7'
-                    context['question_tag_eng'] = 'Siete'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list = AnswerSpanish.objects.filter(question=question7)
-                    
-                  
-                    context['xlist'] = x_list
-                    if request.method =='POST':
+            full_name = request.session['details'][2]
+            # try:
+            if 'question7s' in request.session:
+                del request.session['question7s']
+            else:
+                pass
+            
+                token_of_user = request.session['token_ses']
+            
+            
+            if request.user:
+                    # if token_of_user:
+                        # prepare question
+                        question7 = QuestionsSpanish.objects.filter(id = 7).first()
                         
-                        list_checked = request.POST.getlist('xlist_boxes')
-                        question7Session = request.session['question7s'] = []
+                        context['question'] = question7
+                        context['question_tag'] = 'Pregunta 7'
+                        context['question_tag_eng'] = 'Siete'
                         
-                        for i in list_checked:
-                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
-        
-                            question7Session.append(str(check_answers.first())) 
-                           
-                           
-                            for ans in check_answers:
-                               
-                                if ans.answer == 'Sí, he sido diagnosticada de trombosis venosa profunda Y estoy actualmente en tratamiento anticoagulante.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 100 
-                                    d.save()
+                        # get answers ans send form to frontend
+                        
+                        x_list = AnswerSpanish.objects.filter(question=question7)
+                        
+                    
+                        context['xlist'] = x_list
+                        if request.method =='POST':
+                            
+                            list_checked = request.POST.getlist('xlist_boxes')
+                            question7Session = request.session['question7s'] = []
+                            
+                            for i in list_checked:
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+            
+                                question7Session.append(str(check_answers.first())) 
+                            
+                            
+                                for ans in check_answers:
                                 
-                                
-                                elif ans.answer == 'No, no estoy en tratamiento anticoagulante para una trombosis venosa profunda previa.':
-                                    pass
-           
-                                request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7]
-                                request.session.modified = True
+                                    if ans.answer == 'Sí, he sido diagnosticada de trombosis venosa profunda Y estoy actualmente en tratamiento anticoagulante.':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 100 
+                                        d.save()
+                                    
+                                    
+                                    elif ans.answer == 'No, no estoy en tratamiento anticoagulante para una trombosis venosa profunda previa.':
+                                        pass
+            
+                                    request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7]
+                                    request.session.modified = True
 
-                        return redirect('question8s')
-                        # send question and answer to view
+                            return redirect('question8s')
+                            # send question and answer to view
 
-                # else:
-                #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+                    # else:
+                    #     messages.warning(request, 'Acceso denegado')
+                    #     return redirect('login')           
+            else:
+                    messages.warning(request, 'Usuario no verificado')
+            # except:
+            #     messages.warning(request, 'Error')
+            #     return redirect('login')     
         else:
-                messages.warning(request, 'Usuario no verificado')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
-    else:
-        messages.warning(request, 'Autenticacion requerida')
+            messages.warning(request, 'Autenticacion requerida')
+            return redirect('loginspanish')
+    except:
+        messages.warning(request, 'Usuario no verificado')
         return redirect('loginspanish')
+    
     return render(request, 'questions/spanish/question4spanish.html', context)
 
 
@@ -795,80 +809,85 @@ def question8Spanish(request):
     context = {}
     
     
-    
-    if request.user.is_authenticated:
-
-        
-        user = request.user 
-            # locate user on token 
+    try:
             
-        full_name = request.session['details'][2]
-        # try:
-        
-        token_of_user = request.session['token_ses']
-        if 'question8s' in request.session:
-            del request.session['question8s']
-        else:
-            pass
-         
+        if request.user.is_authenticated:
 
-        
-        if request.user:
-                # if token_of_user:
-                    # prepare question
-                    question8 = QuestionsSpanish.objects.filter(id = 8).first()
-                    
-                    context['question'] = question8
-                    context['question_tag'] = 'Pregunta 8'
-                    context['question_tag_eng'] = 'Ocho'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list = AnswerSpanish.objects.filter(question=question8)
-                    
-                  
-                    context['xlist'] = x_list
-                    if request.method =='POST':
-                        
-                        list_checked = request.POST.getlist('xlist_boxes')
-                        question8Session = request.session['question8'] = []
-                        
-                        for i in list_checked:
-                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                            question8Session.append(str(check_answers.first())) 
-                           
-                           
-                            for ans in check_answers:
-                               
-                                if ans.answer == 'Sí, he sido diagnosticada de deficiencia de antitrombina ó síndrome antifosfolípido trombótico.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 100 
-                                    d.save()
-
-
-                                elif ans.answer == 'No, no he sido diagnosticada de deficiencia de antitrombina ó síndrome antifosfolípido trombótico.':
-                                    pass
-                            
-                                    
-                                    
-                        request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8]
-                        request.session.modified = True
-
-                        return redirect('question9s')
-                        # send question and answer to view
+            
+            user = request.user 
+                # locate user on token 
                 
-               
-                # else:
-                #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+            full_name = request.session['details'][2]
+            # try:
+            
+            token_of_user = request.session['token_ses']
+            if 'question8s' in request.session:
+                del request.session['question8s']
+            else:
+                pass
+            
+
+            
+            if request.user:
+                    # if token_of_user:
+                        # prepare question
+                        question8 = QuestionsSpanish.objects.filter(id = 8).first()
+                        
+                        context['question'] = question8
+                        context['question_tag'] = 'Pregunta 8'
+                        context['question_tag_eng'] = 'Ocho'
+                        
+                        # get answers ans send form to frontend
+                        
+                        x_list = AnswerSpanish.objects.filter(question=question8)
+                        
+                    
+                        context['xlist'] = x_list
+                        if request.method =='POST':
+                            
+                            list_checked = request.POST.getlist('xlist_boxes')
+                            question8Session = request.session['question8'] = []
+                            
+                            for i in list_checked:
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                question8Session.append(str(check_answers.first())) 
+                            
+                            
+                                for ans in check_answers:
+                                
+                                    if ans.answer == 'Sí, he sido diagnosticada de deficiencia de antitrombina ó síndrome antifosfolípido trombótico.':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 100 
+                                        d.save()
+
+
+                                    elif ans.answer == 'No, no he sido diagnosticada de deficiencia de antitrombina ó síndrome antifosfolípido trombótico.':
+                                        pass
+                                
+                                        
+                                        
+                            request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8]
+                            request.session.modified = True
+
+                            return redirect('question9s')
+                            # send question and answer to view
+                    
+                
+                    # else:
+                    #     messages.warning(request, 'Acceso denegado')
+                    #     return redirect('login')           
+            else:
+                    messages.warning(request, 'Usuario no verificado')
+            # except:
+            #     messages.warning(request, 'Error')
+            #     return redirect('login')     
         else:
-                messages.warning(request, 'Usuario no verificado')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
-    else:
-        messages.warning(request, 'Autenticacion requerida')
+            messages.warning(request, 'Autenticacion requerida')
+            return redirect('loginspanish')
+    except:
+        messages.warning(request, 'Usuario no verificado')
         return redirect('loginspanish')
+    
     return render(request, 'questions/spanish/question4spanish.html', context)
 
 
@@ -883,84 +902,89 @@ def question9Spanish(request):
     
     context = {}
  
-    if request.user.is_authenticated:
+    try:
+        if request.user.is_authenticated:
 
 
-        user = request.user 
-            # locate user on token 
-            
-        full_name = request.session['details'][2]
-        # try:
-        token_of_user = request.session['token_ses']
-        
-        if 'question9s' in request.session:
-            del request.session['question9s']
-        else:
-            pass
-
-        if request.user:
-                # if token_of_user:
-                    # prepare question
-                    question9 = QuestionsSpanish.objects.filter(id = 9).first()
-                    
-                    context['question'] = question9
-                    context['question_tag'] = 'Pregunta 9'
-                    context['question_tag_eng'] = 'Nueve'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list = AnswerSpanish.objects.filter(question=question9)
-                    
-                  
-                    context['xlist'] = x_list
-                    if request.method =='POST':
-                        
-                        list_checked = request.POST.getlist('xlist_boxes')
-                        question9Session = request.session['question9'] = []
-                        
-                        for i in list_checked:
-                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                            question9Session.append(str(check_answers.first())) 
-                           
-                           
-                           
-                            for ans in check_answers:
-                               
-                                if ans.answer == 'Sí, fui diagnosticada de trombosis venosa profunda Y NO estoy actualmente en tratamiento anticoagulante (La causa de la trombosis fue una cirugía reciente)':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 3
-                                    d.save()
-
-
-                                elif ans.answer == 'Sí, fui diagnosticada de trombosis venosa profunda Y NO estoy actualmente en tratamiento anticoagulante (La causa de la trombosis es desconocida u otra diferente a una cirugía)':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 4
-                                    d.save()
-
-                               
-                                elif ans.answer == 'No, no he tenido nunca una trombosis venosa profunda.':
-                                    pass 
-             
-                                
-                                request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9]
-                                request.session.modified = True
-                      
-    
-
-                        return redirect('question10s')
-                        # send question and answer to view
+            user = request.user 
+                # locate user on token 
                 
-               
-                # else:
-                #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+            full_name = request.session['details'][2]
+            # try:
+            token_of_user = request.session['token_ses']
+            
+            if 'question9s' in request.session:
+                del request.session['question9s']
+            else:
+                pass
+
+            if request.user:
+                    # if token_of_user:
+                        # prepare question
+                        question9 = QuestionsSpanish.objects.filter(id = 9).first()
+                        
+                        context['question'] = question9
+                        context['question_tag'] = 'Pregunta 9'
+                        context['question_tag_eng'] = 'Nueve'
+                        
+                        # get answers ans send form to frontend
+                        
+                        x_list = AnswerSpanish.objects.filter(question=question9)
+                        
+                    
+                        context['xlist'] = x_list
+                        if request.method =='POST':
+                            
+                            list_checked = request.POST.getlist('xlist_boxes')
+                            question9Session = request.session['question9'] = []
+                            
+                            for i in list_checked:
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                question9Session.append(str(check_answers.first())) 
+                            
+                            
+                            
+                                for ans in check_answers:
+                                
+                                    if ans.answer == 'Sí, fui diagnosticada de trombosis venosa profunda Y NO estoy actualmente en tratamiento anticoagulante (La causa de la trombosis fue una cirugía reciente)':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 3
+                                        d.save()
+
+
+                                    elif ans.answer == 'Sí, fui diagnosticada de trombosis venosa profunda Y NO estoy actualmente en tratamiento anticoagulante (La causa de la trombosis es desconocida u otra diferente a una cirugía)':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 4
+                                        d.save()
+
+                                
+                                    elif ans.answer == 'No, no he tenido nunca una trombosis venosa profunda.':
+                                        pass 
+                
+                                    
+                                    request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9]
+                                    request.session.modified = True
+                        
+        
+
+                            return redirect('question10s')
+                            # send question and answer to view
+                    
+                
+                    # else:
+                    #     messages.warning(request, 'Acceso denegado')
+                    #     return redirect('login')           
+            else:
+                    messages.warning(request, 'Usuario no verificado')
+            # except:
+            #     messages.warning(request, 'Error')
+            #     return redirect('login')     
         else:
-                messages.warning(request, 'Usuario no verificado')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
-    else:
-        messages.warning(request, 'Autenticacion requerida')
+            messages.warning(request, 'Autenticacion requerida')
+            return redirect('loginspanish')
+    
+    except:
+        messages.warning(request, 'Usuario no verificado')
         return redirect('loginspanish')
     return render(request, 'questions/spanish/question4spanish.html', context)
 
@@ -975,101 +999,106 @@ def question10Spanish(request):
     
     context = {}
   
-    if request.user.is_authenticated:
-
-        
-        user = request.user 
-            # locate user on token 
+    try:
             
-        full_name = request.session['details'][2]
-        
-        token_of_user = request.session['token_ses']
-        
-        # try:
-        if 'question10s' in request.session:
-            del request.session['question10s']
-        else:
-            pass
-        
-        if request.user:
-                # if token_of_user:
-                    # prepare question
-                    question10 = QuestionsSpanish.objects.filter(id = 10).first()
-                    
-                    context['question'] = question10
-                    context['question_tag'] = 'Pregunta 10'
-                    context['question_tag_eng'] = 'Diez'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list = AnswerSpanish.objects.filter(question=question10)
-                    
-                  
-                    context['xlist'] = x_list
-                    if request.method =='POST':
-                        
-                        list_checked = request.POST.getlist('xlist_boxes')
-                        question10Session = request.session['question310'] = []
-                        
-                        for i in list_checked:
-                            
-                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                            question10Session.append(str(check_answers.first())) 
-                           
-                            for ans in check_answers:
-                               
-                                if ans.answer == 'Factor homocigoto V Leiden':
-                                    
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 3
-                                    d.save()
+        if request.user.is_authenticated:
 
-                                elif ans.answer == 'Factor heterocigoto V Leiden':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
-                                    d.save()
-                               
-                                elif ans.answer == 'Mutación homocigota del gen de la protrombina':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 3
-                                    d.save()                                
-                                elif ans.answer == 'Mutación heterocigota del gen de la protrombina':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
-                                    d.save()                                
-                                elif ans.answer == 'Deficiencia de proteína C':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 3
-                                    d.save()
-                                elif ans.answer == 'Deficiencia de proteína S':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 3
-                                    d.save()
-                                elif ans.answer == 'Síndrome antifosfolípido obstétrico':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 3
-                                    d.save()
-                                elif ans.answer == 'Combinación del factor V heterocigoto de Leiden y mutación del gen de la protrombina heterocigota':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 3
-                                    d.save()
-                                    
-                                request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9, 10]
-                                request.session.modified = True
-                       
-                        return redirect('questionCss')
-                        # send question and answer to view
-              
-                # else:
-                #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+            
+            user = request.user 
+                # locate user on token 
+                
+            full_name = request.session['details'][2]
+            
+            token_of_user = request.session['token_ses']
+            
+            # try:
+            if 'question10s' in request.session:
+                del request.session['question10s']
+            else:
+                pass
+            
+            if request.user:
+                    # if token_of_user:
+                        # prepare question
+                        question10 = QuestionsSpanish.objects.filter(id = 10).first()
+                        
+                        context['question'] = question10
+                        context['question_tag'] = 'Pregunta 10'
+                        context['question_tag_eng'] = 'Diez'
+                        
+                        # get answers ans send form to frontend
+                        
+                        x_list = AnswerSpanish.objects.filter(question=question10)
+                        
+                    
+                        context['xlist'] = x_list
+                        if request.method =='POST':
+                            
+                            list_checked = request.POST.getlist('xlist_boxes')
+                            question10Session = request.session['question310'] = []
+                            
+                            for i in list_checked:
+                                
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                question10Session.append(str(check_answers.first())) 
+                            
+                                for ans in check_answers:
+                                
+                                    if ans.answer == 'Factor homocigoto V Leiden':
+                                        
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 3
+                                        d.save()
+
+                                    elif ans.answer == 'Factor heterocigoto V Leiden':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 1
+                                        d.save()
+                                
+                                    elif ans.answer == 'Mutación homocigota del gen de la protrombina':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 3
+                                        d.save()                                
+                                    elif ans.answer == 'Mutación heterocigota del gen de la protrombina':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 1
+                                        d.save()                                
+                                    elif ans.answer == 'Deficiencia de proteína C':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 3
+                                        d.save()
+                                    elif ans.answer == 'Deficiencia de proteína S':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 3
+                                        d.save()
+                                    elif ans.answer == 'Síndrome antifosfolípido obstétrico':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 3
+                                        d.save()
+                                    elif ans.answer == 'Combinación del factor V heterocigoto de Leiden y mutación del gen de la protrombina heterocigota':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 3
+                                        d.save()
+                                        
+                                    request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9, 10]
+                                    request.session.modified = True
+                        
+                            return redirect('questionCss')
+                            # send question and answer to view
+                
+                    # else:
+                    #     messages.warning(request, 'Acceso denegado')
+                    #     return redirect('login')           
+            else:
+                    messages.warning(request, 'Usuario no verificado')
+            # except:
+            #     messages.warning(request, 'Error')
+            #     return redirect('login')     
         else:
-                messages.warning(request, 'Usuario no verificado')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
-    else:
-        messages.warning(request, 'Autenticacion requerida')
+            messages.warning(request, 'Autenticacion requerida')
+            return redirect('loginspanish')
+    except:
+        messages.warning(request, 'Usuario no verificado')
         return redirect('loginspanish')
     return render(request, 'questions/spanish/question5spanish.html', context)
 
@@ -1085,405 +1114,409 @@ def questionCombinedSpanish(request):
     details_checker_questions(request)
     
     context = {}
-    
-    if request.user.is_authenticated:
-        
-        
-        user = request.user 
-            # locate user on token 
+    try:
             
-        full_name = request.session['details'][2]
-        # try:
+        if request.user.is_authenticated:
+            
+            
+            user = request.user 
+                # locate user on token 
+                
+            full_name = request.session['details'][2]
+            # try:
+            
+            token_of_user = request.session['token_ses']
+            
+            if 'question11s' in request.session:
+                del request.session['question11s']
+            elif 'question12s' in request.session:
+                del request.session['question12s']
+            elif 'question13s' in request.session:
+                del request.session['question13s']
+            elif 'question14' in request.session:
+                del request.session['question14s']
+            else:
+                pass
+            
         
-        token_of_user = request.session['token_ses']
-        
-        if 'question11s' in request.session:
-            del request.session['question11s']
-        elif 'question12s' in request.session:
-            del request.session['question12s']
-        elif 'question13s' in request.session:
-            del request.session['question13s']
-        elif 'question14' in request.session:
-            del request.session['question14s']
-        else:
-            pass
-         
-     
-        if token_of_user:
-        # if request.user:
-                # if token_of_user:
-                    # prepare question
-                    question11 = QuestionsSpanish.objects.filter(id = 11).first()
-                    question12 = QuestionsSpanish.objects.filter(id = 12).first()
-                    question13 = QuestionsSpanish.objects.filter(id = 13).first()
-                    question14 = QuestionsSpanish.objects.filter(id = 14).first()
-                    
-                    context['question1'] = question11
-                    context['question2'] = question12
-                    context['question3'] = question13
-                    context['question4'] = question14
-                    context['question_tag'] = 'Pregunta 11, 12, 13 & 14'
-                    context['question_tag_eng'] = 'Once, , Doce. Trece y Catorce'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list1 = AnswerSpanish.objects.filter(question=question11)
-                    x_list2 = AnswerSpanish.objects.filter(question=question12)
-                    x_list3 = AnswerSpanish.objects.filter(question=question13)
-                    x_list4 = AnswerSpanish.objects.filter(question=question14)
- 
-                    context['xlist1'] = x_list1
-                    context['xlist2'] = x_list2
-                    context['xlist3'] = x_list3
-                    context['xlist4'] = x_list4
-                    if request.method =='POST':
+            if token_of_user:
+            # if request.user:
+                    # if token_of_user:
+                        # prepare question
+                        question11 = QuestionsSpanish.objects.filter(id = 11).first()
+                        question12 = QuestionsSpanish.objects.filter(id = 12).first()
+                        question13 = QuestionsSpanish.objects.filter(id = 13).first()
+                        question14 = QuestionsSpanish.objects.filter(id = 14).first()
                         
-                        list_checked1 = request.POST.getlist('xlist_boxes')
-                        list_checked2 = request.POST.getlist('xlist_boxes')
-                        list_checked3 = request.POST.getlist('xlist_boxes')
-                        list_checked4 = request.POST.getlist('xlist_boxes')
+                        context['question1'] = question11
+                        context['question2'] = question12
+                        context['question3'] = question13
+                        context['question4'] = question14
+                        context['question_tag'] = 'Pregunta 11, 12, 13 & 14'
+                        context['question_tag_eng'] = 'Once, , Doce. Trece y Catorce'
                         
-                        question11Session = request.session['question11'] = []
-                        question12Session = request.session['question12'] = []
-                        question13Session = request.session['question13'] = []
-                        question14Session = request.session['question14'] = []
+                        # get answers ans send form to frontend
                         
-                        
-                        for i in list_checked1:
-                           
-                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                            question11Session.append(str(check_answers.first())) 
-                           
-                            for ans in check_answers:
+                        x_list1 = AnswerSpanish.objects.filter(question=question11)
+                        x_list2 = AnswerSpanish.objects.filter(question=question12)
+                        x_list3 = AnswerSpanish.objects.filter(question=question13)
+                        x_list4 = AnswerSpanish.objects.filter(question=question14)
+    
+                        context['xlist1'] = x_list1
+                        context['xlist2'] = x_list2
+                        context['xlist3'] = x_list3
+                        context['xlist4'] = x_list4
+                        if request.method =='POST':
+                            
+                            list_checked1 = request.POST.getlist('xlist_boxes')
+                            list_checked2 = request.POST.getlist('xlist_boxes')
+                            list_checked3 = request.POST.getlist('xlist_boxes')
+                            list_checked4 = request.POST.getlist('xlist_boxes')
+                            
+                            question11Session = request.session['question11'] = []
+                            question12Session = request.session['question12'] = []
+                            question13Session = request.session['question13'] = []
+                            question14Session = request.session['question14'] = []
+                            
+                            
+                            for i in list_checked1:
+                            
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                question11Session.append(str(check_answers.first())) 
+                            
+                                for ans in check_answers:
 
-                                if ans.answer == 'Lupus eritematoso sistémico activo ':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points +=3
-                                    d.save()
+                                    if ans.answer == 'Lupus eritematoso sistémico activo ':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points +=3
+                                        d.save()
 
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    d.points += 2
-                                    d.save()
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                        d.points += 2
+                                        d.save()
 
-                                elif ans.answer == 'Insuficiencia cardíaca activa':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points +=3
-                                    d.save()
-                               
-                                elif ans.answer == 'Patología tiroidea previa con tratamiento actual':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Thyroid disorders')
-                                    d.points += 100
-                                    d.save()
-                                    
-                                    
-                                elif ans.answer == 'Anemia falciformes o Talasemia':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points +=3
-                                    d.save()
-                                    
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
-                                    d.points +=100
-                                    d.save()
-                                    # 
-                                elif ans.answer == 'Otra hemoglobinopatía':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
-                                    d.points +=100
-                                    d.save()
-                                    
-                                elif ans.answer == 'Hipertensión arterial crónica (pre-embarazo)':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    d.points += 3
-                                    d.save()
-                                elif ans.answer == 'Síndrome de ovarios poliquísticos':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
-                                    d.points += 1
-                                    d.save()
-                                elif ans.answer == 'Tratamiento previo con yodo radioactivo':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Thyroid disorders')
-                                    d.points += 1
-                                    d.save()
-                                    
-                                elif ans.answer == 'Enfermedad renal crónica':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    d.points += 2
-                                    d.save()
-                                elif ans.answer == 'Enfermedad inflamatoria intestinal activa':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points +=3
-                                    d.save()
-                                    
-                                elif ans.answer == 'Hepatitis C crónica':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                    d.points +=1
-                                    d.save()
-                                    
-                                elif ans.answer == 'Tiroiditis previa':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Thyroid disorders')
-                                    d.points += 1
-                                    d.save()
-                                    
-                                elif ans.answer == 'Poliartritis inflamatoria activa':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points +=3
-                                    d.save()
-                                    
-                                elif ans.answer == 'Hígado graso no-alcohólico':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                    d.points +=1
-                                    d.save()
-                                 #  
-                                elif ans.answer == 'Bocio':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Thyroid disorders')
-                                    d.points +=1
-                                    d.save()
-                                    
-                                elif ans.answer == 'Diabetes Mellitus tipo I':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    d.points +=2
-                                    d.save()
-                                    
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder')
-                                    d.points +=1
-                                    d.save()
-                                    
-                                elif ans.answer == 'Patología inflamatoria/cirugía previa que afecta absorción del hierro (celiaquía, infección':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder ')
-                                    d.points +=1
-                                    d.save()
-                                elif ans.answer == ' Diabetes tipo 1 con afectación renal':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                    d.points +=1
-                                    d.save()
-                                elif ans.answer == 'Diabetes Mellitus tipo 2':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    d.points +=2
-                                    d.save()
-
-                                elif ans.answer == 'Síndrome nefrótico (patología renal) activo':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = ' thrombosis')
-                                    d.points +=3
-                                    d.save()
-
-                                elif ans.answer == 'Síndrome antifosfolípido obstétrico/trombótico':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                    d.points +=2
-                                    d.save()
-
-                                elif ans.answer == 'Hipotiroidismo subclínico':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder ')
-                                    d.points +=1
-                                    d.save()
-
-                                elif ans.answer == 'Cáncer activo (especificar)':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points +=3
-                                    d.save()
+                                    elif ans.answer == 'Insuficiencia cardíaca activa':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points +=3
+                                        d.save()
                                 
-                                elif ans.answer == 'Patología inflamatoria/cirugía previa que afecta absorción del hierro (celiaquía, infección actual H Pilori ó enfermedad inflamatoria intestinal)':
+                                    elif ans.answer == 'Patología tiroidea previa con tratamiento actual':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Thyroid disorders')
+                                        d.points += 100
+                                        d.save()
+                                        
+                                        
+                                    elif ans.answer == 'Anemia falciformes o Talasemia':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points +=3
+                                        d.save()
+                                        
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                        d.points +=100
+                                        d.save()
+                                        # 
+                                    elif ans.answer == 'Otra hemoglobinopatía':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anaemia')
+                                        d.points +=100
+                                        d.save()
+                                        
+                                    elif ans.answer == 'Hipertensión arterial crónica (pre-embarazo)':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                        d.points += 3
+                                        d.save()
+                                    elif ans.answer == 'Síndrome de ovarios poliquísticos':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
+                                        d.points += 1
+                                        d.save()
+                                    elif ans.answer == 'Tratamiento previo con yodo radioactivo':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Thyroid disorders')
+                                        d.points += 1
+                                        d.save()
+                                        
+                                    elif ans.answer == 'Enfermedad renal crónica':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                        d.points += 2
+                                        d.save()
+                                    elif ans.answer == 'Enfermedad inflamatoria intestinal activa':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points +=3
+                                        d.save()
+                                        
+                                    elif ans.answer == 'Hepatitis C crónica':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                        d.points +=1
+                                        d.save()
+                                        
+                                    elif ans.answer == 'Tiroiditis previa':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Thyroid disorders')
+                                        d.points += 1
+                                        d.save()
+                                        
+                                    elif ans.answer == 'Poliartritis inflamatoria activa':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points +=3
+                                        d.save()
+                                        
+                                    elif ans.answer == 'Hígado graso no-alcohólico':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                        d.points +=1
+                                        d.save()
+                                    #  
+                                    elif ans.answer == 'Bocio':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Thyroid disorders')
+                                        d.points +=1
+                                        d.save()
+                                        
+                                    elif ans.answer == 'Diabetes Mellitus tipo I':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                        d.points +=2
+                                        d.save()
+                                        
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder')
+                                        d.points +=1
+                                        d.save()
+                                        
+                                    elif ans.answer == 'Patología inflamatoria/cirugía previa que afecta absorción del hierro (celiaquía, infección':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder ')
+                                        d.points +=1
+                                        d.save()
+                                    elif ans.answer == ' Diabetes tipo 1 con afectación renal':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                        d.points +=1
+                                        d.save()
+                                    elif ans.answer == 'Diabetes Mellitus tipo 2':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                        d.points +=2
+                                        d.save()
+
+                                    elif ans.answer == 'Síndrome nefrótico (patología renal) activo':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = ' thrombosis')
+                                        d.points +=3
+                                        d.save()
+
+                                    elif ans.answer == 'Síndrome antifosfolípido obstétrico/trombótico':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                        d.points +=2
+                                        d.save()
+
+                                    elif ans.answer == 'Hipotiroidismo subclínico':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder ')
+                                        d.points +=1
+                                        d.save()
+
+                                    elif ans.answer == 'Cáncer activo (especificar)':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points +=3
+                                        d.save()
+                                    
+                                    elif ans.answer == 'Patología inflamatoria/cirugía previa que afecta absorción del hierro (celiaquía, infección actual H Pilori ó enfermedad inflamatoria intestinal)':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
+                                        d.points +=1
+                                        d.save()
+
+                                    
+                                    
+                                        
+                            for i in list_checked2:
+                                
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                question12Session.append(str(check_answers.first())) 
+                                
+                                
+                                if ans.answer == 'Inmovilidad (Silla de ruedas, paraplejia)':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points +=1
+                                    d.save()
+
+                                elif ans.answer == 'Positividad persistente de anticuerpos antifosfolípidos':
+                                    d = Referal(
+                                        token= request.session['token_ses'],
+                                        patient= request.session['details'][2],
+                                        answer = ans.answer,
+                                        comment = 'high-risk Pregnancy team/Rheumatology'
+                                    )
+                                    d.save()
+                                    
+                                elif ans.answer == 'Resistencia a la insulina ó prediabetes':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
+                                    d.points +=1
+                                    d.save()
+
+                                elif ans.answer == 'Intervalo entre embarazos < 1 año':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
                                     d.points +=1
                                     d.save()
 
+                                                            
+                                if ans.answer == 'Intervalo entre embarazos > 10 años':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points +=1
+                                    d.save()
+
+                                elif ans.answer == 'Positividad de anticuerpos antitiroideos':
+                                    pass
                                 
-                                
+                                elif ans.answer == 'Usuaria de drogas endovenosas actual':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points +=3
+                                    d.save()
+
+                                elif ans.answer == 'Varices venosas gruesas palpables':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points +=1
+                                    d.save()                            
+                                elif ans.answer == 'Fumadora actual':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points +=1
+                                    d.save()     
                                     
-                        for i in list_checked2:
-                            
-                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                            question12Session.append(str(check_answers.first())) 
-                            
-                            
-                            if ans.answer == 'Inmovilidad (Silla de ruedas, paraplejia)':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                d.points +=1
-                                d.save()
-
-                            elif ans.answer == 'Positividad persistente de anticuerpos antifosfolípidos':
-                                d = Referal(
-                                    token= request.session['token_ses'],
-                                    patient= request.session['details'][2],
-                                    answer = ans.answer,
-                                    comment = 'high-risk Pregnancy team/Rheumatology'
-                                )
-                                d.save()
-                                
-                            elif ans.answer == 'Resistencia a la insulina ó prediabetes':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
-                                d.points +=1
-                                d.save()
-
-                            elif ans.answer == 'Intervalo entre embarazos < 1 año':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
-                                d.points +=1
-                                d.save()
-
+                                elif ans.answer == 'Preeclampsia en el embarazo actual':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points +=1
+                                    d.save()   
+                                                            
                                                         
-                            if ans.answer == 'Intervalo entre embarazos > 10 años':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                d.points +=1
-                                d.save()
+                                elif ans.answer == 'Hiperémesis gravídica en el embarazo actual':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder')
+                                    d.points +=1
+                                    d.save()                            
+                                elif ans.answer == 'En tratamiento actual con corticoides ó antipsicóticos':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes ')
+                                    d.points +=1
+                                    d.save()
 
-                            elif ans.answer == 'Positividad de anticuerpos antitiroideos':
-                                pass
-                             
-                            elif ans.answer == 'Usuaria de drogas endovenosas actual':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                d.points +=3
-                                d.save()
+                                elif ans.answer == 'Embarazo previo en el cual su hijo pesó >4,5 kg':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes ')
+                                    d.points +=1
+                                    d.save()
 
-                            elif ans.answer == 'Varices venosas gruesas palpables':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                d.points +=1
-                                d.save()                            
-                            elif ans.answer == 'Fumadora actual':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                d.points +=1
-                                d.save()     
+                                elif ans.answer == 'Historia de alteración de enzimas del hígado con anticonceptivos orales':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'intrahepatic cholestasis')
+                                    d.points +=1
+                                    d.save()
                                 
-                            elif ans.answer == 'Preeclampsia en el embarazo actual':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                d.points +=1
-                                d.save()   
-                                                         
-                                                     
-                            elif ans.answer == 'Hiperémesis gravídica en el embarazo actual':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disorder')
-                                d.points +=1
-                                d.save()                            
-                            elif ans.answer == 'En tratamiento actual con corticoides ó antipsicóticos':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes ')
-                                d.points +=1
-                                d.save()
-
-                            elif ans.answer == 'Embarazo previo en el cual su hijo pesó >4,5 kg':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes ')
-                                d.points +=1
-                                d.save()
-
-                            elif ans.answer == 'Historia de alteración de enzimas del hígado con anticonceptivos orales':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'intrahepatic cholestasis')
-                                d.points +=1
-                                d.save()
-                            
-                            elif ans.answer == 'Has precisado de tratamiento endovenoso con hierro previo.':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
-                                d.points +=1
-                                d.save()
-                            elif ans.answer == 'Sigues una dieta vegetariana o vegana':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
-                                d.points +=1
-                                d.save()
-                                
-                            elif ans.answer == 'Historia reciente de sangrado importante':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
-                                d.points +=1
-                                d.save()
-
-     
+                                elif ans.answer == 'Has precisado de tratamiento endovenoso con hierro previo.':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
+                                    d.points +=1
+                                    d.save()
+                                elif ans.answer == 'Sigues una dieta vegetariana o vegana':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
+                                    d.points +=1
+                                    d.save()
                                     
-                        for i in list_checked4:
-                            
-                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                            question14Session.append(str(check_answers.first())) 
-                           
-                            if ans.answer == 'Trastorno tiroideo autoinmune familiar':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disease')
-                                d.points +=1
-                                d.save()
+                                elif ans.answer == 'Historia reciente de sangrado importante':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
+                                    d.points +=1
+                                    d.save()
 
-                            elif ans.answer == 'Preeclampsia':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                d.points +=1
-                                d.save()
+        
+                                        
+                            for i in list_checked4:
                                 
-                            elif ans.answer == 'Trombofilia genética (incluyendo factor V Leiden, mutación del gen de la protrombina, proteína C o S) familiar':
-                                pass 
-                                # refer
-                   
-                            elif ans.answer == 'Madre/hermanas ó hijas con colestasis intrahepática':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = ' intrahepatic cholestasis')
-                                d.points +=1
-                                d.save()
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                question14Session.append(str(check_answers.first())) 
+                            
+                                if ans.answer == 'Trastorno tiroideo autoinmune familiar':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thyroid disease')
+                                    d.points +=1
+                                    d.save()
 
-                            elif ans.answer == 'Trombosis venosa profunda':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                d.points +=1
-                                d.save()
+                                elif ans.answer == 'Preeclampsia':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points +=1
+                                    d.save()
+                                    
+                                elif ans.answer == 'Trombofilia genética (incluyendo factor V Leiden, mutación del gen de la protrombina, proteína C o S) familiar':
+                                    pass 
+                                    # refer
+                    
+                                elif ans.answer == 'Madre/hermanas ó hijas con colestasis intrahepática':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = ' intrahepatic cholestasis')
+                                    d.points +=1
+                                    d.save()
+
+                                elif ans.answer == 'Trombosis venosa profunda':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                    d.points +=1
+                                    d.save()
+
+                                                            
+                                elif ans.answer == 'Madre/hermanas ó hijas con hiperémesis gravídica':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                    d.points +=1
+                                    d.save()
+
+                                elif ans.answer == 'Madre/hermanas ó hijas con diabetes mellitus':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
+                                    d.points +=1
+                                    d.save()
 
                                                         
-                            elif ans.answer == 'Madre/hermanas ó hijas con hiperémesis gravídica':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
-                                d.points +=1
-                                d.save()
-
-                            elif ans.answer == 'Madre/hermanas ó hijas con diabetes mellitus':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
-                                d.points +=1
-                                d.save()
-
-                                                    
-                        for i in list_checked3:
-                            
-                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                            question13Session.append(str(check_answers.first())) 
-                            
-                            if ans.answer == 'Preeclampsia o hipertensión arterial crónica':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
-                                d.points +=2
-                                d.save()
+                            for i in list_checked3:
                                 
-                            elif ans.answer == 'Diabetes gestacional ':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
-                                d.points +=1
-                                d.save()
-
-                            elif ans.answer == 'Hiperémesis gravídica ':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
-                                d.points +=1
-                                d.save()
-
-                                                        
-                            elif ans.answer == 'Hipotiroidismo / hipertiroidismo':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = ' thyroid disorder')
-                                d.points +=1
-                                d.save()
-
-                            elif ans.answer == 'Anemia':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anaemia')
-                                d.points +=1
-                                d.save()
-                             
-                            elif ans.answer == 'Colestasis intrahepática':
-                                d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
-                                d.points +=1
-                                d.save()
-
-                            elif ans.answer == 'Ninguno de los anteriores':
-                                pass
-                                                         
-                            elif ans.answer == 'No he estado embarazada previamente':
-                                pass                  
-                     
-                            
-                                request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13, 14]
-                                request.session.modified = True
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                question13Session.append(str(check_answers.first())) 
                                 
-                                                                       
+                                if ans.answer == 'Preeclampsia o hipertensión arterial crónica':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                    d.points +=2
+                                    d.save()
+                                    
+                                elif ans.answer == 'Diabetes gestacional ':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'diabetes')
+                                    d.points +=1
+                                    d.save()
 
-                        return redirect('question15s')
-                        # send question and answer to view
+                                elif ans.answer == 'Hiperémesis gravídica ':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Anemia')
+                                    d.points +=1
+                                    d.save()
+
+                                                            
+                                elif ans.answer == 'Hipotiroidismo / hipertiroidismo':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = ' thyroid disorder')
+                                    d.points +=1
+                                    d.save()
+
+                                elif ans.answer == 'Anemia':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'anaemia')
+                                    d.points +=1
+                                    d.save()
+                                
+                                elif ans.answer == 'Colestasis intrahepática':
+                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'Intrahepatic cholestasis')
+                                    d.points +=1
+                                    d.save()
+
+                                elif ans.answer == 'Ninguno de los anteriores':
+                                    pass
+                                                            
+                                elif ans.answer == 'No he estado embarazada previamente':
+                                    pass                  
+                        
+                                
+                                    request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13, 14]
+                                    request.session.modified = True
+                                    
+                                                                        
+
+                            return redirect('question15s')
+                            # send question and answer to view
+                    
                 
-               
-                # else:
-                #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+                    # else:
+                    #     messages.warning(request, 'Acceso denegado')
+                    #     return redirect('login')           
+            else:
+                    messages.warning(request, 'Usuario no verificado')
+            # except:
+            #     messages.warning(request, 'Error')
+            #     return redirect('login')     
         else:
-                messages.warning(request, 'Usuario no verificado')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
-    else:
-        messages.warning(request, 'Autenticacion requerida')
+            messages.warning(request, 'Autenticacion requerida')
+            return redirect('loginspanish')
+    except:
+        messages.warning(request, 'Usuario no verificado')
         return redirect('loginspanish')
     return render(request, 'questions/spanish/question6spanish.html', context)
 
