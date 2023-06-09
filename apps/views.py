@@ -359,8 +359,34 @@ def question2(request):
                     
                                         request.session['q2'] = [BMI, height, weight]
                                         
+                                        # check current user for bmi 
+                                        
+                                        try:
+                                            bmi_check = BMI.objects.filter(token=token_of_user, full_name=request.session['details'][2])
+                                            bmi_check.delete()
+                                        
+                                        except:
+                                            pass 
                                         
                                         
+                                        
+                                        # save bmi to database
+                                        
+                                        try:
+            
+                                            bmi = BMI(
+                                                bmi = BMI,
+                                                height =  height,
+                                                weight =  weight,
+                                                token = request.session['token_ses'],
+                                                full_name =  request.session['details'][2],  
+                                            )
+                                            bmi.save()
+                                        except:
+                                            messages.warning(request, "Age and Height wasn't provided, answer each question")
+                                            return redirect('question2')
+                                            
+                                         
                                         
                                         
                                         request.session['questions_answered'] = [1,2]
