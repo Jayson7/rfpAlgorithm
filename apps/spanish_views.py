@@ -1427,8 +1427,14 @@ def questionCombinedSpanish(request):
                                     d.save()
                                     
                                 elif ans.answer == 'Trombofilia genética (incluyendo factor V Leiden, mutación del gen de la protrombina, proteína C o S) familiar':
-                                    pass 
-                                    # refer
+                                    d = Referal(
+                                    token= request.session['token_ses'],
+                                    patient= request.session['details'][2],
+                                    answer = ans.answer,
+                                    comment = 'Visit Hematology'
+                                     )
+                                    d.save
+
                     
                                 elif ans.answer == 'Madre/hermanas ó hijas con colestasis intrahepática':
                                     d = Disease.objects.filter(user_diagnosed=token_of_user, disease = ' intrahepatic cholestasis')
@@ -1527,127 +1533,130 @@ def questionCombinedSpanish(request):
 
 def question15Spanish(request):
     
+    
     context = {}
     
-    token_of_user = request.session['token_ses']
-    
-    if request.user.is_authenticated:
-
+    try:
         
-        user = request.user 
-            # locate user on token 
+        token_of_user = request.session['token_ses']
+        
+        if request.user.is_authenticated:
+
             
-        full_name = request.session['details'][2]
-        # try:
-        
-        if 'question15s' in request.session:
-            del request.session['question15s']
-        else:
-            pass
-         
-     
-
-        if request.user:
-                # if token_of_user:
-                    # prepare question
-                    question15 = QuestionsSpanish.objects.filter(id = 15).first()
-                    
-                    context['question'] = question15
-                    context['question_tag'] = 'Pregunta 15'
-                    context['question_tag_eng'] = 'quince'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list = AnswerSpanish.objects.filter(question=question15)
-                    
-                  
-                    context['xlist'] = x_list
-                    if request.method =='POST':
-                        
-                        list_checked = request.POST.getlist('xlist_boxes')
-                        question15Session = request.session['question15'] = []
-                        
-                        for i in list_checked:
-                            check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                            question15Session.append(str(check_answers.first()))    
-                           
-                           
-                            for ans in check_answers:
-                               
-                                if ans.answer == 'Has sido diagnosticada de patología psiquiátrica previa ó actual incluyendo esquizofrenia, trastorno bipolar, trastorno obsesivo compulsivo ó trastorno alimentario (como bulimia o anorexia), entre otros':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
-                                    d.points +=100
-                                    d.save()
-
-                               
-
-                                elif ans.answer == 'Estás en tratamiento psiquiátrico actual con fármacos (incluyendo antidepresivos, antipsicóticos, estabilizantes del humor, medicamentos estimulantes o medicación para ansiedad, entre otras)':
-                                    
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
-                                    d.points +=100
-                                    d.save()
-
-                               
-                                elif ans.answer == 'Has presentado intento(s) de suicidio previo':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
-                                    d.points +=100
-                                    d.save()
-
-
-                                elif ans.answer == 'Tienes una historia previa de psicosis, depresión o ansiedad (incluyendo embarazos previos y postparto)':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                    d.points += 1
-                                    d.save()
-                                
-                                elif ans.answer == 'Tienes historia familiar (padres, herman@s o hij@s) de patología mental (incluyendo psicosis postparto, trastorno bipolar, ansiedad ó depresión) ':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
-                                    d.points +=1
-                                    d.save()
-
-                                elif ans.answer == 'Tienes problemas de convivencia con su pareja actual':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
-                                    d.points +=1
-                                    d.save()
-
-                                
-                                elif ans.answer == 'Tienes problemas económicos actuales':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
-                                    d.points +=1
-                                    d.save()
-
-                                
-                                elif ans.answer == 'Tienes escaso o ningún apoyo familiar ó de amistades en los que apoyarse para el cuidado de tu bebé':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
-                                    d.points +=1
-                                    d.save()
-
-                                
-                                elif ans.answer == 'Embarazo actual no deseado.':
-                                    d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
-                                    d.points +=1
-                                    d.save()
-
-                                    
-                                    
-                                request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13,14,15]
-                                request.session.modified = True
-                                
-                                    
-                                   
-
-                        return redirect('question16s')
-                        # send question and answer to view
+            user = request.user 
+                # locate user on token 
                 
-               
-                # else:
-                #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
+            full_name = request.session['details'][2]
+            # try:
+            
+            if 'question15s' in request.session:
+                del request.session['question15s']
+            else:
+                pass
+            
+        
+
+            if request.user:
+                    # if token_of_user:
+                        # prepare question
+                        question15 = QuestionsSpanish.objects.filter(id = 15).first()
+                        
+                        context['question'] = question15
+                        context['question_tag'] = 'Pregunta 15'
+                        context['question_tag_eng'] = 'quince'
+                        
+                        # get answers ans send form to frontend
+                        
+                        x_list = AnswerSpanish.objects.filter(question=question15)
+                        
+                    
+                        context['xlist'] = x_list
+                        if request.method =='POST':
+                            
+                            list_checked = request.POST.getlist('xlist_boxes')
+                            question15Session = request.session['question15'] = []
+                            
+                            for i in list_checked:
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                question15Session.append(str(check_answers.first()))    
+                            
+                            
+                                for ans in check_answers:
+                                
+                                    if ans.answer == 'Has sido diagnosticada de patología psiquiátrica previa ó actual incluyendo esquizofrenia, trastorno bipolar, trastorno obsesivo compulsivo ó trastorno alimentario (como bulimia o anorexia), entre otros':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d.points +=100
+                                        d.save()
+
+                                
+
+                                    elif ans.answer == 'Estás en tratamiento psiquiátrico actual con fármacos (incluyendo antidepresivos, antipsicóticos, estabilizantes del humor, medicamentos estimulantes o medicación para ansiedad, entre otras)':
+                                        
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d.points +=100
+                                        d.save()
+
+                                
+                                    elif ans.answer == 'Has presentado intento(s) de suicidio previo':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d.points +=100
+                                        d.save()
+
+
+                                    elif ans.answer == 'Tienes una historia previa de psicosis, depresión o ansiedad (incluyendo embarazos previos y postparto)':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d.points += 1
+                                        d.save()
+                                    
+                                    elif ans.answer == 'Tienes historia familiar (padres, herman@s o hij@s) de patología mental (incluyendo psicosis postparto, trastorno bipolar, ansiedad ó depresión) ':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d.points +=1
+                                        d.save()
+
+                                    elif ans.answer == 'Tienes problemas de convivencia con su pareja actual':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d.points +=1
+                                        d.save()
+
+                                    
+                                    elif ans.answer == 'Tienes problemas económicos actuales':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d.points +=1
+                                        d.save()
+
+                                    
+                                    elif ans.answer == 'Tienes escaso o ningún apoyo familiar ó de amistades en los que apoyarse para el cuidado de tu bebé':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d.points +=1
+                                        d.save()
+
+                                    
+                                    elif ans.answer == 'Embarazo actual no deseado.':
+                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d.points +=1
+                                        d.save()
+
+                                        
+                                        
+                                    request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13,14,15]
+                                    request.session.modified = True
+                                    
+                                    
+
+                            return redirect('question16s')
+                            # send question and answer to view
+                    
+                
+                    # else:
+                    #     messages.warning(request, 'Acceso denegado')
+                    #     return redirect('login')           
+            else:
+                    messages.warning(request, 'Usuario no verificado')
+         
         else:
-                messages.warning(request, 'Usuario no verificado')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
-    else:
+            messages.warning(request, 'Autenticacion requerida')
+            return redirect('loginspanish')
+    except:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('loginspanish')
     return render(request, 'questions/spanish/question5spanish.html', context)
@@ -1667,109 +1676,109 @@ def question16Spanish(request):
   
     if request.user.is_authenticated:
 
-        # try:
+        try:
         
-        if 'question16s' in request.session:
-            del request.session['question16s']
-        else:
-            pass
-   
-        if request.user:
-                # if token_of_user:
-                    # prepare question
-                    question16 = QuestionsSpanish.objects.filter(id = 16).first()
-                    
-                    context['question'] = question16
-                    context['question_tag'] = 'Pregunta 16'
-                    context['question_tag_eng'] = 'Dieciséis'
-                    
-                    # get answers ans send form to frontend
-                    
-                    x_list = AnswerSpanish.objects.filter(question=question16)
-                    question16Session = request.session['question16'] = []
-                    
-                    context['xlist'] = x_list
-                    if request.method =='POST':
+            if 'question16s' in request.session:
+                del request.session['question16s']
+            else:
+                pass
+    
+            if request.user:
+                        # if token_of_user:
+                        # prepare question
+                        question16 = QuestionsSpanish.objects.filter(id = 16).first()
                         
-                        list_checked = request.POST.getlist('xlist_boxes')
-                        question16Session = request.session['question16s'] = []
+                        context['question'] = question16
+                        context['question_tag'] = 'Pregunta 16'
+                        context['question_tag_eng'] = 'Dieciséis'
                         
-                        for i in list_checked:
-                           check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                           question16Session.append(str(check_answers.first())) 
-                           
-                           
-                           for ans in check_answers:
-                               
-                                if ans.answer == 'Tienes dificultad para concentrarte.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
-                                    d.points +=1
-                                    d.save()
-
-                               
-
-                                elif ans.answer == 'Te enfadas fácilmente ó estás más irritable.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
-                                    d.points +=1
-                                    d.save()
-
-                                elif ans.answer == 'Tienes dificultad para dormir por la noche.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
-                                    d.points +=1
-                                    d.save()
-                                    
-                                elif ans.answer == 'Te sientes ansiosa o nerviosa.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
-                                    d.points +=1
-                                    d.save()
-                                    
-                                elif ans.answer == "No puedes parar de pensar repetidamente en lo mismo.":
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
-                                    d.points +=1
-                                    d.save()
-                                elif ans.answer == 'Tienes miedo a que algo malo ocurra en tu embarazo.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
-                                    d.points +=1
-                                    d.save()
-                                    
-                                elif ans.answer == 'Presentas pensamientos negativos constantemente.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Depression')
-                                    d.points +=1
-                                    d.save()
-                                    
-                                elif ans.answer == "Tienes sentimiento de culpa por lo problemas que presentas actualmente.":
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease ='Depression')
-                                    d.points += 1
-                                    d.save()
-                                    
-                                elif ans.answer == 'Pérdida de interés por la gente que te rodea o las actividades de la vida rutinaria.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease ='Depression')
-                                  
-                                    d.points +=1
-                                    d.save()
-                                    
-                                elif ans.answer == 'Te sientes triste, baja de ánimo o con más facilidad para llorar.':
-                                    d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Depression')
-                                    d.points +=1
-                                    d.save()
-                                    
-                                request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13,14,15, 16]
-                                request.session.modified = True
+                        # get answers ans send form to frontend
+                        
+                        x_list = AnswerSpanish.objects.filter(question=question16)
+                        question16Session = request.session['question16'] = []
+                        
+                        context['xlist'] = x_list
+                        if request.method =='POST':
+                            
+                            list_checked = request.POST.getlist('xlist_boxes')
+                            question16Session = request.session['question16s'] = []
+                            
+                            for i in list_checked:
+                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                question16Session.append(str(check_answers.first())) 
                                 
-                     
+                            
+                            for ans in check_answers:
+                                
+                                    if ans.answer == 'Tienes dificultad para concentrarte.':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
+                                        d.points +=1
+                                        d.save()
 
-                        return redirect('save_result_user')
-                        # send question and answer to view
+                                
+
+                                    elif ans.answer == 'Te enfadas fácilmente ó estás más irritable.':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
+                                        d.points +=1
+                                        d.save()
+
+                                    elif ans.answer == 'Tienes dificultad para dormir por la noche.':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
+                                        d.points +=1
+                                        d.save()
+                                        
+                                    elif ans.answer == 'Te sientes ansiosa o nerviosa.':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
+                                        d.points +=1
+                                        d.save()
+                                        
+                                    elif ans.answer == "No puedes parar de pensar repetidamente en lo mismo.":
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
+                                        d.points +=1
+                                        d.save()
+                                    elif ans.answer == 'Tienes miedo a que algo malo ocurra en tu embarazo.':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Anxiety')
+                                        d.points +=1
+                                        d.save()
+                                        
+                                    elif ans.answer == 'Presentas pensamientos negativos constantemente.':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Depression')
+                                        d.points +=1
+                                        d.save()
+                                        
+                                    elif ans.answer == "Tienes sentimiento de culpa por lo problemas que presentas actualmente.":
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease ='Depression')
+                                        d.points += 1
+                                        d.save()
+                                        
+                                    elif ans.answer == 'Pérdida de interés por la gente que te rodea o las actividades de la vida rutinaria.':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease ='Depression')
+                                    
+                                        d.points +=1
+                                        d.save()
+                                        
+                                    elif ans.answer == 'Te sientes triste, baja de ánimo o con más facilidad para llorar.':
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Depression')
+                                        d.points +=1
+                                        d.save()
+                                        
+                                    request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9, 10, 11, 13,14,15, 16]
+                                    request.session.modified = True
+                                    
+                        
+
+                            return redirect('save_result_user')
+                            # send question and answer to view
+                    
                 
-               
-                # else:
-                #     messages.warning(request, 'Acceso denegado')
-                #     return redirect('login')           
-        else:
-                messages.warning(request, 'Usuario no verificado')
-        # except:
-        #     messages.warning(request, 'Error')
-        #     return redirect('login')     
+                    # else:
+                    #     messages.warning(request, 'Acceso denegado')
+                    #     return redirect('login')           
+            else:
+                    messages.warning(request, 'Usuario no verificado')
+        except:
+            messages.warning(request, 'Usuario no verificado')
+            return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('loginspanish')
