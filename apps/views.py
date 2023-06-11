@@ -1703,6 +1703,7 @@ def question15(request):
             # locate user on token 
             
         full_name = request.session['details'][2]
+        
         try:
         
             if 'question15' in request.session:
@@ -1989,7 +1990,7 @@ def save_result_user(request):
     
     )
     
-    # trigger BMI and get references if any
+
     
 
     # save  
