@@ -105,9 +105,9 @@ def question1(request):
     basic_user_auth_check(request)
     details_checker_questions(request)
     context = {}
-    try:
+    # try:
         
-        if request.user.is_authenticated:
+    if request.user.is_authenticated:
         
             try:
                 # locate user on token 
@@ -282,9 +282,9 @@ def question1(request):
                 logout(request)
                 return redirect('login')     
     
-    except:
-        messages.warning(request, 'User unverified')
-        return redirect('login')
+    # except:
+    #     messages.warning(request, 'User unverified')
+    #     return redirect('login')
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
