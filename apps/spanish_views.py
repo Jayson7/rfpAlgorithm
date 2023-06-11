@@ -1011,89 +1011,89 @@ def question10Spanish(request):
             
             token_of_user = request.session['token_ses']
             
-            # try:
-            if 'question10s' in request.session:
-                del request.session['question10s']
-            else:
-                pass
-            
-            if request.user:
-                    # if token_of_user:
-                        # prepare question
-                        question10 = QuestionsSpanish.objects.filter(id = 10).first()
-                        
-                        context['question'] = question10
-                        context['question_tag'] = 'Pregunta 10'
-                        context['question_tag_eng'] = 'Diez'
-                        
-                        # get answers ans send form to frontend
-                        
-                        x_list = AnswerSpanish.objects.filter(question=question10)
-                        
-                    
-                        context['xlist'] = x_list
-                        if request.method =='POST':
-                            
-                            list_checked = request.POST.getlist('xlist_boxes')
-                            question10Session = request.session['question310'] = []
-                            
-                            for i in list_checked:
-                                
-                                check_answers = AnswerSpanish.objects.filter(pk=int(i))
-                                question10Session.append(str(check_answers.first())) 
-                            
-                                for ans in check_answers:
-                                
-                                    if ans.answer == 'Factor homocigoto V Leiden':
-                                        
-                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                        d.points += 3
-                                        d.save()
-
-                                    elif ans.answer == 'Factor heterocigoto V Leiden':
-                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                        d.points += 1
-                                        d.save()
-                                
-                                    elif ans.answer == 'Mutación homocigota del gen de la protrombina':
-                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                        d.points += 3
-                                        d.save()                                
-                                    elif ans.answer == 'Mutación heterocigota del gen de la protrombina':
-                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                        d.points += 1
-                                        d.save()                                
-                                    elif ans.answer == 'Deficiencia de proteína C':
-                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                        d.points += 3
-                                        d.save()
-                                    elif ans.answer == 'Deficiencia de proteína S':
-                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                        d.points += 3
-                                        d.save()
-                                    elif ans.answer == 'Síndrome antifosfolípido obstétrico':
-                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                        d.points += 3
-                                        d.save()
-                                    elif ans.answer == 'Combinación del factor V heterocigoto de Leiden y mutación del gen de la protrombina heterocigota':
-                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
-                                        d.points += 3
-                                        d.save()
-                                        
-                                    request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9, 10]
-                                    request.session.modified = True
-                        
-                            return redirect('questionCss')
-                            # send question and answer to view
+            try:
+                if 'question10s' in request.session:
+                    del request.session['question10s']
+                else:
+                    pass
                 
-                    # else:
-                    #     messages.warning(request, 'Acceso denegado')
-                    #     return redirect('login')           
-            else:
-                    messages.warning(request, 'Usuario no verificado')
-            # except:
-            #     messages.warning(request, 'Error')
-            #     return redirect('login')     
+                if request.user:
+                        # if token_of_user:
+                            # prepare question
+                            question10 = QuestionsSpanish.objects.filter(id = 10).first()
+                            
+                            context['question'] = question10
+                            context['question_tag'] = 'Pregunta 10'
+                            context['question_tag_eng'] = 'Diez'
+                            
+                            # get answers ans send form to frontend
+                            
+                            x_list = AnswerSpanish.objects.filter(question=question10)
+                            
+                        
+                            context['xlist'] = x_list
+                            if request.method =='POST':
+                                
+                                list_checked = request.POST.getlist('xlist_boxes')
+                                question10Session = request.session['question310'] = []
+                                
+                                for i in list_checked:
+                                    
+                                    check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                                    question10Session.append(str(check_answers.first())) 
+                                
+                                    for ans in check_answers:
+                                    
+                                        if ans.answer == 'Factor homocigoto V Leiden':
+                                            
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                            d.points += 3
+                                            d.save()
+
+                                        elif ans.answer == 'Factor heterocigoto V Leiden':
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                            d.points += 1
+                                            d.save()
+                                    
+                                        elif ans.answer == 'Mutación homocigota del gen de la protrombina':
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                            d.points += 3
+                                            d.save()                                
+                                        elif ans.answer == 'Mutación heterocigota del gen de la protrombina':
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                            d.points += 1
+                                            d.save()                                
+                                        elif ans.answer == 'Deficiencia de proteína C':
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                            d.points += 3
+                                            d.save()
+                                        elif ans.answer == 'Deficiencia de proteína S':
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                            d.points += 3
+                                            d.save()
+                                        elif ans.answer == 'Síndrome antifosfolípido obstétrico':
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                            d.points += 3
+                                            d.save()
+                                        elif ans.answer == 'Combinación del factor V heterocigoto de Leiden y mutación del gen de la protrombina heterocigota':
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                            d.points += 3
+                                            d.save()
+                                            
+                                        request.session['questions_answered_spanish'] = [1,2,3,4,5,6,7,8,9, 10]
+                                        request.session.modified = True
+                            
+                                return redirect('questionCss')
+                                # send question and answer to view
+                    
+                        # else:
+                        #     messages.warning(request, 'Acceso denegado')
+                        #     return redirect('login')           
+                else:
+                        messages.warning(request, 'Usuario no verificado')
+            except:
+                messages.warning(request, 'Error')
+                return redirect('login')     
         else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
