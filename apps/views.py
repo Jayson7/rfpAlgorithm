@@ -319,21 +319,17 @@ def question2(request):
                         # get answers ans send form to frontend
             
                         if request.method =='POST':
+                            
                                         height = request.POST['height']
                                         weight = request.POST['weight']
 
     
                                         # try coversions 
-                                        try:
-                                            height  = float(height)
-                                            weight = float(weight)
+                                     
+                                        height  = float(height)
+                                        weight = float(weight)
                                             
-                                        except:
-                                            messages.warning(request, 'A valid input is required')
-                                            
-                                            request.session.flush()
-                                            logout(request)
-                                            return redirect('login')  
+                                   
                                         # add up missing form fields and calculate BMI
                                         
                                     
@@ -345,20 +341,20 @@ def question2(request):
                                         bmi = weight / height_pow
                                         
                                         if bmi < 18.5:
-                                            BMI = 'Under Weight'
+                                            BMI_rate = 'Under Weight'
                                         elif bmi >= 18.5 and bmi <= 24.9:
-                                            BMI = 'Mormal'
+                                            BMI_rate = 'Mormal'
                                         elif bmi >= 25 and bmi <= 29.9:
-                                            BMI = 'Over Weight'
+                                            BMI_rate = 'Over Weight'
                                         elif bmi >= 30 and bmi <= 34.9:
-                                            BMI = 'Obesity (Class I)'                   
+                                            BMI_rate = 'Obesity (Class I)'                   
                                         elif bmi >= 35 and bmi <= 39.9:
-                                            BMI = 'Obesity (Class II)'                                       
+                                            BMI_rate = 'Obesity (Class II)'                                       
                                         elif bmi >= 40:
-                                            BMI = 'Obesity (Extreme Obesity)'    
+                                            BMI_rate = 'Obesity (Extreme Obesity)'    
                                         
                     
-                                        request.session['q2'] = [BMI, height, weight]
+                                        request.session['q2'] = [BMI_rate, height, weight]
                                         
                                         # check current user for bmi 
                                         
@@ -376,7 +372,7 @@ def question2(request):
                                      
             
                                         bmi = BMI(
-                                                bmi = BMI,
+                                                bmi = BMI_rate,
                                                 height =  height,
                                                 weight =  weight,
                                                 token = request.session['token_ses'],

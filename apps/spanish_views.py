@@ -188,7 +188,7 @@ def question2Spanish(request):
     
     if request.user.is_authenticated:
 
-        try: 
+        # try: 
             user = request.user 
             token_of_user = request.session['token_ses']
             # verify if user answered question 1
@@ -206,17 +206,13 @@ def question2Spanish(request):
                                         weight = request.POST['weight']
     
                                         # try coversions 
-                                        try:
-                                            height  = float(height)
-                                            weight = float(weight)
+                               
+                                        height  = float(height)
+                                        weight = float(weight)
                                             
-                                        except:
-                                            messages.warning(request, 'Se requiere una entrada válida')
-                                            return redirect('loginspanish')  
+                                   
                                         # add up missing form fields and calculate BMI
-                                        
                                     
-                                        
                                         
                                         # calculate BMI
                                         
@@ -224,20 +220,20 @@ def question2Spanish(request):
                                         bmi = weight / height_pow
                                         
                                         if bmi < 18.5:
-                                            BMI = 'Under Weight'
+                                            BMI_rate = 'Under Weight'
                                         elif bmi >= 18.5 and bmi <= 24.9:
-                                            BMI = 'Mormal'
+                                            BMI_rate = 'Mormal'
                                         elif bmi >= 25 and bmi <= 29.9:
-                                            BMI = 'Over Weight'
+                                            BMI_rate = 'Over Weight'
                                         elif bmi >= 30 and bmi <= 34.9:
-                                            BMI = 'Obesity (Class I)'                   
+                                            BMI_rate = 'Obesity (Class I)'                   
                                         elif bmi >= 35 and bmi <= 39.9:
-                                            BMI = 'Obesity (Class II)'                                       
+                                            BMI_rate = 'Obesity (Class II)'                                       
                                         elif bmi >= 40:
-                                            BMI = 'Obesity (Extreme Obesity)'    
+                                            BMI_rate = 'Obesity (Extreme Obesity)'    
                                         
                     
-                                        request.session['q2s'] = [BMI, height, weight]
+                                        request.session['q2s'] = [BMI_rate, height, weight]
                                         
                                         request.session['questions_answered_spanish'] = [1,2]
                                         
@@ -256,20 +252,17 @@ def question2Spanish(request):
                                         
                                         # save bmi to database
                                         
-                                        try:
+                                
                                             
-            
-                                            bmi = BMI(
-                                                bmi = BMI,
-                                                height =  height,
-                                                weight =  weight,
-                                                token = request.session['token_ses'],
-                                                full_name =  request.session['details'][2],  
-                                            )
-                                            bmi.save()
-                                        except:
-                                            messages.warning(request, "Age and Height wasn't provided, answer each question")
-                                            return redirect('question2')
+                                      
+                                        bmi = BMI(
+                                                    bmi = BMI_rate,
+                                                    height =  height,
+                                                    weight =  weight,
+                                                    token = request.session['token_ses'],
+                                                    full_name =  request.session['details'][2],  
+                                                )
+                                        bmi.save()
                                         
                                             
                                         request.session.modified = True
@@ -287,9 +280,9 @@ def question2Spanish(request):
             #     messages.warning(request, 'Error')
             #     return redirect('login')     
             
-        except:
-            messages.warning(request, 'Error de verificación de usuario') 
-            return redirect('loginspanish')
+        # except:
+        #     messages.warning(request, 'Error de verificación de usuario') 
+        #     return redirect('loginspanish')
         
     else:
             messages.warning(request, 'Autenticacion requerida')

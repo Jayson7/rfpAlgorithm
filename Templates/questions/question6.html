@@ -23,6 +23,23 @@
             {% csrf_token %}
             <div class="row">
               <div class="col-md-6">
+                {% for message in messages %}
+                <div
+                  class="alert {{ message.tags }} alert-dismissible"
+                  role="alert"
+                >
+                  <br />
+                  <button
+                    type="button"
+                    class="btn close"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <div class="text-center">{{ message }}</div>
+                </div>
+                {% endfor %}
                 <div
                   class="header alert text-center col-md-12 col-sm-12 text-info"
                 >
