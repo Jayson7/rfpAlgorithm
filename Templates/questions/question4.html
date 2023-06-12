@@ -15,9 +15,9 @@
   </head>
   <body>
     <div class="question-wrapper">
-      <div class="container-fluid py-5 px-1">
+      <div class="container-fluid py-2 px-sm-1 px-md-5">
         <div
-          class="mt-5 container-fluid d-flex flex-column align-items-center justify-content-center"
+          class="mt-5 container d-flex py-5 card flex-column align-items-center justify-content-center"
         >
           {% for message in messages %}
           <div class="alert {{ message.tags }} alert-dismissible" role="alert">
@@ -42,7 +42,11 @@
             <h5>{{question}}</h5>
           </div>
 
-          <form method="POST" autocomplete="off" class="col-md-6 col-sm-12">
+          <form
+            method="POST"
+            autocomplete="off"
+            class="col-md-8 col-sm-12 py-5"
+          >
             {% csrf_token %}
             <table class="table mt-4">
               <thead>

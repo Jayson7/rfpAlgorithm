@@ -125,4 +125,4 @@ class BMI(models.Model):
     id = models.AutoField(primary_key=True)
     
     def __str__(self):
-        return str(self.bmi)
+        return str(self.token)
