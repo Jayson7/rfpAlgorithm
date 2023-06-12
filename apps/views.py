@@ -1962,6 +1962,7 @@ def save_result_user(request):
             token = request.session['token_ses'],
             )
         
+        d.save()
 
 
     #  store needed data
@@ -1980,11 +1981,7 @@ def save_result_user(request):
     
     )
     
-
-    
-
     # save  
-    d.save()
     result.save()
     
 
@@ -2025,6 +2022,8 @@ class ViewPDF(View):
         context = {}
         # get all results for current user 
         disease = Disease_result.objects.filter(token=request.session['token_ses'])
+        refers = Referal.objects.filter(token=request.session['token_ses'])
+        context['refer'] = refers
         context['disease'] = disease
         context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
         
@@ -2038,6 +2037,8 @@ class DownloadPDF(View):
     def get(self, request, *args, **kwargs):
         context = {}
         disease = Disease_result.objects.filter(token=request.session['token_ses'])
+        refers = Referal.objects.filter(token=request.session['token_ses'])
+        context['refer'] = refers
         context['disease'] = disease
         context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
         pdf = render_to_pdf('pages/generate_pdf.html', context)

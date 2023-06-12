@@ -80,6 +80,19 @@
     </table>
 
     <hr>
+    <p><strong>Referals</strong></p>
+    
+    <table>
+
+{% for i in refer %}
+    	<tr>
+ 
+    		<td>Comment: {{i.comment}}</td>
+    	
+    		
+    	</tr>
+    {% endfor %}
+    </table>
 
 </body>
 </html>

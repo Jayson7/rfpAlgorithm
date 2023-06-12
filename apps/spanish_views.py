@@ -305,8 +305,8 @@ def question3Spanish(request):
         user = request.user 
         token_of_user = request.session['token_ses']
 
-        try:
-            if token_of_user:
+        # try:
+        if token_of_user:
 
                     question3 = QuestionsSpanish.objects.filter(id = 3).first()
           
@@ -388,11 +388,11 @@ def question3Spanish(request):
                 # else:
                     # messages.warning(request, 'Acceso denegado')
                     # return redirect('login')           
-            else:
+        else:
                 messages.warning(request, 'Usuario no verificado')
-        except:
-            messages.warning(request, 'Error')
-            return redirect('loginspanish')     
+        # except:
+        #     messages.warning(request, 'Error')
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('loginspanish')
@@ -412,9 +412,9 @@ def question4Spanish(request):
     
     context = {}
     
-    try:
+    # try:
             
-        if request.user.is_authenticated:
+    if request.user.is_authenticated:
 
             user = request.user 
             token_of_user = request.session['token_ses']
@@ -491,12 +491,12 @@ def question4Spanish(request):
             # except:
             #     messages.warning(request, 'Error')
             #     return redirect('login')     
-        else:
+    else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
-    except:
-        messages.warning(request, 'Usuario no verificado')
-        return redirect('loginspanish')
+    # except:
+    #     messages.warning(request, 'Usuario no verificado')
+    #     return redirect('loginspanish')
     return render(request, 'questions/spanish/question4spanish.html', context)
 
 
@@ -514,9 +514,9 @@ def question5Spanish(request):
     basic_user_auth_check_spanish(request)
     details_checker_questions(request)
    
-    try:
+    # try:
             
-        if request.user.is_authenticated:
+    if request.user.is_authenticated:
 
             token_of_user = request.session['token_ses']
             user = request.user 
@@ -584,13 +584,13 @@ def question5Spanish(request):
             # except:
             #     messages.warning(request, 'Error')
             #     return redirect('login')     
-        else:
+    else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
     
-    except:
-        messages.warning(request, 'Usuario no verificado')
-        return redirect('loginspanish')
+    # except:
+    #     messages.warning(request, 'Usuario no verificado')
+    #     return redirect('loginspanish')
     return render(request, 'questions/spanish/question4spanish.html', context)
 
 
@@ -606,9 +606,9 @@ def question6Spanish(request):
     basic_user_auth_check_spanish(request)
     details_checker_questions(request)
     
-    try:
+    # try:
         
-        if request.user.is_authenticated:
+    if request.user.is_authenticated:
 
             
             user = request.user 
@@ -689,12 +689,12 @@ def question6Spanish(request):
             # except:
             #     messages.warning(request, 'Error')
             #     return redirect('login')     
-        else:
+    else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
-    except:
-        messages.warning(request, 'Usuario no verificado')
-        return redirect('loginspanish')
+    # except:
+    #     messages.warning(request, 'Usuario no verificado')
+    #     return redirect('loginspanish')
     return render(request, 'questions/spanish/question4spanish.html', context)
 
 
@@ -710,9 +710,9 @@ def question7Spanish(request):
     
     context = {}
 
-    try:
+    # try:
             
-        if request.user.is_authenticated:
+    if request.user.is_authenticated:
 
             user = request.user 
             # locate user on token 
@@ -778,12 +778,12 @@ def question7Spanish(request):
             # except:
             #     messages.warning(request, 'Error')
             #     return redirect('login')     
-        else:
+    else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
-    except:
-        messages.warning(request, 'Usuario no verificado')
-        return redirect('loginspanish')
+    # except:
+    #     messages.warning(request, 'Usuario no verificado')
+    #     return redirect('loginspanish')
     
     return render(request, 'questions/spanish/question4spanish.html', context)
 
@@ -802,9 +802,9 @@ def question8Spanish(request):
     context = {}
     
     
-    try:
+    # try:
             
-        if request.user.is_authenticated:
+    if request.user.is_authenticated:
 
             
             user = request.user 
@@ -874,12 +874,12 @@ def question8Spanish(request):
             # except:
             #     messages.warning(request, 'Error')
             #     return redirect('login')     
-        else:
+    else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
-    except:
-        messages.warning(request, 'Usuario no verificado')
-        return redirect('loginspanish')
+    # except:
+    #     messages.warning(request, 'Usuario no verificado')
+    #     return redirect('loginspanish')
     
     return render(request, 'questions/spanish/question4spanish.html', context)
 
@@ -895,8 +895,8 @@ def question9Spanish(request):
     
     context = {}
  
-    try:
-        if request.user.is_authenticated:
+    # try:
+    if request.user.is_authenticated:
 
 
             user = request.user 
@@ -972,13 +972,13 @@ def question9Spanish(request):
             # except:
             #     messages.warning(request, 'Error')
             #     return redirect('login')     
-        else:
+    else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
     
-    except:
-        messages.warning(request, 'Usuario no verificado')
-        return redirect('loginspanish')
+    # except:
+    #     messages.warning(request, 'Usuario no verificado')
+    #     return redirect('loginspanish')
     return render(request, 'questions/spanish/question4spanish.html', context)
 
 
@@ -992,9 +992,9 @@ def question10Spanish(request):
     
     context = {}
   
-    try:
+    # try:
             
-        if request.user.is_authenticated:
+    if request.user.is_authenticated:
 
             
             user = request.user 
@@ -1087,12 +1087,12 @@ def question10Spanish(request):
             except:
                 messages.warning(request, 'Error')
                 return redirect('login')     
-        else:
+    else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
-    except:
-        messages.warning(request, 'Usuario no verificado')
-        return redirect('loginspanish')
+    # except:
+    #     messages.warning(request, 'Usuario no verificado')
+    #     return redirect('loginspanish')
     return render(request, 'questions/spanish/question5spanish.html', context)
 
 
@@ -1107,9 +1107,9 @@ def questionCombinedSpanish(request):
     details_checker_questions(request)
     
     context = {}
-    try:
+    # try:
             
-        if request.user.is_authenticated:
+    if request.user.is_authenticated:
             
             
             user = request.user 
@@ -1511,12 +1511,12 @@ def questionCombinedSpanish(request):
             # except:
             #     messages.warning(request, 'Error')
             #     return redirect('login')     
-        else:
+    else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
-    except:
-        messages.warning(request, 'Usuario no verificado')
-        return redirect('loginspanish')
+    # except:
+    #     messages.warning(request, 'Usuario no verificado')
+    #     return redirect('loginspanish')
     return render(request, 'questions/spanish/question6spanish.html', context)
 
 
@@ -1529,11 +1529,11 @@ def question15Spanish(request):
     
     context = {}
     
-    try:
+    # try:
         
-        token_of_user = request.session['token_ses']
+    token_of_user = request.session['token_ses']
         
-        if request.user.is_authenticated:
+    if request.user.is_authenticated:
 
             
             user = request.user 
@@ -1646,12 +1646,12 @@ def question15Spanish(request):
             else:
                     messages.warning(request, 'Usuario no verificado')
          
-        else:
+    else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
-    except:
-        messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspanish')
+    # except:
+    #     messages.warning(request, 'Autenticacion requerida')
+    #     return redirect('loginspanish')
     return render(request, 'questions/spanish/question5spanish.html', context)
 
 
@@ -1669,7 +1669,7 @@ def question16Spanish(request):
   
     if request.user.is_authenticated:
 
-        try:
+        # try:
         
             if 'question16s' in request.session:
                 del request.session['question16s']
@@ -1769,9 +1769,9 @@ def question16Spanish(request):
                     #     return redirect('login')           
             else:
                     messages.warning(request, 'Usuario no verificado')
-        except:
-            messages.warning(request, 'Usuario no verificado')
-            return redirect('loginspanish')     
+        # except:
+        #     messages.warning(request, 'Usuario no verificado')
+        #     return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('loginspanish')
