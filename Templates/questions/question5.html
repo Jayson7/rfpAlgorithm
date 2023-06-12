@@ -15,9 +15,9 @@
   </head>
   <body>
     <div class="question-wrapper">
-      <div class="container-fluid py-5 px-2">
+      <div class="container-fluid py-2 px-sm-1 px-md-5">
         <div
-          class="mt-5 container-fluid d-flex flex-column align-items-center justify-content-center"
+          class="mt-5 container card py-5 d-flex flex-column align-items-center justify-content-center"
         >
           <div class="header alert text-center text-info font-weight-bold">
             <h3 class="font-weight-bold">{{question_tag}}</h3>
@@ -37,12 +37,16 @@
           </div>
           {% endfor %}
           <div
-            class="header alert text-center text-dark col-sm-12 col-md-12 mt-4"
+            class="header alert text-center text-dark col-sm-12 col-md-10 mt-4"
           >
             <h5>{{question}}</h5>
           </div>
 
-          <form method="POST" autocomplete="off" class="col-md-8 col-sm-12">
+          <form
+            method="POST"
+            autocomplete="off"
+            class="col-md-8 col-sm-12 py-5"
+          >
             {% csrf_token %}
             <table class="table mt-4">
               <thead>

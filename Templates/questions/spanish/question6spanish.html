@@ -15,7 +15,7 @@
   </head>
   <body>
     <div class="">
-      <div class="container-fluid py-5 px-2">
+      <div class="container-fluid py-5 px-md-2 px-sm-1">
         <div
           class="mt-5 container-fluid d-flex flex-column align-items-center justify-content-center"
         >
@@ -37,16 +37,16 @@
             <h3 class="font-weight-bold">{{question_tag}}</h3>
           </div>
 
-          <form method="POST" autocomplete="off" class="col-md-6 col-sm-12">
+          <form method="POST" autocomplete="off" class="col-md-12 col-sm-12">
             {% csrf_token %}
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-6 col-sm-12 card">
                 <div
                   class="header alert text-center bg-info text-light col-sm-12 col-md-12 mt-4"
                 >
                   <h5>{{question1}}</h5>
                 </div>
-                <table class="table table-striped mt-4">
+                <table class="table mt-4">
                   <thead>
                     <tr></tr>
                   </thead>
@@ -69,13 +69,13 @@
                   </tbody>
                 </table>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6 col-sm-12 card">
                 <div
                   class="header alert text-center bg-info text-light col-sm-12 col-md-12 mt-4"
                 >
                   <h5>{{question2}}</h5>
                 </div>
-                <table class="table table-striped mt-4">
+                <table class="table mt-4">
                   <thead>
                     <tr></tr>
                   </thead>
@@ -98,13 +98,13 @@
                   </tbody>
                 </table>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6 col-sm-12 card">
                 <div
                   class="header alert text-center bg-info text-light col-sm-12 col-md-12 mt-4"
                 >
                   <h5>{{question3}}</h5>
                 </div>
-                <table class="table table-striped mt-4">
+                <table class="table mt-4">
                   <thead>
                     <tr></tr>
                   </thead>
@@ -127,13 +127,13 @@
                   </tbody>
                 </table>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6 col-sm-12 card">
                 <div
                   class="header alert text-center bg-info text-light col-sm-12 col-md-12 mt-4"
                 >
                   <h5>{{question4}}</h5>
                 </div>
-                <table class="table table-striped mt-4">
+                <table class="table mt-4">
                   <thead>
                     <tr></tr>
                   </thead>
