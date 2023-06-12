@@ -222,7 +222,7 @@ def question1(request):
                                             )
                                     disease11.save()
                                         
-                                        
+                                    
                                         # create data into session
                                         
                                         
@@ -305,7 +305,7 @@ def question2(request):
     
     if request.user.is_authenticated:
 
-        try: 
+        # try: 
             user = request.user 
             token_of_user = request.session['token_ses']
             # verify if user answered question 1
@@ -314,18 +314,14 @@ def question2(request):
     
                             # prepare question
                         question2 = Questions.objects.filter(id = 2).first()
-                                
 
-                
-                
-                
-                
                 
                         # get answers ans send form to frontend
             
                         if request.method =='POST':
                                         height = request.POST['height']
                                         weight = request.POST['weight']
+
     
                                         # try coversions 
                                         try:
@@ -377,19 +373,17 @@ def question2(request):
                                         
                                         # save bmi to database
                                         
-                                        try:
+                                     
             
-                                            bmi = BMI(
+                                        bmi = BMI(
                                                 bmi = BMI,
                                                 height =  height,
                                                 weight =  weight,
                                                 token = request.session['token_ses'],
                                                 full_name =  request.session['details'][2],  
                                             )
-                                            bmi.save()
-                                        except:
-                                            messages.warning(request, "Age and Height wasn't provided, answer each question")
-                                            return redirect('question2')
+                                        bmi.save()
+                                      
                                             
                                          
                                         
@@ -413,9 +407,9 @@ def question2(request):
             # logout(request)
             # return redirect('login')     
             
-        except:
-            messages.warning(request, 'User verification error') 
-            return redirect('login')
+        # except:
+        #     messages.warning(request, 'User verification error') 
+        #     return redirect('login')
         
     else:
             messages.warning(request, 'Authentication required')
