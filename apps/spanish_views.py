@@ -1577,7 +1577,7 @@ def question15Spanish(request):
                                 for ans in check_answers:
                                 
                                     if ans.answer == 'Has sido diagnosticada de patología psiquiátrica previa ó actual incluyendo esquizofrenia, trastorno bipolar, trastorno obsesivo compulsivo ó trastorno alimentario (como bulimia o anorexia), entre otros':
-                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                         d.points +=100
                                         d.save()
 
@@ -1585,47 +1585,47 @@ def question15Spanish(request):
 
                                     elif ans.answer == 'Estás en tratamiento psiquiátrico actual con fármacos (incluyendo antidepresivos, antipsicóticos, estabilizantes del humor, medicamentos estimulantes o medicación para ansiedad, entre otras)':
                                         
-                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                         d.points +=100
                                         d.save()
 
                                 
                                     elif ans.answer == 'Has presentado intento(s) de suicidio previo':
-                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                         d.points +=100
                                         d.save()
 
 
                                     elif ans.answer == 'Tienes una historia previa de psicosis, depresión o ansiedad (incluyendo embarazos previos y postparto)':
-                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
                                         d.points += 1
                                         d.save()
                                     
                                     elif ans.answer == 'Tienes historia familiar (padres, herman@s o hij@s) de patología mental (incluyendo psicosis postparto, trastorno bipolar, ansiedad ó depresión) ':
-                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                         d.points +=1
                                         d.save()
 
                                     elif ans.answer == 'Tienes problemas de convivencia con su pareja actual':
-                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                         d.points +=1
                                         d.save()
 
                                     
                                     elif ans.answer == 'Tienes problemas económicos actuales':
-                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                         d.points +=1
                                         d.save()
 
                                     
                                     elif ans.answer == 'Tienes escaso o ningún apoyo familiar ó de amistades en los que apoyarse para el cuidado de tu bebé':
-                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                         d.points +=1
                                         d.save()
 
                                     
                                     elif ans.answer == 'Embarazo actual no deseado.':
-                                        d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
+                                        d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'pregnancy wellbeing')
                                         d.points +=1
                                         d.save()
 
