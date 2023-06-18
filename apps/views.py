@@ -2031,7 +2031,7 @@ class ViewPDF(View):
         return HttpResponse(pdf, content_type='application/pdf')
 
 
-#Automaticaly downloads to PDF file
+#Automatically downloads to PDF file
 
 class DownloadPDF(View):
     def get(self, request, *args, **kwargs):
@@ -2082,6 +2082,14 @@ def success_page(request):
 def dashboard_result_view(request):
     context = {}
     disease = Disease.objects.all()
+           
+    # segmented data
+            
+    context['total_patient'] = Result_owner.objects.count()
+    context['test_taken'] = Result_owner.objects.count()
+    context['hospital'] = RegisterClient.objects.count()
+    context['access'] = PasswordStorage.objects.count()
+            
     context['disease'] = disease
     
     return render(request, 'admin_pages/result.html', context)
