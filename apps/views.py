@@ -2081,7 +2081,7 @@ def success_page(request):
 
 def dashboard_result_view(request):
     context = {}
-    disease = Disease.objects.all()
+    disease = Result_owner.objects.all()
            
     # segmented data
             
