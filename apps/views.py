@@ -72,6 +72,13 @@ def manage_user(request):
     user = request.user 
     context = {}
     if user.is_authenticated:
+        # segmented data
+            
+        context['total_patient'] = Result_owner.objects.count()
+        context['test_taken'] = Result_owner.objects.count()
+        context['hospital'] = RegisterClient.objects.count()
+        context['access'] = PasswordStorage.objects.count()
+            
         if user.is_superuser:
             all_user = RegisterClient.objects.all()
             pass_profile = PasswordStorage.objects.all()

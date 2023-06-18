@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django_user_agents.utils import get_user_agent
 
+
 import string
 import random
 import secrets
