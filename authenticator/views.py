@@ -429,6 +429,13 @@ def create_user(request):
     if user.is_authenticated:
         # confirm superuser status
         
+        # segmented data
+            
+        context['total_patient'] = Result_owner.objects.count()
+        context['test_taken'] = Result_owner.objects.count()
+        context['hospital'] = RegisterClient.objects.count()
+        context['access'] = PasswordStorage.objects.count()
+            
         if user.is_superuser:
             
             if request.method == 'POST':
