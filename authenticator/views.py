@@ -211,6 +211,7 @@ def complete_user_info(request):
     basic_user_auth_check(request)
     try:        
    
+            
         if request.method == 'POST':
              if 'email' in request.session:
                  return redirect('question1')
@@ -295,7 +296,14 @@ def admin_dashboard(request):
         if request.user.is_superuser:
             all_moms_login_data = Result_owner.objects.all()[::-1]
             context['moms_login'] = all_moms_login_data
-            return render(request, 'admin_pages/admin_dashboard.html', context)      
+            
+            # segmented data
+            
+            context['total_patient'] = Result_owner.objects.count()
+            context['test_taken'] = Result_owner.objects.count()
+            context['hospital'] = RegisterClient.objects.count()
+            context['access'] = PasswordStorage.objects.count()
+            
         
         else:
             messages.warning(request, 'Trying to access that wont work')
@@ -304,6 +312,8 @@ def admin_dashboard(request):
     else:
         messages.warning(request, 'Login please')
         return redirect('admin_login')
+    
+    return render(request, 'admin_pages/admin_dashboard.html', context)      
 
 
 
