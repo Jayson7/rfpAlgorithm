@@ -2036,7 +2036,7 @@ class ViewPDF(View):
             for i in disease:
         ####################################################### 
                 
-                    if i == 'PREECLAMPSIA':
+                    if i.disease == 'PREECLAMPSIA':
                         if int(i.point) >= 2:    
                             preeclampsia = True
                             context['preeclampsia']  = preeclampsia
@@ -2046,7 +2046,7 @@ class ViewPDF(View):
                                 context['preeclampsia_b']  = preeclampsia_b    
                           
         ####################################################### 
-                    elif i == 'THROMBOSIS':
+                    elif i.disease == 'THROMBOSIS':
                         if int(i.point) >= 100:    
                             thrombosis = True
                             
@@ -2071,7 +2071,7 @@ class ViewPDF(View):
                         
         ####################################################### 
                              
-                    elif i == 'PREECLAMPSIA':
+                    elif i.disease == 'PREECLAMPSIA':
                     
                         if int(i.point) > 2:    
                             preeclampsia = True
@@ -2085,15 +2085,13 @@ class ViewPDF(View):
    
         ####################################################### 
           
-                    else:
-                        return redirect('login')
-                    # activate disease to trigger based on state of disease
-        
+
             
             context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
             
             pdf = render_to_pdf('pages/generate_pdf.html', context)
             return HttpResponse(pdf, content_type='application/pdf')
+        
         else:
             return redirect('login')
 
