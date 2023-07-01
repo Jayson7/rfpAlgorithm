@@ -2041,7 +2041,7 @@ class ViewPDF(View):
                             preeclampsia = True
                             context['preeclampsia']  = preeclampsia
                         else:
-                            if int(i.point) >= 2:    
+                            if int(i.point) <= 1:    
                                 preeclampsia_b= True
                                 context['preeclampsia_b']  = preeclampsia_b    
                           
@@ -2085,9 +2085,9 @@ class ViewPDF(View):
    
         ####################################################### 
           
-            else:
-                return redirect('login')
-            # activate disease to trigger based on state of disease
+                    else:
+                        return redirect('login')
+                    # activate disease to trigger based on state of disease
         
             
             context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
