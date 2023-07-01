@@ -2034,30 +2034,56 @@ class ViewPDF(View):
             
           
             for i in disease:
+        ####################################################### 
+                
                     if i == 'PREECLAMPSIA':
-                        if int(i) >= 2:    
+                        if int(i.point) >= 2:    
                             preeclampsia = True
                             context['preeclampsia']  = preeclampsia
                         else:
-                            if int(i) >= 2:    
-                                preeclampsia_low = True
-                                context['preeclampsia_low']  = preeclampsia_low     
-                                
+                            if int(i.point) >= 2:    
+                                preeclampsia_b= True
+                                context['preeclampsia_b']  = preeclampsia_b    
+                          
+        ####################################################### 
                     elif i == 'THROMBOSIS':
-                        if int(i) >= 100:    
-                            trombosis = True
+                        if int(i.point) >= 100:    
+                            thrombosis = True
                             
-                            context['trombosis']  = trombosis
+                            context['thrombosis']  = thrombosis
                                      
-                        elif int(i) >=4 :
-                            pass   
+                        elif int(i.point) >=4 :
+                            thrombosis_b = True
+                            
+                            context['thrombosis_b']  = thrombosis_b 
+                            
+                        elif int(i.point) == 3:
+                            thrombosis_c = True
+                            
+                            context['thrombosis_c']  = thrombosis_c 
+                        
+                        
+                        elif int(i.point) <= 3:
+                            thrombosis_d = True
+                            
+                            context['thrombosis_d']  = thrombosis_d 
+                        
+                        
+        ####################################################### 
+                             
                     elif i == 'PREECLAMPSIA':
                     
-                        if int(i) > 2:    
+                        if int(i.point) > 2:    
                             preeclampsia = True
                             context['preeclampsia']  = preeclampsia
                     
    
+   
+   
+   
+   
+   
+        ####################################################### 
           
             else:
                 return redirect('login')
