@@ -8,6 +8,15 @@ from django.http import HttpResponse
 from authenticator.views import basic_user_auth_check_spanish, details_checker_questions
 from django.views.decorators.csrf import csrf_exempt
 
+# generate pdf 
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from django.views import View
+from xhtml2pdf import pisa
+
+
+
 
 # question 1
 @csrf_exempt
@@ -1799,3 +1808,93 @@ def success_page_spanish(request):
     user_full_name = request.session['details'][2]
     context['full_name'] = user_full_name
     return render(request, 'pages/success_page_spanish.html', context)
+
+
+
+# ####################################################################
+#generate PDF
+
+def render_to_pdf_spanish(template_src, context_dict={}):
+	template = get_template(template_src)
+	html  = template.render(context_dict)
+	result = BytesIO()
+	pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+	if not pdf.err:
+		return HttpResponse(result.getvalue(), content_type='application/pdf')
+	return None
+
+
+data = {
+	"company": "RFP-Algorithm",
+	"address": "United Kingdom",
+	"website": "rfpalgorithm.com",
+	}
+
+#Opens up page as PDF
+class ViewPDFSpanish(View):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            context = {}
+            # get all results for current user 
+            disease = Disease_result.objects.filter(token=request.session['token_ses'])
+            refers = Referal.objects.filter(token=request.session['token_ses'])
+            
+            # check language
+          
+            for i in disease:
+                    if i == 'PREECLAMPSIA':
+                        if int(i) >= 2:    
+                            preeclampsia = True
+                            context['preeclampsia']  = preeclampsia
+                        else:
+                            if int(i) >= 2:    
+                                preeclampsia_low = True
+                                context['preeclampsia_low']  = preeclampsia_low     
+                                
+                    elif i == 'TROMBOSIS':
+                        if int(i) >= 100:    
+                            trombosis = True
+                            
+                            context['trombosis']  = trombosis
+                                        
+                    elif i == 'PREECLAMPSIA':
+                    
+                        if int(i) > 2:    
+                            preeclampsia = True
+                            context['preeclampsia']  = preeclampsia
+                    
+                             
+            
+            
+            else:
+                return redirect('login')
+            # activate disease to trigger based on state of disease
+        
+            
+            context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
+            
+            pdf = render_to_pdf_spanish('pages/generate_pdf_spanish.html', context)
+            return HttpResponse(pdf, content_type='application/pdf')
+        else:
+            return redirect('login')
+
+#Automatically downloads to PDF file
+
+class DownloadPDFSpanish(View):
+    def get(self, request, *args, **kwargs):
+        context = {}
+        disease = Disease_result.objects.filter(token=request.session['token_ses'])
+        refers = Referal.objects.filter(token=request.session['token_ses'])
+        context['refer'] = refers
+        context['disease'] = disease
+        context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
+        pdf = render_to_pdf_spanish('pages/generate_pdf.html', context)
+        response = HttpResponse(pdf, content_type='application/pdf')
+        
+        filename = "Result_RFP-Algorithm_%s.pdf" %("12341231")
+        content = "attachment; filename='%s'" %(filename)
+        response['Content-Disposition'] = content
+        return response
+
+
+

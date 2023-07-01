@@ -2004,7 +2004,7 @@ def save_result_user(request):
         messages.warning(request, 'Login required')
         return redirect('login')
     
-
+# ####################################################################
 #generate PDF
 
 def render_to_pdf(template_src, context_dict={}):
@@ -2026,17 +2026,50 @@ data = {
 #Opens up page as PDF
 class ViewPDF(View):
     def get(self, request, *args, **kwargs):
-        context = {}
-        # get all results for current user 
-        disease = Disease_result.objects.filter(token=request.session['token_ses'])
-        refers = Referal.objects.filter(token=request.session['token_ses'])
-        context['refer'] = refers
-        context['disease'] = disease
-        context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
+        if request.user.is_authenticated:
+            context = {}
+            # get all results for current user 
+            disease = Disease_result.objects.filter(token=request.session['token_ses'])
+            refers = Referal.objects.filter(token=request.session['token_ses'])
+            
+          
+            for i in disease:
+                    if i == 'PREECLAMPSIA':
+                        if int(i) >= 2:    
+                            preeclampsia = True
+                            context['preeclampsia']  = preeclampsia
+                        else:
+                            if int(i) >= 2:    
+                                preeclampsia_low = True
+                                context['preeclampsia_low']  = preeclampsia_low     
+                                
+                    elif i == 'THROMBOSIS':
+                        if int(i) >= 100:    
+                            trombosis = True
+                            
+                            context['trombosis']  = trombosis
+                                     
+                        elif int(i) >=4 :
+                            pass   
+                    elif i == 'PREECLAMPSIA':
+                    
+                        if int(i) > 2:    
+                            preeclampsia = True
+                            context['preeclampsia']  = preeclampsia
+                    
+   
+          
+            else:
+                return redirect('login')
+            # activate disease to trigger based on state of disease
         
-        pdf = render_to_pdf('pages/generate_pdf.html', context)
-        return HttpResponse(pdf, content_type='application/pdf')
-
+            
+            context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
+            
+            pdf = render_to_pdf('pages/generate_pdf.html', context)
+            return HttpResponse(pdf, content_type='application/pdf')
+        else:
+            return redirect('login')
 
 #Automatically downloads to PDF file
 
