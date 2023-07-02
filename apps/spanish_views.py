@@ -1851,10 +1851,9 @@ class ViewPDFSpanish(View):
                            
                             context['preeclampsia']  = 'yes'
                             
-                        else:
-                            if int(i.point) <= 1:    
+                        elif int(i.point) <= 1:    
                                
-                                context['preeclampsia_b']  = 'yes'  
+                            context['preeclampsia_b']  = 'yes'  
                           
         ####################################################### 
                     elif i.disease == 'thrombosis':
@@ -1892,7 +1891,7 @@ class ViewPDFSpanish(View):
    
 #    ##################################################
    
-                    elif i.disease == 'THYROID DISORDER':
+                    elif i.disease == 'Thyroid disorders':
                     
                         if int(i.point) >= 1:    
                             context['thyroid']  = 'yes'
@@ -1902,7 +1901,7 @@ class ViewPDFSpanish(View):
                             context['thyroid_b']  = 'yes'
    
 #    ##################################################
-                    elif i.disease == 'ANEMIA':
+                    elif i.disease == 'Anaemia':
                     
                         if int(i.point) >= 1:    
                             context['anemia']  = 'yes'
@@ -1913,7 +1912,7 @@ class ViewPDFSpanish(View):
 #    ##################################################
    
    
-                    elif i.disease == 'HYPEREMESIS GRAVIDARUM':
+                    elif i.disease == 'Hyperemesis gravidarum':
                     
                         if int(i.point) >= 1:    
                             context['hyperemesis']  = 'yes'
@@ -1925,7 +1924,7 @@ class ViewPDFSpanish(View):
       
 #    ##################################################
    
-                    elif i.disease == 'INTRAHEPATIC CHOLESTASIS':
+                    elif i.disease == 'Intrahepatic cholestasis':
                     
                         if int(i.point) >= 1:    
                             context['intrahepatic']  = 'yes'
@@ -1935,6 +1934,7 @@ class ViewPDFSpanish(View):
                             context['intrahepatic_b']  = 'yes'
    
    
+        
    
    
    
@@ -1969,10 +1969,9 @@ class DownloadPDFSpanish(View):
                            
                             context['preeclampsia']  = 'yes'
                             
-                        else:
-                            if int(i.point) <= 1:    
+                        elif int(i.point) <= 1:    
                                
-                                context['preeclampsia_b']  = 'yes'  
+                            context['preeclampsia_b']  = 'yes'  
                           
         ####################################################### 
                     elif i.disease == 'thrombosis':
@@ -2010,7 +2009,7 @@ class DownloadPDFSpanish(View):
    
 #    ##################################################
    
-                    elif i.disease == 'THYROID DISORDER':
+                    elif i.disease == 'Thyroid disorders':
                     
                         if int(i.point) >= 1:    
                             context['thyroid']  = 'yes'
@@ -2020,7 +2019,7 @@ class DownloadPDFSpanish(View):
                             context['thyroid_b']  = 'yes'
    
 #    ##################################################
-                    elif i.disease == 'ANEMIA':
+                    elif i.disease == 'Anaemia':
                     
                         if int(i.point) >= 1:    
                             context['anemia']  = 'yes'
@@ -2031,7 +2030,7 @@ class DownloadPDFSpanish(View):
 #    ##################################################
    
    
-                    elif i.disease == 'HYPEREMESIS GRAVIDARUM':
+                    elif i.disease == 'Hyperemesis gravidarum':
                     
                         if int(i.point) >= 1:    
                             context['hyperemesis']  = 'yes'
@@ -2043,7 +2042,7 @@ class DownloadPDFSpanish(View):
       
 #    ##################################################
    
-                    elif i.disease == 'INTRAHEPATIC CHOLESTASIS':
+                    elif i.disease == 'Intrahepatic cholestasis':
                     
                         if int(i.point) >= 1:    
                             context['intrahepatic']  = 'yes'
@@ -2052,6 +2051,8 @@ class DownloadPDFSpanish(View):
                         elif int(i.point) == 0:
                             context['intrahepatic_b']  = 'yes'
    
+   
+        
    
    
    

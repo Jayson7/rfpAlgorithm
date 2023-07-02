@@ -2034,9 +2034,6 @@ class ViewPDF(View):
             context['mom_data'] = datas
             
             # #####################################################################
-            
-        
-          
             for i in disease:
         ####################################################### 
                 
@@ -2046,10 +2043,9 @@ class ViewPDF(View):
                            
                             context['preeclampsia']  = 'yes'
                             
-                        else:
-                            if int(i.point) <= 1:    
+                        elif int(i.point) <= 1:    
                                
-                                context['preeclampsia_b']  = 'yes'  
+                            context['preeclampsia_b']  = 'yes'  
                           
         ####################################################### 
                     elif i.disease == 'thrombosis':
@@ -2087,7 +2083,7 @@ class ViewPDF(View):
    
 #    ##################################################
    
-                    elif i.disease == 'THYROID DISORDER':
+                    elif i.disease == 'Thyroid disorders':
                     
                         if int(i.point) >= 1:    
                             context['thyroid']  = 'yes'
@@ -2097,7 +2093,7 @@ class ViewPDF(View):
                             context['thyroid_b']  = 'yes'
    
 #    ##################################################
-                    elif i.disease == 'ANEMIA':
+                    elif i.disease == 'Anaemia':
                     
                         if int(i.point) >= 1:    
                             context['anemia']  = 'yes'
@@ -2108,7 +2104,7 @@ class ViewPDF(View):
 #    ##################################################
    
    
-                    elif i.disease == 'HYPEREMESIS GRAVIDARUM':
+                    elif i.disease == 'Hyperemesis gravidarum':
                     
                         if int(i.point) >= 1:    
                             context['hyperemesis']  = 'yes'
@@ -2120,7 +2116,7 @@ class ViewPDF(View):
       
 #    ##################################################
    
-                    elif i.disease == 'INTRAHEPATIC CHOLESTASIS':
+                    elif i.disease == 'Intrahepatic cholestasis':
                     
                         if int(i.point) >= 1:    
                             context['intrahepatic']  = 'yes'
@@ -2129,6 +2125,10 @@ class ViewPDF(View):
                         elif int(i.point) == 0:
                             context['intrahepatic_b']  = 'yes'
    
+   
+        
+        
+
    
    
    
@@ -2150,7 +2150,7 @@ class ViewPDF(View):
 class DownloadPDF(View):
     def get(self, request, *args, **kwargs):
         context = {}
-        disease = Disease_result.objects.filter(token=request.session['token_ses'])
+        disease = Disease.objects.filter(token=request.session['token_ses'])
         refers = Referal.objects.filter(token=request.session['token_ses'])
         datas = Result_owner.objects.filter(token=request.session['token_ses'])
         for i in datas:
@@ -2171,10 +2171,9 @@ class DownloadPDF(View):
                            
                             context['preeclampsia']  = 'yes'
                             
-                        else:
-                            if int(i.point) <= 1:    
+                        elif int(i.point) <= 1:    
                                
-                                context['preeclampsia_b']  = 'yes'  
+                            context['preeclampsia_b']  = 'yes'  
                           
         ####################################################### 
                     elif i.disease == 'thrombosis':
@@ -2212,7 +2211,7 @@ class DownloadPDF(View):
    
 #    ##################################################
    
-                    elif i.disease == 'THYROID DISORDER':
+                    elif i.disease == 'Thyroid disorders':
                     
                         if int(i.point) >= 1:    
                             context['thyroid']  = 'yes'
@@ -2222,7 +2221,7 @@ class DownloadPDF(View):
                             context['thyroid_b']  = 'yes'
    
 #    ##################################################
-                    elif i.disease == 'ANEMIA':
+                    elif i.disease == 'Anaemia':
                     
                         if int(i.point) >= 1:    
                             context['anemia']  = 'yes'
@@ -2233,7 +2232,7 @@ class DownloadPDF(View):
 #    ##################################################
    
    
-                    elif i.disease == 'HYPEREMESIS GRAVIDARUM':
+                    elif i.disease == 'Hyperemesis gravidarum':
                     
                         if int(i.point) >= 1:    
                             context['hyperemesis']  = 'yes'
@@ -2245,7 +2244,7 @@ class DownloadPDF(View):
       
 #    ##################################################
    
-                    elif i.disease == 'INTRAHEPATIC CHOLESTASIS':
+                    elif i.disease == 'Intrahepatic cholestasis':
                     
                         if int(i.point) >= 1:    
                             context['intrahepatic']  = 'yes'
