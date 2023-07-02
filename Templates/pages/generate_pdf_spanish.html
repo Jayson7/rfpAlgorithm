@@ -61,43 +61,46 @@
     <br>
     <br>
 
+   
+
+<!--  -->
+ <!--  -->
     {% if preeclampsia %}
 <h3 class="topic">
     PREECLAMPSIA
 </h3>
 <br>
-<h4>
-    Resultado de screening para preeclampsia ≥2
-</h4>
+
 <br>
 <div class="plan">
-    <h6>Plan: </h6> considerar el uso de ácido acetilsalicílico (aspirina) durante el embarazo. En general, se sugiere una dosis de entre 75-100 mg desde el primer trimestre, preferiblemente antes de la semana 16 de gestación, y continuar su uso durante todo el embarazo. Si la paciente tiene un peso superior a 90 kg, se puede considerar aumentar la dosis a 150 mg al día.
+    <h6>Plan: </h6>     considerar el uso de ácido acetilsalicílico (aspirina) durante el embarazo. En general, se sugiere una dosis de entre 75-100 mg desde el primer trimestre, preferiblemente antes de la semana 16 de gestación, y continuar su uso durante todo el embarazo. Si la paciente tiene un peso superior a 90 kg, se puede considerar aumentar la dosis a 150 mg al día.
+
+    <h6>Seguimiento: </h6> por su obstetra y matrona.
+Es importante destacar que la decisión final de iniciar el uso de aspirina, así como determinar la dosis adecuada, debe ser tomada por el obstetra o especialista a cargo de la paciente. El médico evaluará la situación de manera individualizada y considerará la necesidad de realizar pruebas complementarias adicionales antes de tomar una decisión final.
 </div>
 
 
 <br>
 
-<div class="segment">
-   <h6>Seguimiento: </h6> por su obstetra y matrona.
-Es importante destacar que la decisión final de iniciar el uso de aspirina, así como determinar la dosis adecuada, debe ser tomada por el obstetra o especialista a cargo de la paciente. El médico evaluará la situación de manera individualizada y considerará la necesidad de realizar pruebas complementarias adicionales antes de tomar una decisión final.
 
-</div>
 
 
 
     {% endif %}
 
 <br>
-    {% if preeclampsia_low %}
-
+<!--  -->
+    {% if preeclampsia_b %}
+<h3 class="topic">
+    PREECLAMPSIA
+</h3>
 <br>
-<h4>
-Resultado de screening para preeclampsia ≤1
-</h4>
+
 <br>
 <div class="plan">
     <br>
-    Tras la realización de nuestro cuestionario, nuestro algoritmo no ha identificado factores de riesgo suficientes para un manejo específico de la preeclampsia durante su embarazo. Sin embargo, es importante destacar que cualquier patología puede surgir durante el embarazo, incluso en ausencia de factores de riesgo preexistentes. Por esta razón, es crucial que siga las recomendaciones y controles rutinarios establecidos por su obstetra o especialista a cargo para garantizar un embarazo saludable y prevenir posibles complicaciones.
+Tras la realización de nuestro cuestionario, nuestro algoritmo no ha identificado factores de riesgo suficientes para un manejo específico de la preeclampsia durante su embarazo. Sin embargo, es importante destacar que cualquier patología puede surgir durante el embarazo, incluso en ausencia de factores de riesgo preexistentes. Por esta razón, es crucial que siga las recomendaciones y controles rutinarios establecidos por su obstetra o especialista a cargo para garantizar un embarazo saludable y prevenir posibles complicaciones.
+
 </div>
 
 
@@ -105,6 +108,298 @@ Resultado de screening para preeclampsia ≤1
 
 
     {% endif %}
+
+<!--  -->
+{% if thrombosis %}
+<h3 class="topic">
+ TROMBOSIS
+</h3>
+
+<p>
+
+    <h6>Plan: </h6>  Considerar el uso de heparina de bajo peso molecular a dosis terapéuticas desde el inicio del embarazo hasta, al menos, 6 semanas después del parto. 
+La dosis y tipo de heparina dependerá del peso de la paciente, así como otros factores que su especialista deberá valorar.
+
+
+
+<h6>  Seguimiento: </h6> se recomienda realizar un seguimiento por su obstetra y matrona, así como especialista en hematología.
+
+<h6>  Recomendaciones generales: </h6> evitar la deshidratación mediante la moderación del consumo de cafeína y té, así como mantener una buena hidratación. También se recomienda fomentar la movilización y realizar ejercicio moderado durante todo el embarazo. Además, es importante mencionar que, si presentas sobrepeso u obesidad, trabajar para alcanzar un peso saludable puede ayudar a reducir el riesgo de trombosis durante el embarazo.
+
+<h6> Consideraciones previas  al inicio del tratamiento.</h6> Es fundamental tener en cuenta otras consideraciones específicas para ciertos casos, como aquellos pacientes con antecedentes de sangrados previos, trastornos o patologías hemorrágicas, tratamiento anticoagulante, síndrome antifosfolípido trombótico, déficit de antitrombina, linfoma o drepanocitosis, entre otras. Estos casos requieren un control estricto y manejo de la anticoagulación por parte del hematólogo.
+
+<strong> Es importante recordar que esta recomendación debe ser evaluada y personalizada por el médico especialista a cargo de la paciente, teniendo en cuenta su situación clínica individual.</strong>
+
+
+
+
+
+
+</p>
+
+
+
+{% endif %}
+
+
+<!--  -->
+{% if thrombosis_b %}
+
+<h3 class="topic">
+ TROMBOSIS
+</h3>
+
+<p>
+
+
+
+    <h6>Plan: </h6>  Considerar el uso de profilaxis con heparina de bajo peso molecular desde el inicio del embarazo hasta al menos 6 semanas después del parto. 
+La dosis y tipo de heparina dependerá del peso de la paciente, así como otros factores que su especialista deberá valorar.
+
+<h6>  Seguimiento: </h6> se recomienda realizar un seguimiento por su obstetra y matrona, así como especialista en hematología.
+
+<h6>  Recomendaciones generales: </h6> evitar la deshidratación mediante la moderación del consumo de cafeína y té, así como mantener una buena hidratación. También se recomienda fomentar la movilización y realizar ejercicio moderado durante todo el embarazo. Además, es importante mencionar que, si presentas sobrepeso u obesidad, trabajar para alcanzar un peso saludable puede ayudar a reducir el riesgo de trombosis durante el embarazo.
+
+<h6> Consideraciones previas al inicio del tratamiento. </h6>  Es fundamental tener en cuenta otras consideraciones específicas para ciertos casos, como aquellos pacientes con antecedentes de sangrados previos, trastornos o enfermedades hemorrágicas, tratamiento anticoagulante, síndrome antifosfolípido trombótico, déficit de antitrombina, linfoma o drepanocitosis, entre otras. Estos casos requieren un control estricto y manejo de la anticoagulación por parte del hematólogo.
+
+<strong> Es importante recordar que esta recomendación debe ser evaluada y personalizada por el médico especialista a cargo de la paciente, teniendo en cuenta su situación clínica individual.</strong>
+
+
+
+
+</p>    
+
+
+
+{% endif %}
+
+{% if thrombosis_c %}
+<h3 class="topic">
+  TROMBOSIS
+</h3>
+<p>
+
+    <h6>Plan: </h6>  Considerar el uso de profilaxis con heparina de bajo peso molecular desde el inicio del tercer trimestre hasta al menos 6 semanas después del parto. 
+La dosis y tipo de heparina dependerá del peso de la paciente así como otros factores que su especialista deberá valorar.
+<h6>  Seguimiento: </h6>se recomienda realizar un seguimiento por su obstetra y matrona, así como especialista en hematología.
+
+<h6>  Recomendaciones generales: </h6>evitar la deshidratación mediante la moderación del consumo de cafeína y té, así como mantener una buena hidratación. También se recomienda fomentar la movilización y realizar ejercicio moderado durante todo el embarazo. Además, es importante mencionar que, si presentas sobrepeso u obesidad, trabajar para alcanzar un peso saludable puede ayudar a reducir el riesgo de trombosis durante el embarazo.
+
+
+<h6> Consideraciones previas al inicio del tratamiento. </h6>  Es fundamental tener en cuenta otras consideraciones específicas para ciertos casos, como aquellos pacientes con antecedentes de sangrados previos, trastornos o enfermedades hemorrágicas, tratamiento anticoagulante, síndrome antifosfolípido trombótico, déficit de antitrombina, linfoma o drepanocitosis, entre otras. Estos casos requieren un control estricto y manejo de la anticoagulación por parte del hematólogo.
+<strong> Es importante recordar que esta recomendación debe ser evaluada y personalizada por el médico especialista a cargo de la paciente, teniendo en cuenta su situación clínica individual.</strong>
+
+
+
+
+
+{% endif %}
+
+
+{% if thrombosis_d %}
+<h3 class="topic">
+    TROMBOSIS
+</h3>
+<p>
+
+
+Tras la realización de nuestro cuestionario, nuestro algoritmo no ha identificado factores de riesgo suficientes para un manejo específico de la trombosis durante el embarazo. Sin embargo, es importante destacar que cualquier patología puede surgir durante el embarazo, incluso en ausencia de factores de riesgo preexistentes. Por esta razón, es crucial que siga las recomendaciones y controles rutinarios establecidos por su obstetra o especialista para garantizar un embarazo saludable y prevenir posibles complicaciones.
+
+<h6>  Recomendaciones generales: </h6> evitar la deshidratación mediante la moderación del consumo de cafeína y té, así como mantener una buena hidratación. También se recomienda fomentar la movilización y realizar ejercicio moderado durante todo el embarazo. Además, es importante mencionar que, si presentas sobrepeso u obesidad, trabajar para alcanzar un peso saludable puede ayudar a reducir el riesgo de trombosis durante el embarazo.
+
+
+</p>
+
+
+
+
+{% endif %}
+
+<!--  -->
+{% if gestation %}
+
+<h3 class="topic">
+   DIABETES GESTACIONAL
+</h3>
+
+
+<p>
+
+<h6>Plan:</h6> 
+ Si la paciente aún no está embarazada, se beneficiaría de la realización de una prueba de glucosa simple y/o una medición de hemoglobina glicada A1c para evaluar la función glucémica.
+ En el caso de que nuestra paciente se encuentre embarazada en el momento que realiza el cuestionario, la analítica de primer trimestre suele incluir una determinación de glucosa basal. Si los valores de glucosa basal se encuentran en el límite de la normalidad, se debe considerar la realización de una prueba de sobrecarga oral de glucosa en el primer trimestre para descartar una posible diabetes gestacional.
+
+
+<h6>Seguimiento:</h6> es importante destacar que el seguimiento y manejo de los resultados de estas pruebas deben ser realizados por su obstetra. En caso de diagnóstico de diabetes mellitus previa o gestacional, se recomienda derivar a un obstetra de alto riesgo y especialista en endocrinología para su manejo durante el embarazo.
+<h6>Recomendaciones generales: </h6>  es fundamental mantener un peso adecuado tanto pregestacional como durante el embarazo. Si la paciente tiene sobrepeso u obesidad, se recomienda trabajar para alcanzar un peso saludable, ya que esto puede ayudar a reducir el riesgo de desarrollar diabetes. Además, es importante mantener una dieta equilibrada, rica en alimentos nutritivos y bajos en azúcares añadidos. La realización de ejercicio físico regular también puede ayudar a la evitar la aparición de diabetes gestacional.
+
+
+
+</p>
+
+
+
+{% endif %}
+
+<!--  -->
+{% if gestation_b %}
+
+<h3 class="topic">
+  DIABETES GESTACIONAL
+</h3>
+
+<p>
+  Tras la realización de nuestro cuestionario, nuestro algoritmo no ha identificado factores de riesgo específicos para diabetes gestacional. Sin embargo, es importante destacar que la diabetes puede surgir durante cualquier momento del embarazo, incluso en ausencia de factores de riesgo preexistentes. Por esta razón, es crucial que siga las recomendaciones y controles rutinarios establecidos por su obstetra o especialista para garantizar un embarazo saludable y prevenir posibles complicaciones. Según las recomendaciones de guías internacionales, se le realizará una prueba de sobrecarga oral de glucosa entre semana 24 y 28 de embarazo para despistaje de diabetes gestacional.
+</p>
+
+
+
+{% endif %}
+
+<!--  -->
+{% if thyroid %}
+<h3 class="topic">
+ PATOLOGÍA TIROIDEA
+</h3>
+
+<p>
+       <h6>Plan:</h6> Considerar la realización de pruebas de función tiroidea, como la medición de la hormona estimulante de la tiroides (TSH) y, en caso necesario, la hormona tiroxina (T4), ya sea de forma pregestacional o al inicio del embarazo si ya estás embarazada. 
+
+
+<h6>Seguimiento: </h6>Es importante realizar un seguimiento adecuado y, si los resultados de las pruebas indican valores compatibles con hipertiroidismo o hipotiroidismo clínico, se debe derivar a un obstetra de alto riesgo y a un endocrinólogo para generar un plan terapéutico durante el embarazo.
+
+
+
+
+
+
+</p>
+
+
+
+{% endif %}
+
+
+<!--  -->
+{% if thyroid_b %}
+
+
+<h3 class="topic">
+ PATOLOGÍA TIROIDEA
+</h3>
+
+<p>
+
+   Tras la realización de nuestro cuestionario, nuestro algoritmo no ha identificado factores de riesgo específicos para patología tiroidea. Sin embargo, es importante destacar que cualquier patología puede surgir durante el embarazo, incluso en ausencia de factores de riesgo preexistentes. Por esta razón, es crucial que siga las recomendaciones y controles rutinarios establecidos por su obstetra o especialista para garantizar un embarazo saludable y prevenir posibles complicaciones.
+
+</p>
+
+
+{% endif %}
+
+<!--  -->
+{% if anemia %}
+
+
+<h3 class="topic">
+   ANEMIA
+</h3>
+
+<p>
+
+        <h6>Plan: </h6>  Considerar la realización de prueba de ferritina, además de la medición de hemoglobina, previamente al embarazo, o durante el primer trimestre en caso de estar embarazada. Si los niveles de ferritina son inferiores a 30mg/dL, considerar el inicio de suplementación oral de hierro. 
+<h6>Seguimiento: </h6>Es importante contar con un seguimiento regular por parte de tu obstetra. En el caso de tener patologías hematológicas preexistentes, como talasemia, drepanocitosis o hemoglobinopatías, o si hay antecedentes de sangrados significativos, se debe realizar una derivación a hematología.
+
+</p>
+
+{% endif %}
+<!--  -->
+{% if anemia_b %}
+
+
+<h3 class="topic">
+   ANEMIA
+</h3>
+
+<p>
+Tras la realización de nuestro cuestionario, nuestro algoritmo no ha identificado factores de riesgo específicos para anemia. Sin embargo, es importante destacar que cualquier patología puede surgir durante el embarazo, incluso en ausencia de factores de riesgo preexistentes. Por esta razón, es crucial que siga las recomendaciones y controles rutinarios establecidos por su obstetra o especialista para garantizar un embarazo saludable y prevenir posibles complicaciones.
+ 
+</p>
+
+{% endif %}
+<!--  -->
+{% if hyperemesis %}
+
+
+<h3 class="topic">
+  HIPEREMESIS GRAVÍDICA
+</h3>
+
+<p>
+
+    <h6>Plan: </h6> Es importante conocer las situaciones en las cuales deberemos visitar a un especialista para evitar complicaciones más importantes derivadas de la hiperémesis gravídica. Deberás buscar atención médica de urgencia si presentas vómitos persistentes, no puedes hidratarte adecuadamente, presentas orina oscura, no has orinado en las últimas 8 horas, vomitas sangre o experimentas una pérdida de peso significativa. 
+
+<h6>Seguimiento:</h6> por su obstetra.
+
+</p>
+
+{% endif %}
+<!--  -->
+{% if hyperemesis_b %}
+
+
+
+
+
+
+<h3 class="topic">
+HIPEREMESIS GRAVÍDICA
+</h3>
+
+
+
+<p>
+
+   Tras la realización de nuestro cuestionario, nuestro algoritmo no ha identificado factores de riesgo específicos para hiperémesis gravídica. Sin embargo, es importante destacar que cualquier patología puede surgir durante el embarazo, incluso en ausencia de factores de riesgo preexistentes. Por esta razón, es crucial que siga las recomendaciones y controles rutinarios establecidos por su obstetra o especialista para garantizar un embarazo saludable y prevenir posibles complicaciones.
+</p>
+
+
+{% endif %}
+<!--  -->
+{% if intrahepatic %}
+
+
+<h3 class="topic">
+COLESTASIS INTRAHEPÁTICA
+
+</h3>
+
+<p>
+
+        <h6> Plan:  </h6>  Es fundamental reconocer los síntomas iniciales de la colestasis intrahepática durante el embarazo para facilitar un diagnóstico precoz y evitar complicaciones significativas. Si experimentas prurito en manos y pies, especialmente por la noche y en el tercer trimestre, es importante que lo comuniques a tu obstetra. Sin embargo, estos síntomas pueden aparecer a partir de la semana 8 del embarazo y es por ello importante mencionarselo a tu obstetra para que se realice una analítica de sangre que incluya la medición de ácidos biliares. Además, debes estar atenta a otros síntomas menos comunes, como orina oscura, heces pálidas o ictericia, y si experimentas alguno de ellos, debes consultar de inmediato a tu obstetra.
+
+        <h6>Seguimiento: </h6> por su obstetra.
+</p>
+
+{% endif %}
+
+<!--  -->
+{% if intrahepatic_b %}
+
+
+<h3 class="topic">
+  COLESTASIS INTRAHEPÁTICA
+</h3>
+
+<p>
+
+  Tras la realización de nuestro cuestionario, nuestro algoritmo no ha identificado factores de riesgo específicos para colestasis intrahepática. Sin embargo, es importante destacar que cualquier patología puede surgir durante el embarazo, incluso en ausencia de factores de riesgo preexistentes. Por esta razón, es crucial que siga las recomendaciones y controles rutinarios establecidos por su obstetra o especialista para garantizar un embarazo saludable y prevenir posibles complicaciones.
+
+</p>
+
+
+{% endif %}
+
 
 
 
