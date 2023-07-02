@@ -32,10 +32,7 @@
 
    
     <table>
-    		<tr>
-    			<td>RFPAlgorithm.com</td>
     		
-    		</tr>
     	
     		<tr>
     			
@@ -65,17 +62,17 @@
 
 <div class="intro">
 
-<h6>Patient's Name: </h6>  
+<h6>Patient's Name: {{full_name}} </h6>  
  <h6>NHS Number: </h6>  
-<h6> Email:</h6> 
+<h6> Email: {{email}}</h6> 
 
 <h6>Weeks of pregnancy:</h6>
 <h6>Drug allergies: </h6> 
 <h6>Current medications:</h6> 
-<h6>Age: x years </h6> 
-<h6>Weight: x kg </h6> 
-<h6>Height: x cm </h6> 
-<h6>BMI: </h6> 
+<h6>Age: {{age}} </h6> 
+<h6>Weight: {{weight}} </h6> 
+<h6>Height: {{height}}</h6> 
+<h6>BMI: {{bmi}}</h6> 
 <h6>TPAL: </h6> 
 <h6>Smoking habits: </h6> 
 
@@ -85,7 +82,9 @@
  <h6>Diet (Vegetarian/Vegan): </h6>
  <h6>Relevant Family Medical History (including gestational complications): </h6>
  <h6>Identified Risk Factors:</h6>
-
+    
+<br>
+<br>
  <p>After carefully reviewing the patient's personal, family, and biometric history, and in line with international clinical guidelines and protocols from reference centres in the United Kingdom, certain measures have been identified that may be beneficial in reducing potential complications during her pregnancy. It is important to note that these recommendations should be evaluated and personalized by the attending specialist, and under no circumstances should the patient initiate treatment without prior consultation with them.
 </p>
 
@@ -98,7 +97,9 @@
 
 
 <!-- end of introduction -->
-
+<br><br>
+<br><br>
+<br><br>
 <!--  -->
     {% if preeclampsia %}
 <h3 class="topic">

@@ -1841,38 +1841,108 @@ class ViewPDFSpanish(View):
             
             # check language
           
+             
             for i in disease:
-                    if i == 'PREECLAMPSIA':
-                        if int(i) >= 2:    
-                            preeclampsia = True
-                            context['preeclampsia']  = preeclampsia
-                        else:
-                            if int(i) >= 2:    
-                                preeclampsia_low = True
-                                context['preeclampsia_low']  = preeclampsia_low     
-                                
-                    elif i == 'TROMBOSIS':
-                        if int(i) >= 100:    
-                            trombosis = True
+        ####################################################### 
+                
+                    if i.disease == 'preeclampsia':
+                      
+                        if int(i.point) >= 2:    
+                           
+                            context['preeclampsia']  = 'yes'
                             
-                            context['trombosis']  = trombosis
-                                        
-                    elif i == 'PREECLAMPSIA':
-                    
-                        if int(i) > 2:    
-                            preeclampsia = True
-                            context['preeclampsia']  = preeclampsia
-                    
+                        else:
+                            if int(i.point) <= 1:    
+                               
+                                context['preeclampsia_b']  = 'yes'  
+                          
+        ####################################################### 
+                    elif i.disease == 'thrombosis':
+                        if int(i.point) >= 100:    
+                         
+                            
+                            context['thrombosis']  = 'yes'
+                                     
+                        elif int(i.point) >=4 :
+                     
+                            
+                            context['thrombosis_b']  = 'yes'
+                            
+                        elif int(i.point) == 3:
+                      
+                            context['thrombosis_c']  = 'yes'
+                        
+                        
+                        elif int(i.point) <= 2:
+                         
+                            
+                            context['thrombosis_d']  = 'yes'
+                        
+                        
+        ####################################################### 
                              
-            
-            
-            else:
-                return redirect('login')
-            # activate disease to trigger based on state of disease
-        
+                    elif i.disease == 'Diabetes Mellitus':
+                    
+                        if int(i.point) >= 1:    
+                            context['gestation']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['gestation_b']  = 'yes'
+   
+#    ##################################################
+   
+                    elif i.disease == 'THYROID DISORDER':
+                    
+                        if int(i.point) >= 1:    
+                            context['thyroid']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['thyroid_b']  = 'yes'
+   
+#    ##################################################
+                    elif i.disease == 'ANEMIA':
+                    
+                        if int(i.point) >= 1:    
+                            context['anemia']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['anemia_b']  = 'yes'
+#    ##################################################
+   
+   
+                    elif i.disease == 'HYPEREMESIS GRAVIDARUM':
+                    
+                        if int(i.point) >= 1:    
+                            context['hyperemesis']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['hyperemesis_b']  = 'yes'
+   
+      
+#    ##################################################
+   
+                    elif i.disease == 'INTRAHEPATIC CHOLESTASIS':
+                    
+                        if int(i.point) >= 1:    
+                            context['intrahepatic']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['intrahepatic_b']  = 'yes'
+   
+   
+   
+   
+   
+        ####################################################### 
+          
+     
             
             context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
-            
             pdf = render_to_pdf_spanish('pages/generate_pdf_spanish.html', context)
             return HttpResponse(pdf, content_type='application/pdf')
         else:
@@ -1888,7 +1958,116 @@ class DownloadPDFSpanish(View):
         context['refer'] = refers
         context['disease'] = disease
         context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
-        pdf = render_to_pdf_spanish('pages/generate_pdf.html', context)
+        
+         
+        for i in disease:
+        ####################################################### 
+                
+                    if i.disease == 'preeclampsia':
+                      
+                        if int(i.point) >= 2:    
+                           
+                            context['preeclampsia']  = 'yes'
+                            
+                        else:
+                            if int(i.point) <= 1:    
+                               
+                                context['preeclampsia_b']  = 'yes'  
+                          
+        ####################################################### 
+                    elif i.disease == 'thrombosis':
+                        if int(i.point) >= 100:    
+                         
+                            
+                            context['thrombosis']  = 'yes'
+                                     
+                        elif int(i.point) >=4 :
+                     
+                            
+                            context['thrombosis_b']  = 'yes'
+                            
+                        elif int(i.point) == 3:
+                      
+                            context['thrombosis_c']  = 'yes'
+                        
+                        
+                        elif int(i.point) <= 2:
+                         
+                            
+                            context['thrombosis_d']  = 'yes'
+                        
+                        
+        ####################################################### 
+                             
+                    elif i.disease == 'Diabetes Mellitus':
+                    
+                        if int(i.point) >= 1:    
+                            context['gestation']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['gestation_b']  = 'yes'
+   
+#    ##################################################
+   
+                    elif i.disease == 'THYROID DISORDER':
+                    
+                        if int(i.point) >= 1:    
+                            context['thyroid']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['thyroid_b']  = 'yes'
+   
+#    ##################################################
+                    elif i.disease == 'ANEMIA':
+                    
+                        if int(i.point) >= 1:    
+                            context['anemia']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['anemia_b']  = 'yes'
+#    ##################################################
+   
+   
+                    elif i.disease == 'HYPEREMESIS GRAVIDARUM':
+                    
+                        if int(i.point) >= 1:    
+                            context['hyperemesis']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['hyperemesis_b']  = 'yes'
+   
+      
+#    ##################################################
+   
+                    elif i.disease == 'INTRAHEPATIC CHOLESTASIS':
+                    
+                        if int(i.point) >= 1:    
+                            context['intrahepatic']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['intrahepatic_b']  = 'yes'
+   
+   
+   
+   
+   
+        ####################################################### 
+          
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        pdf = render_to_pdf_spanish('pages/generate_pdf_spanish.html', context)
         response = HttpResponse(pdf, content_type='application/pdf')
         
         filename = "Result_RFP-Algorithm_%s.pdf" %("12341231")

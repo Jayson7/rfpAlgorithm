@@ -2031,7 +2031,13 @@ class ViewPDF(View):
             # get all results for current user 
             disease = Disease_result.objects.filter(token=request.session['token_ses'])
             refers = Referal.objects.filter(token=request.session['token_ses'])
+            datas = Result_owner.objects.filter(token=request.session['token_ses'])
+            bmi= BMI.objects.filter(token=request.session['token_ses'])
+            context['mom_data'] = datas
             
+            # #####################################################################
+            
+        
           
             for i in disease:
         ####################################################### 
@@ -2133,7 +2139,7 @@ class ViewPDF(View):
           
 
             
-            context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
+            
             
             pdf = render_to_pdf('pages/generate_pdf.html', context)
             return HttpResponse(pdf, content_type='application/pdf')
@@ -2148,6 +2154,116 @@ class DownloadPDF(View):
         context = {}
         disease = Disease_result.objects.filter(token=request.session['token_ses'])
         refers = Referal.objects.filter(token=request.session['token_ses'])
+        datas = Result_owner.objects.filter(token=request.session['token_ses'])
+        for i in datas:
+            print(i)
+       
+        bmi= BMI.objects.filter(token=request.session['token_ses'])
+        context['mom_data'] = datas
+        
+        # #####################################################################
+  
+        
+        for i in disease:
+        ####################################################### 
+                
+                    if i.disease == 'preeclampsia':
+                      
+                        if int(i.point) >= 2:    
+                           
+                            context['preeclampsia']  = 'yes'
+                            
+                        else:
+                            if int(i.point) <= 1:    
+                               
+                                context['preeclampsia_b']  = 'yes'  
+                          
+        ####################################################### 
+                    elif i.disease == 'thrombosis':
+                        if int(i.point) >= 100:    
+                         
+                            
+                            context['thrombosis']  = 'yes'
+                                     
+                        elif int(i.point) >=4 :
+                     
+                            
+                            context['thrombosis_b']  = 'yes'
+                            
+                        elif int(i.point) == 3:
+                      
+                            context['thrombosis_c']  = 'yes'
+                        
+                        
+                        elif int(i.point) <= 2:
+                         
+                            
+                            context['thrombosis_d']  = 'yes'
+                        
+                        
+        ####################################################### 
+                             
+                    elif i.disease == 'Diabetes Mellitus':
+                    
+                        if int(i.point) >= 1:    
+                            context['gestation']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['gestation_b']  = 'yes'
+   
+#    ##################################################
+   
+                    elif i.disease == 'THYROID DISORDER':
+                    
+                        if int(i.point) >= 1:    
+                            context['thyroid']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['thyroid_b']  = 'yes'
+   
+#    ##################################################
+                    elif i.disease == 'ANEMIA':
+                    
+                        if int(i.point) >= 1:    
+                            context['anemia']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['anemia_b']  = 'yes'
+#    ##################################################
+   
+   
+                    elif i.disease == 'HYPEREMESIS GRAVIDARUM':
+                    
+                        if int(i.point) >= 1:    
+                            context['hyperemesis']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['hyperemesis_b']  = 'yes'
+   
+      
+#    ##################################################
+   
+                    elif i.disease == 'INTRAHEPATIC CHOLESTASIS':
+                    
+                        if int(i.point) >= 1:    
+                            context['intrahepatic']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['intrahepatic_b']  = 'yes'
+   
+   
+        
+        
+        
+        
+        
+        
+        
         context['refer'] = refers
         context['disease'] = disease
         context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
@@ -2167,7 +2283,7 @@ class DownloadPDF(View):
 # after success of test show page
 @login_required(login_url="login")
 def success_page(request):
-    request.session.set_expiry(240)
+    # request.session.set_expiry(240)
     context = {}
     # check requirements to comfirm user finished test
     # x = ['question1', 'question2', 'question3','question4', 'question5', 'question6''question7', 'question7', 'question8''question9', 'question10', 'question11', 'question12', 'question13', 'question14''question15', 'question16']
