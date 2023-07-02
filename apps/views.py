@@ -2036,48 +2036,94 @@ class ViewPDF(View):
             for i in disease:
         ####################################################### 
                 
-                    if i.disease == 'PREECLAMPSIA':
+                    if i.disease == 'preeclampsia':
+                      
                         if int(i.point) >= 2:    
-                            preeclampsia = True
-                            context['preeclampsia']  = preeclampsia
+                           
+                            context['preeclampsia']  = 'yes'
+                            
                         else:
                             if int(i.point) <= 1:    
-                                preeclampsia_b= True
-                                context['preeclampsia_b']  = preeclampsia_b    
+                               
+                                context['preeclampsia_b']  = 'yes'  
                           
         ####################################################### 
-                    elif i.disease == 'THROMBOSIS':
+                    elif i.disease == 'thrombosis':
                         if int(i.point) >= 100:    
-                            thrombosis = True
+                         
                             
-                            context['thrombosis']  = thrombosis
+                            context['thrombosis']  = 'yes'
                                      
                         elif int(i.point) >=4 :
-                            thrombosis_b = True
+                     
                             
-                            context['thrombosis_b']  = thrombosis_b 
+                            context['thrombosis_b']  = 'yes'
                             
                         elif int(i.point) == 3:
-                            thrombosis_c = True
-                            
-                            context['thrombosis_c']  = thrombosis_c 
+                      
+                            context['thrombosis_c']  = 'yes'
                         
                         
-                        elif int(i.point) <= 3:
-                            thrombosis_d = True
+                        elif int(i.point) <= 2:
+                         
                             
-                            context['thrombosis_d']  = thrombosis_d 
+                            context['thrombosis_d']  = 'yes'
                         
                         
         ####################################################### 
                              
-                    elif i.disease == 'PREECLAMPSIA':
+                    elif i.disease == 'Diabetes Mellitus':
                     
-                        if int(i.point) > 2:    
-                            preeclampsia = True
-                            context['preeclampsia']  = preeclampsia
+                        if int(i.point) >= 1:    
+                            context['gestation']  = 'yes'
                     
+
+                        elif int(i.point) == 0:
+                            context['gestation_b']  = 'yes'
    
+#    ##################################################
+   
+                    elif i.disease == 'THYROID DISORDER':
+                    
+                        if int(i.point) >= 1:    
+                            context['thyroid']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['thyroid_b']  = 'yes'
+   
+#    ##################################################
+                    elif i.disease == 'ANEMIA':
+                    
+                        if int(i.point) >= 1:    
+                            context['anemia']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['anemia_b']  = 'yes'
+#    ##################################################
+   
+   
+                    elif i.disease == 'HYPEREMESIS GRAVIDARUM':
+                    
+                        if int(i.point) >= 1:    
+                            context['hyperemesis']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['hyperemesis_b']  = 'yes'
+   
+      
+#    ##################################################
+   
+                    elif i.disease == 'INTRAHEPATIC CHOLESTASIS':
+                    
+                        if int(i.point) >= 1:    
+                            context['intrahepatic']  = 'yes'
+                    
+
+                        elif int(i.point) == 0:
+                            context['intrahepatic_b']  = 'yes'
    
    
    
