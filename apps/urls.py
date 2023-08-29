@@ -10,6 +10,7 @@ urlpatterns = [
     path('admin_result', dashboard_result_view, name='admin_result'),
     path('details/<int:pk>', details, name='details'),
     path('home', Homepage, name='home'),
+    path('homes', HomepageSpanish, name='homes'),
     # path('pdf', Generate_pdf.as_view()),
     path('success_page', success_page, name='success_page'),
     path('success_page_spanish', success_page_spanish, name='success_page_spanish'),

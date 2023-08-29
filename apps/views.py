@@ -107,6 +107,17 @@ def Homepage(request):
 
 
 
+# Homepage to welcome user in spanish
+def HomepageSpanish(request):
+    
+    #   set session expiry 
+    
+    
+    context = {}
+    return render(request, 'pages/homeSpanish.html', context)
+
+
+
 # question 1
 @csrf_exempt
 def question1(request):
@@ -2337,6 +2348,7 @@ def  choose_language(request):
         
     else:
         pass
+    
     messages.info(request, 'choose a language')
     return render(request, 'pages/language.html')
     
