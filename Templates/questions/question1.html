@@ -22,20 +22,10 @@
           <div class="header alert text-center text-info">
             <h3 class="font-weight-bold">Question 1</h3>
           </div>
-          {% for message in messages %}
-          <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-            <br />
-            <button
-              type="button"
-              class="btn close"
-              data-dismiss="alert"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <div class="text-center">{{ message }}</div>
-          </div>
-          {% endfor %}
+
+          {% comment %} messages {% endcomment %} {% include
+          '../notification/notificate.html' %}
+
           <div
             class="header alert text-center text-dark col-md-6 col-sm-12 mt-4"
           >

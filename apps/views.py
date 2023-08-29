@@ -2325,6 +2325,11 @@ def dashboard_result_view(request):
 
 def  choose_language(request):
     
+    if request.user.is_authenticated:
+        logout(request)
+        return redirect('language')
+    else:
+        pass
     
     if 'language' in request.session:
         del request.session['language']
@@ -2332,7 +2337,7 @@ def  choose_language(request):
         
     else:
         pass
-
+    messages.info(request, 'choose a language')
     return render(request, 'pages/language.html')
     
     

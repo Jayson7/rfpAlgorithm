@@ -524,10 +524,6 @@ def create_user(request):
 
 def removeAccess(request, pk):
     # locate the primary key on password storage 
-   
-  
- 
-    
     user = PasswordStorage.objects.get(id=pk)
     if user:
         user.usage_count = 0
@@ -538,8 +534,6 @@ def removeAccess(request, pk):
         messages.warning(request, 'Account does not exist')
         return redirect('manage_access')
     
-    return render(request, 'admin_pages/manage_user.html')
-
 
 # re-generate password for old users
 

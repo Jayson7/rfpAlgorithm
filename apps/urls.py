@@ -9,7 +9,7 @@ urlpatterns = [
     path('manage_access', manage_user, name='manage_access'),
     path('admin_result', dashboard_result_view, name='admin_result'),
     path('details/<int:pk>', details, name='details'),
-    path('', Homepage, name='home'),
+    path('home', Homepage, name='home'),
     # path('pdf', Generate_pdf.as_view()),
     path('success_page', success_page, name='success_page'),
     path('success_page_spanish', success_page_spanish, name='success_page_spanish'),
@@ -48,7 +48,7 @@ urlpatterns = [
     path('question16S', question16Spanish, name='question16s'),
     
     # choose language
-    path('language', choose_language, name='language'),
+    path('', choose_language, name='language'),
     
     # result
     path('results', ViewPDFSpanish.as_view(), name='vresults'),
