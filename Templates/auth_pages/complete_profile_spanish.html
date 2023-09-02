@@ -2,86 +2,55 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RFP Algorithm - Complete Profile</title>
+    <title>RFP Algorithm - Perfil completo</title>
     <!-- Latest compiled and minified CSS -->
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     />
   </head>
-  {% for message in messages %}
-  <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-    <br />
-    <button
-      type="button"
-      class="btn close"
-      data-dismiss="alert"
-      aria-label="Close"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-    {{ message }}
-  </div>
-  {% endfor %}
+
   <body>
-    <section
-      class="vh-100 bg-image"
-      style="
-        background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');
-      "
-    >
-      <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-        <div class="container h-100">
-          <div
-            class="row d-flex justify-content-center align-items-center h-100"
-          >
-            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-              <div class="card" style="border-radius: 15px">
-                <div class="card-body p-5">
-                  <h2 class="text-uppercase text-center mb-5">
-                    Perfil Completo
-                  </h2>
+    <div class="containers">
+      <div class="header">
+        <img
+          src="https://res.cloudinary.com/dlvlxpja3/image/upload/v1683170388/logo3_bzlnnu.png"
+          alt="Logo"
+          class="logo"
+        />
 
-                  <form method="POST">
-                    <div class="form-outline mb-4">
-                      {% csrf_token %}
-                      <input
-                        type="email"
-                        id="email"
-                        placeholder="Ingrese correo electrónico "
-                        name="email"
-                        required
-                        class="form-control form-control-lg"
-                      />
-                      <label class="form-label my-2" for="email">
-                        Correo electrónico
-                      </label>
-                    </div>
-
-                    <div class="d-flex justify-content-center">
-                      <button
-                        type="submit"
-                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
-                      >
-                        Iniciar prueba
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <p>Introduce tu dirección de correo electrónico</p>
       </div>
-    </section>
+      <div class="form-container">
+        <form id="email-form" method="POST">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Correo electrónico"
+            required
+          />
+          <button class="my-2" type="submit" id="submit-btn">Continuar</button>
+        </form>
+      </div>
+    </div>
   </body>
+  {% include '../notification/notificate.html' %}
+
+  <footer class="footer col-12 text-center my-5">
+    <span class="font-italic"
+      >&copy; RFP-Algotithm <span id="date"></span>
+    </span>
+  </footer>
+
   <!-- jQuery library -->
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
 
   <!-- Popper JS -->
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -90,45 +59,107 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </html>
 
+<script>
+  let date = new Date().getFullYear();
+  document.getElementById("date").innerHTML = date;
+</script>
+
 <style>
-  input[type="email"] {
-    -moz-appearance: textfield;
-    /* Firefox */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
   }
-  .gradient-custom-3 {
-    /* fallback for old browsers */
-    background: #84fab0;
 
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(
-      to right,
-      rgba(132, 250, 176, 0.5),
-      rgba(143, 211, 244, 0.5)
-    );
-
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(
-      to right,
-      rgba(132, 250, 176, 0.5),
-      rgba(143, 211, 244, 0.5)
-    );
+  .containers {
+    position: absolute;
+    width: 600px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   }
-  .gradient-custom-4 {
-    /* fallback for old browsers */
-    background: #84fab0;
 
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(
-      to right,
-      rgba(132, 250, 176, 1),
-      rgba(143, 211, 244, 1)
-    );
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
 
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(
-      to right,
-      rgba(132, 250, 176, 1),
-      rgba(143, 211, 244, 1)
-    );
+  .logo {
+    max-width: 150px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  p {
+    color: #666;
+  }
+
+  .form-container {
+    text-align: center;
+  }
+
+  #email-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #email {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  #submit-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  #submit-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .social-icons {
+    margin-top: 20px;
+  }
+
+  .social-icons a {
+    font-size: 24px;
+    margin: 0 10px;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .social-icons a:hover {
+    color: #0056b3;
+  }
+  @media screen and (max-width: 800px) {
+    .containers {
+      width: 80%;
+    }
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    color: #03045e;
+    text-align: center;
   }
 </style>

@@ -420,8 +420,6 @@ def generate_password(request, pk):
 
 # generate a new password for existing client
 
-
-
 # admin function to create a user on the platform 
 
 def create_user(request):
@@ -448,8 +446,7 @@ def create_user(request):
                 # verify credentials 
                 
                 # check name 
-             
-                
+
                 try:
                     
                     name_check = RegisterClient.objects.filter(client_name=name).exists()
