@@ -323,7 +323,8 @@ def question3Spanish(request):
                     # get answers ans send form to frontend
                     
                     x_list = AnswerSpanish.objects.filter(question=question3)
-                   
+                    sorted_queries = sorted(x_list, key=lambda q: str(q.query))
+                    print(sorted_queries)
                     context['xlist'] = x_list
                     
                     if 'question3s' in request.session:
@@ -341,9 +342,10 @@ def question3Spanish(request):
                         
                         for i in list_checked:
                             check_answers = AnswerSpanish.objects.filter(pk=int(i))
+                            
                             question3Session.append(str(check_answers.first())) 
-                     
-                           
+
+                         
                           
                            
                             for ans in check_answers:
