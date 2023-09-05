@@ -456,7 +456,8 @@ def question3(request):
                         # get answers ans send form to frontend
                         
                         x_list = Answer.objects.filter(question=question3)
-                    
+                        sorted_queries = sorted(x_list, key=lambda q: str(q.answer))
+                        x_list = sorted_queries
                         context['xlist'] = x_list
                         
                         if 'question3' in request.session:

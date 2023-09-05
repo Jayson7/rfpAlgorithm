@@ -54,7 +54,6 @@
                 {% endfor %}
               </tbody>
             </table>
-            {% include '../../notification/notificate.html' %}
             <button class="btn my-4 col-md-12 btn-info" type="submit">
               siguiente pregunta
             </button>
@@ -68,6 +67,7 @@
       </span>
     </footer>
   </body>
+  {% include '../notification/notificate.html' %}
 
   <script>
     let date = new Date().getFullYear();

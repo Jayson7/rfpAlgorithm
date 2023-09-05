@@ -19,20 +19,7 @@
         <div
           class="mt-5 container-fluid d-flex flex-column align-items-center justify-content-center"
         >
-          {% for message in messages %}
-          <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-            <br />
-            <button
-              type="button"
-              class="btn close"
-              data-dismiss="alert"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <div class="text-center">{{ message }}</div>
-          </div>
-          {% endfor %}
+          {% include '../notification/notificate.html' %}
           <div
             class="header alert text-center col-md-8 col-sm-12 bg-dark text-light"
           >
