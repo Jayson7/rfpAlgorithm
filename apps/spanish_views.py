@@ -509,7 +509,7 @@ def question4Spanish(request):
     # except:
     #     messages.warning(request, 'Usuario no verificado')
     #     return redirect('loginspanish')
-    return render(request, 'questions/spanish/question4spanish.html', context)
+    return render(request, 'questions/spanish/question5spanish.html', context)
 
 
 

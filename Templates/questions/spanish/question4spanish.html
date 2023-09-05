@@ -20,13 +20,13 @@
           class="mt-5 container d-flex py-5 card flex-column align-items-center justify-content-center"
         >
           {% include '../../notification/notificate.html' %}
-          <div class="header alert text-center text-info font-weight-bold">
-            <h3>{{question_tag}}</h3>
-          </div>
+          <div
+            class="header alert text-center text-info font-weight-bold"
+          ></div>
           <div
             class="header alert text-center px-1 text-dark col-sm-12 col-md-8 mt-4"
           ></div>
-          <h5>{{question}}</h5>
+          <h5 class="text-center">{{question}}</h5>
           <form
             method="POST"
             autocomplete="off"
