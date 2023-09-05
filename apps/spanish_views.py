@@ -1161,11 +1161,27 @@ def questionCombinedSpanish(request):
                         context['question_tag_eng'] = 'Once, , Doce. Trece y Catorce'
                         
                         # get answers ans send form to frontend
-                        
+                        # x1
                         x_list1 = AnswerSpanish.objects.filter(question=question11)
+                        sorted_queries = sorted(x_list1, key=lambda q: str(q.answer))
+                        x_list1 = sorted_queries
+                
+                        
+                        # 2
                         x_list2 = AnswerSpanish.objects.filter(question=question12)
+                        sorted_queries = sorted(x_list2, key=lambda q: str(q.answer))
+                        x_list2 = sorted_queries
+                        # 3
                         x_list3 = AnswerSpanish.objects.filter(question=question13)
+                        sorted_queries = sorted(x_list3, key=lambda q: str(q.answer))
+                        x_list3 = sorted_queries
+                        # 4
                         x_list4 = AnswerSpanish.objects.filter(question=question14)
+                        sorted_queries = sorted(x_list4, key=lambda q: str(q.answer))
+                        
+                        x_list4 = sorted_queries
+
+    
     
                         context['xlist1'] = x_list1
                         context['xlist2'] = x_list2
@@ -1211,7 +1227,7 @@ def questionCombinedSpanish(request):
                                         d.save()
                                         
                                         
-                                    elif ans.answer == 'Anemia falciformes o Talasemia':
+                                    elif ans.answer == 'Anemia falciforme, Talasemia u otra hemogloboniopatía':
                                         d = Disease.objects.filter(user_diagnosed=token_of_user, disease = 'thrombosis')
                                         d.points +=3
                                         d.save()
@@ -1511,7 +1527,7 @@ def questionCombinedSpanish(request):
                                     
                                                                         
 
-                            return redirect('question15s')
+                            return redirect('save_result_user')
                             # send question and answer to view
                     
                 

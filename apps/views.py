@@ -1672,7 +1672,7 @@ def questionCombined(request):
                                     
                                                                         
 
-                            return redirect('question15')
+                            return redirect('save_result_user')
                             # send question and answer to view
                     
                 

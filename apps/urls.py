@@ -29,8 +29,8 @@ urlpatterns = [
     path('question9', question9, name='question9'),
     path('question10', question10, name='question10'),
     path('questionCs', questionCombined, name='questionCs'),
-    path('question15', question15, name='question15'),
-    path('question16', question16, name='question16'),
+    # path('question15', question15, name='question15'),
+    # path('question16', question16, name='question16'),
     
     # questions in spanish
     
@@ -45,8 +45,8 @@ urlpatterns = [
     path('question9S', question9Spanish, name='question9s'),
     path('question10S', question10Spanish, name='question10s'),
     path('questionCsS', questionCombinedSpanish, name='questionCss'),
-    path('question15S', question15Spanish, name='question15s'),
-    path('question16S', question16Spanish, name='question16s'),
+    # path('question15S', question15Spanish, name='question15s'),
+    # path('question16S', question16Spanish, name='question16s'),
     
     # choose language
     path('', choose_language, name='language'),
