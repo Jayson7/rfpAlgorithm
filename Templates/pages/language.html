@@ -25,7 +25,8 @@
               class="logo"
             />
             <h4 class="mb-4">RFP-Algorithm</h4>
-            <h6 class="mb-4">Select Your Preferred Language</h6>
+            <h6 class="mb-4">Elige el idioma que prefieras</h6>
+            <h6 class="mb-5">Select Your Preferred Language</h6>
             <a href="{% url 'home' %}" class="btn btn-language">English</a>
             <a href="{% url 'homes' %}" class="btn btn-language mb-5"
               >Spanish (español)</a
@@ -43,14 +44,13 @@
   <style>
     body {
       /* Using a solid green color */
-
-      background-image: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);
+      background-image: linear-gradient(45deg, #fff 0%, #e4efe9 100%);
     }
     .card {
       border: none;
       border-radius: 0.625rem;
       box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
-      background-image: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);
+      background-color: #fff;
     }
     .logo {
       display: block;
@@ -79,6 +79,8 @@
       text-align: center;
     }
   </style>
+
+  <!--  footer config -->
   <footer class="footer col-12 text-center my-5">
     <span class="font-italic"
       >&copy; RFP-Algotithm <span id="date"></span>

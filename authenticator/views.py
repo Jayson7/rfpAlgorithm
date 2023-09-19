@@ -444,7 +444,7 @@ def create_user(request):
                 email = request.POST['email']
 
                 # verify credentials 
-                
+
                 # check name 
 
                 try:
