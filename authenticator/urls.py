@@ -7,7 +7,7 @@ from .spanish_views import *
 
 urlpatterns = [
     # user functions 
-    path('login', login_page, name='login'),
+    path('logins', login_page, name='logins'),
     path('complete_info', complete_user_info, name='user_info'),
     
     
