@@ -15,7 +15,8 @@ urlpatterns = [
     path('success_page', success_page, name='success_page'),
     path('success_page_spanish', success_page_spanish, name='success_page_spanish'),
     path('save_result_user', save_result_user, name='save_result_user'),
- 
+    path('contact', contact, name='contact'),
+    path('contactspanish', contactspanish, name='contacts'),
     
     # questions 
     path('question1', question1, name='question1'),

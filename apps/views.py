@@ -2369,8 +2369,32 @@ def choose_language_english(request):
     
     
 
-
-
+# contact page
+def contact(request):
+    context = {}
+    if request.method == 'POST':
+        names = request.POST['name']
+        emails = request.POST['email']
+        messages = request.POST['message']
+        
+        contact = ContactSubmission(
+            name = names,
+            email= emails,
+            message= messages 
+        )
+        
+        try:
+            contact.save()
+            messages.success(request, 'Thank you, We will reach out shortly')
+            return redirect('language')
+        except:
+            messages.warning(request, 'An error occured, Try again')
+            return redirect('contact')
+            
+    else:
+        pass 
+    
+    return render(request, 'pages/contact.html', context)
     
     
     

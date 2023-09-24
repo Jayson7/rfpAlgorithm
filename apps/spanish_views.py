@@ -2071,21 +2071,10 @@ class DownloadPDFSpanish(View):
                             context['intrahepatic_b']  = 'yes'
    
    
-        
-   
-   
-   
-   
+  
         ####################################################### 
           
-        
-        
-        
-        
-        
-        
-        
-        
+
         
         pdf = render_to_pdf_spanish('pages/generate_pdf_spanish.html', context)
         response = HttpResponse(pdf, content_type='application/pdf')
@@ -2097,3 +2086,29 @@ class DownloadPDFSpanish(View):
 
 
 
+# contact page
+def contactspanish(request):
+    context = {}
+    if request.method == 'POST':
+        names = request.POST['name']
+        emails = request.POST['email']
+        messages = request.POST['message']
+        
+        contact = ContactSubmission(
+            name = names,
+            email= emails,
+            message= messages 
+        )
+        
+        try:
+            contact.save()
+            messages.success(request, 'Gracias, nos comunicaremos en breve.')
+            return redirect('language')
+        except:
+            messages.warning(request, 'Ocurrió un error, inténtalo de nuevo.')
+            return redirect('contact')
+            
+    else:
+        pass 
+    
+    return render(request, 'pages/contact.html', context)

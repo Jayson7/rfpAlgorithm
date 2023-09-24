@@ -120,7 +120,9 @@ All right reserved
                         >
                           Log in
                         </button>
-                        <a class="text-muted" href="#">Having issues?</a>
+                        <a class="text-muted" href="{% url 'contact' %}"
+                          >Having issues?</a
+                        >
                       </div>
                     </form>
                   </div>
@@ -139,7 +141,11 @@ All right reserved
                     </p>
 
                     <div class="triggers my-5">
-                      <a href="#" class="btn btn-info px-2 mt-2">Contact us</a>
+                      <a
+                        href="{% url 'contact' %}"
+                        class="btn btn-info px-2 mt-2"
+                        >Contact us</a
+                      >
                     </div>
                   </div>
                 </div>

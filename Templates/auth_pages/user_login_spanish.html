@@ -121,7 +121,7 @@ All right reserved
                         >
                           Acceso
                         </button>
-                        <a class="text-muted" href="#"
+                        <a class="text-muted" href="{% url 'contacts' %}"
                           >¿Tienes problemas para acceder?</a
                         >
                       </div>
@@ -144,7 +144,10 @@ All right reserved
                     </p>
 
                     <div class="triggers my-5">
-                      <a href="#" class="btn btn-info px-2 mt-2">
+                      <a
+                        href="{% url 'contacts' %}"
+                        class="btn btn-info px-2 mt-2"
+                      >
                         Contacta con nosotros
                       </a>
                     </div>
