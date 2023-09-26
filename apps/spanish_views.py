@@ -287,7 +287,7 @@ def question2Spanish(request):
                     messages.warning(request, 'Usuario no verificada')
             # except:
             #     messages.warning(request, 'Error')
-            #     return redirect('login')     
+            #     return redirect('logins')     
             
         # except:
         #     messages.warning(request, 'Error de verificación de usuario') 
@@ -399,7 +399,7 @@ def question3Spanish(request):
                
                 # else:
                     # messages.warning(request, 'Acceso denegado')
-                    # return redirect('login')           
+                    # return redirect('logins')           
         else:
                 messages.warning(request, 'Usuario no verificado')
         # except:
@@ -502,7 +502,7 @@ def question4Spanish(request):
                     messages.warning(request, 'Usuario no verificado')
             # except:
             #     messages.warning(request, 'Error')
-            #     return redirect('login')     
+            #     return redirect('logins')     
     else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
@@ -595,7 +595,7 @@ def question5Spanish(request):
                     messages.warning(request, 'Usuario no verificado')
             # except:
             #     messages.warning(request, 'Error')
-            #     return redirect('login')     
+            #     return redirect('logins')     
     else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
@@ -695,12 +695,12 @@ def question6Spanish(request):
                 
                     # else:
                     #     messages.warning(request, 'Acceso denegado')
-                    #     return redirect('login')           
+                    #     return redirect('logins')           
             else:
                     messages.warning(request, 'Usuario no verificado')
             # except:
             #     messages.warning(request, 'Error')
-            #     return redirect('login')     
+            #     return redirect('logins')     
     else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
@@ -784,12 +784,12 @@ def question7Spanish(request):
 
                     # else:
                     #     messages.warning(request, 'Acceso denegado')
-                    #     return redirect('login')           
+                    #     return redirect('logins')           
             else:
                     messages.warning(request, 'Usuario no verificado')
             # except:
             #     messages.warning(request, 'Error')
-            #     return redirect('login')     
+            #     return redirect('logins')     
     else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
@@ -880,12 +880,12 @@ def question8Spanish(request):
                 
                     # else:
                     #     messages.warning(request, 'Acceso denegado')
-                    #     return redirect('login')           
+                    #     return redirect('logins')           
             else:
                     messages.warning(request, 'Usuario no verificado')
             # except:
             #     messages.warning(request, 'Error')
-            #     return redirect('login')     
+            #     return redirect('logins')     
     else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
@@ -978,12 +978,12 @@ def question9Spanish(request):
                 
                     # else:
                     #     messages.warning(request, 'Acceso denegado')
-                    #     return redirect('login')           
+                    #     return redirect('logins')           
             else:
                     messages.warning(request, 'Usuario no verificado')
             # except:
             #     messages.warning(request, 'Error')
-            #     return redirect('login')     
+            #     return redirect('logins')     
     else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
@@ -1093,12 +1093,12 @@ def question10Spanish(request):
                     
                         # else:
                         #     messages.warning(request, 'Acceso denegado')
-                        #     return redirect('login')           
+                        #     return redirect('logins')           
                 else:
                         messages.warning(request, 'Usuario no verificado')
             except:
                 messages.warning(request, 'Error')
-                return redirect('login')     
+                return redirect('logins')     
     else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
@@ -1533,12 +1533,12 @@ def questionCombinedSpanish(request):
                 
                     # else:
                     #     messages.warning(request, 'Acceso denegado')
-                    #     return redirect('login')           
+                    #     return redirect('logins')           
             else:
                     messages.warning(request, 'Usuario no verificado')
             # except:
             #     messages.warning(request, 'Error')
-            #     return redirect('login')     
+            #     return redirect('logins')     
     else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
@@ -1670,7 +1670,7 @@ def question15Spanish(request):
                 
                     # else:
                     #     messages.warning(request, 'Acceso denegado')
-                    #     return redirect('login')           
+                    #     return redirect('logins')           
             else:
                     messages.warning(request, 'Usuario no verificado')
          
@@ -1794,7 +1794,7 @@ def question16Spanish(request):
                 
                     # else:
                     #     messages.warning(request, 'Acceso denegado')
-                    #     return redirect('login')           
+                    #     return redirect('logins')           
             else:
                     messages.warning(request, 'Usuario no verificado')
         # except:

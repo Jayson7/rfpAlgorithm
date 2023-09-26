@@ -30,10 +30,10 @@ def details_checker_questions(request):
             if i in request.session:
                 pass 
             else:
-                return redirect('login')
+                return redirect('logins')
     except:
         messages.warning(request, 'Profile undocumented, login')
-        return redirect('login')    
+        return redirect('logins')    
 
 # helper functions 
 
@@ -43,7 +43,7 @@ def basic_user_auth_check(request):
         pass  
     else:
         messages.warning(request, 'authentication needed')
-        return redirect('login')
+        return redirect('logins')
     
 # auth check user
 def basic_user_auth_check_spanish(request):
@@ -51,7 +51,7 @@ def basic_user_auth_check_spanish(request):
         pass  
     else:
         messages.warning(request, 'authentication needed')
-        return redirect('login')
+        return redirect('logins')
 
 
 # auth check admin
@@ -102,7 +102,7 @@ def login_page(request):
         # validate credentials
         if password == '' or full_name == '':
             messages.warning(request, 'Incorrect credentials')
-            return redirect('login')
+            return redirect('logins')
         else:
             try:
                 password_check = PasswordStorage.objects.get(password=password)
@@ -177,16 +177,16 @@ def login_page(request):
                                 
                             else:
                                 messages.warning(request, 'Password is invalid')
-                                return redirect('login')
+                                return redirect('logins')
                                 
                         else:
                             
                             messages.warning(request, 'Account access is denied')
-                            return redirect('login')
+                            return redirect('logins')
                             
                     else:
                         messages.warning(request, 'Your password has expired!')
-                        return redirect('login')
+                        return redirect('logins')
                     # if count limit isn't reached add 1 
                     
                     # generate token for user login using org username + count
@@ -196,10 +196,10 @@ def login_page(request):
                     pass 
                 else:
                     messages.warning(request, 'Incorrect Password')
-                    return redirect('login')
+                    return redirect('logins')
             except:
                 messages.warning(request, 'Invalid Password')
-                return redirect('login')        
+                return redirect('logins')        
 
 
     return render(request, 'auth_pages/user_login.html', context)
@@ -238,7 +238,7 @@ def complete_user_info(request):
  
     except:
         messages.warning(request, 'Authentication required fail')
-        return redirect('login')
+        return redirect('logins')
     return render(request, 'auth_pages/complete_profile.html')
 
 
@@ -270,7 +270,7 @@ def admin_login(request):
                     else:
                         logout(request, user)
                         messages.warning(request, 'Trying to access that wont work')
-                        return redirect('login')
+                        return redirect('logins')
                 else:
                     messages.warning(request, 'Wrong username and password')
                     return redirect('admin_login')
@@ -308,7 +308,7 @@ def admin_dashboard(request):
         
         else:
             messages.warning(request, 'Trying to access that wont work')
-            return redirect('login')
+            return redirect('logins')
         
     else:
         messages.warning(request, 'Login please')
@@ -325,7 +325,7 @@ def UpdatePassword(request):
     if request.user.is_authenticated:
         pass 
     else:
-        return redirect('login')
+        return redirect('logins')
     
  
 # generate a new password for new client
@@ -411,7 +411,7 @@ def generate_password(request, pk):
                 return redirect('manage_access')
         else:
             messages.warning(request, 'You dont have that access')
-            return redirect('login')        
+            return redirect('logins')        
     
     else:
         return redirect('admin_login')
