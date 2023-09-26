@@ -2092,21 +2092,17 @@ def contactspanish(request):
     if request.method == 'POST':
         names = request.POST['name']
         emails = request.POST['email']
-        messages = request.POST['message']
+        messages_ = request.POST['message']
         
         contact = ContactSubmission(
             name = names,
             email= emails,
-            message= messages 
+            message= messages_ 
         )
-        
-        try:
-            contact.save()
-            messages.success(request, 'Gracias, nos comunicaremos en breve.')
-            return redirect('language')
-        except:
-            messages.warning(request, 'Ocurrió un error, inténtalo de nuevo.')
-            return redirect('contact')
+
+        contact.save()
+        messages.success(request, 'Gracias, nos comunicaremos en breve.')
+        return redirect('language')
             
     else:
         pass 

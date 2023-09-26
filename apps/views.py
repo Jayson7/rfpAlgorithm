@@ -2375,21 +2375,18 @@ def contact(request):
     if request.method == 'POST':
         names = request.POST['name']
         emails = request.POST['email']
-        messages = request.POST['message']
+        messages_ = request.POST['message']
         
         contact = ContactSubmission(
             name = names,
             email= emails,
-            message= messages 
+            message= messages_ 
         )
-        
-        try:
-            contact.save()
-            messages.success(request, 'Thank you, We will reach out shortly')
-            return redirect('language')
-        except:
-            messages.warning(request, 'An error occured, Try again')
-            return redirect('contact')
+
+        contact.save()
+        messages.success(request, 'Thank you, We will reach out shortly')
+        return redirect('language')
+
             
     else:
         pass 
