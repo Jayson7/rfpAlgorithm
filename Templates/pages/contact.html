@@ -30,12 +30,17 @@
       <div class="row justify-content-center">
         <div class="col-md-6">
           <div class="contact-container">
-            <img
-              src="https://res.cloudinary.com/dlvlxpja3/image/upload/v1683170405/logo3_wtfafb.png"
-              alt="Company Logo"
-              class="contact-logo"
-            />
-            <h2 class="text-dark text-center mb-4">Contact Us</h2>
+            <div class="img-controller">
+              <img
+                src="https://res.cloudinary.com/dlvlxpja3/image/upload/v1683170405/logo3_wtfafb.png"
+                alt="Company Logo"
+                class="contact-logo"
+              />
+            </div>
+
+            <h2 class="text-dark text-center mb-4 text-capitalize">
+              Contacta con nosotros
+            </h2>
             <form>
               <div class="form-group">
                 <input
@@ -64,14 +69,46 @@
                   name="message"
                 ></textarea>
               </div>
-              <button type="submit" class="btn btn-light btn-block">
+              <button type="submit" class="btn btn-success btn-block">
                 Submit
               </button>
             </form>
+            <a
+              type="submit"
+              href="{% url 'loginspanish' %}"
+              class="btn btn-primary my-2 btn-block text-decoration-none"
+            >
+              Back to login
+            </a>
+            <a
+              href="{% url 'home' %}"
+              type="submit"
+              class="btn btn-info btn-block text-decoration-none"
+            >
+              Change language
+            </a>
           </div>
         </div>
       </div>
     </div>
+
+    <style>
+      .img-controller {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .contact-logo {
+        width: 200px;
+        height: 210px;
+      }
+      @media screen and (max-width: 978px) {
+        .contact-logo {
+          width: 170px;
+          height: 180px;
+        }
+      }
+    </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <!-- Popper JS -->
