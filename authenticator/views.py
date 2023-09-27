@@ -467,9 +467,9 @@ def create_user(request):
                     name_check = RegisterClient.objects.filter(client_name=name).exists()
                     email_check = RegisterClient.objects.filter(email=email).exists()
                     print(email)
-                    if name_check and email_check:
+                    if name_check or email_check:
                       
-                        messages.warning(request, 'user already exist')
+                        messages.warning(request, 'user already profile exist ')
                         return redirect('create_user')
                     
                     else:
@@ -536,7 +536,7 @@ def create_user(request):
 
 def removeAccess(request, pk):
     # locate the primary key on password storage 
-    user = PasswordStorage.objects.get(id=pk)
+    user = PasswordStorage.objects.get(id=pks)
     if user:
         user.usage_count = 0
         user.save()
