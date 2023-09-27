@@ -2107,4 +2107,4 @@ def contactspanish(request):
     else:
         pass 
     
-    return render(request, 'pages/contact.html', context)
+    return render(request, 'pages/contactspanish.html', context)

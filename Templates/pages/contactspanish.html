@@ -91,7 +91,27 @@
           </div>
         </div>
       </div>
+      <footer class="footer col-12 text-center mt-5">
+        <small class="text-info font-italic"
+          >&copy; rfpalgotithm <span id="date"></span>
+        </small>
+      </footer>
     </div>
+
+    <script>
+      let date = new Date().getFullYear();
+      document.getElementById("date").innerHTML = date;
+
+      function myFunction() {
+        var x = document.getElementById("myInput");
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+      }
+    </script>
+
     <style>
       .img-controller {
         display: flex;

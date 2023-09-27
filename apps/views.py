@@ -2350,7 +2350,7 @@ def  choose_language(request):
     else:
         pass
     
-    messages.info(request, 'choose a language')
+    messages.info(request, "Choose a language ")
     return render(request, 'pages/language.html')
     
     
