@@ -5,7 +5,7 @@ import datetime
 from authenticator.models import *
 from .models import *
 from django.http import HttpResponse
-from authenticator.views import basic_user_auth_check_spanish, details_checker_questions
+from authenticator.views import basic_user_auth_check_spanish, details_checker_questions_spanish
 from django.views.decorators.csrf import csrf_exempt
 
 # generate pdf 
@@ -22,7 +22,7 @@ from xhtml2pdf import pisa
 @csrf_exempt
 def question1Spanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions(request)
+    details_checker_questions_spanish(request)
     context = {}
 
     if request.user.is_authenticated:
@@ -183,7 +183,7 @@ def question1Spanish(request):
             return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
-        return redirect('loginspansih')
+        return redirect('loginspanish')
     return render(request, 'questions/spanish/question1spanish.html', context)
 
 
@@ -191,13 +191,13 @@ def question1Spanish(request):
 
 def question2Spanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions(request)
+    details_checker_questions_spanish(request)
     context = {}
     
     
     if request.user.is_authenticated:
 
-        # try: 
+        try: 
             user = request.user 
             token_of_user = request.session['token_ses']
             # verify if user answered question 1
@@ -289,9 +289,9 @@ def question2Spanish(request):
             #     messages.warning(request, 'Error')
             #     return redirect('logins')     
             
-        # except:
-        #     messages.warning(request, 'Error de verificación de usuario') 
-        #     return redirect('loginspanish')
+        except:
+            messages.warning(request, 'Error de verificación de usuario') 
+            return redirect('loginspanish')
         
     else:
             messages.warning(request, 'Autenticacion requerida')
@@ -307,7 +307,7 @@ def question2Spanish(request):
 def question3Spanish(request):
     
     basic_user_auth_check_spanish(request)
-    details_checker_questions(request)
+    details_checker_questions_spanish(request)
     context = {}
    
     if request.user.is_authenticated:
@@ -420,7 +420,7 @@ def question3Spanish(request):
 def question4Spanish(request):
         
     basic_user_auth_check_spanish(request)
-    details_checker_questions(request)
+    details_checker_questions_spanish(request)
     
     context = {}
     
@@ -524,7 +524,7 @@ def question5Spanish(request):
     context = {}
     
     basic_user_auth_check_spanish(request)
-    details_checker_questions(request)
+    details_checker_questions_spanish(request)
    
     # try:
             
@@ -616,7 +616,7 @@ def question6Spanish(request):
     context = {}
 
     basic_user_auth_check_spanish(request)
-    details_checker_questions(request)
+    details_checker_questions_spanish(request)
     
     # try:
         
@@ -718,7 +718,7 @@ def question6Spanish(request):
 
 def question7Spanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions(request)
+    details_checker_questions_spanish(request)
     
     context = {}
 
@@ -809,7 +809,7 @@ def question7Spanish(request):
 
 def question8Spanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions(request)
+    details_checker_questions_spanish(request)
     
     context = {}
     
@@ -903,7 +903,7 @@ def question8Spanish(request):
 
 def question9Spanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions(request)
+    details_checker_questions_spanish(request)
     
     context = {}
  
@@ -1000,13 +1000,13 @@ def question9Spanish(request):
 
 def question10Spanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions(request)
+    details_checker_questions_spanish(request)
     
     context = {}
   
-    # try:
+    try:
             
-    if request.user.is_authenticated:
+        if request.user.is_authenticated:
 
             
             user = request.user 
@@ -1099,12 +1099,12 @@ def question10Spanish(request):
             except:
                 messages.warning(request, 'Error')
                 return redirect('logins')     
-    else:
+        else:
             messages.warning(request, 'Autenticacion requerida')
             return redirect('loginspanish')
-    # except:
-    #     messages.warning(request, 'Usuario no verificado')
-    #     return redirect('loginspanish')
+    except:
+        messages.warning(request, 'Usuario no verificado')
+        return redirect('loginspanish')
     return render(request, 'questions/spanish/question5spanish.html', context)
 
 
@@ -1116,7 +1116,7 @@ def question10Spanish(request):
 
 def questionCombinedSpanish(request):
     basic_user_auth_check_spanish(request)
-    details_checker_questions(request)
+    details_checker_questions_spanish(request)
     
     context = {}
     # try:

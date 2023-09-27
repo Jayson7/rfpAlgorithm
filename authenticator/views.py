@@ -35,6 +35,21 @@ def details_checker_questions(request):
         messages.warning(request, 'Profile undocumented, login')
         return redirect('logins')    
 
+# check if all details are complete during taking of assessments 
+def details_checker_questions_spanish(request):
+    try:
+        x = ['details', 'token_ses', 'browser', 'app_password']
+   
+        # filter to check if x data exists
+        
+        for i in x:
+            if i in request.session:
+                pass 
+            else:
+                return redirect('loginspanish')
+    except:
+        messages.warning(request, 'Perfil indocumentado, iniciar sesión')
+        return redirect('loginspanish')    
 # helper functions 
 
 # auth check user
@@ -50,8 +65,8 @@ def basic_user_auth_check_spanish(request):
     if request.user.is_authenticated:
         pass  
     else:
-        messages.warning(request, 'authentication needed')
-        return redirect('logins')
+        messages.warning(request, 'autenticación necesaria')
+        return redirect('loginspanish')
 
 
 # auth check admin
