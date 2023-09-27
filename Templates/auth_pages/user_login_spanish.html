@@ -34,22 +34,10 @@ All right reserved
     <title>RFP Algorithm - Acceso</title>
   </head>
 
+  {% include '../notification/notificate.html' %}
   <body>
-    {% for message in messages %}
-    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-      <br />
-
-      <button
-        type="button"
-        class="btn close"
-        data-dismiss="alert"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-      {{ message }}
-    </div>
-    {% endfor %}
+    <br />
+    <br />
     <section class="h-100 gradient-form" style="background-color: #eee">
       <div class="container-fluid py-2 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -142,7 +130,6 @@ All right reserved
                       embarazo. Te ayudará a reducir las complicaciones que tú y
                       tu bebé podáis experimentar en tu embarazo
                     </p>
-
                     <div class="triggers my-5">
                       <a
                         href="{% url 'contacts' %}"
@@ -168,7 +155,7 @@ All right reserved
   </body>
   <footer class="footer col-12 text-center mt-5">
     <span class="text-info font-italic"
-      >&copy; RFP-Algotithm <span id="date"></span>
+      >&copy; rfpalgotithm <span id="date"></span>
     </span>
   </footer>
   <script>
