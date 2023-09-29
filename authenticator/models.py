@@ -17,12 +17,12 @@ class RegisterClient(models.Model):
     date_registered = models.DateTimeField(auto_now_add=True)
     username = models.CharField(max_length=20)
     auth_password = models.CharField(max_length=15)
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     
     
     
     def __str__(self) -> str:
-        return self.pk
+        return self.id
 
 
 # =========================================================================
@@ -39,7 +39,7 @@ class PasswordStorage(models.Model):
     # hidden, will only be populated if password expires
     date_exhausted = models.DateTimeField(blank=True, null=True)
     usage_count = models.PositiveIntegerField(default=0)
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     
     
     def __str__(self) -> str:

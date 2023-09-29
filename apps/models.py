@@ -9,7 +9,7 @@ from django.db import models
 
 class Questions(models.Model):
     question = models.CharField(max_length=200) 
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     
 
     def __str__(self) -> str:
@@ -18,7 +18,7 @@ class Questions(models.Model):
 
 class QuestionsSpanish(models.Model):
     question = models.CharField(max_length=200) 
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     
 
     def __str__(self) -> str:
@@ -29,7 +29,7 @@ class Disease(models.Model):
     disease = models.CharField(max_length=100)
     user_diagnosed =  models.CharField(max_length=100)
     points = models.IntegerField(default=0) 
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     
     
     def __str__(self) -> str:
@@ -40,7 +40,7 @@ class Disease(models.Model):
 class Answer(models.Model):
     question = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='question_to_ask')
     answer = models.CharField(max_length=200, null=True)
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     
     
     def __str__(self) -> str:
@@ -50,7 +50,7 @@ class Answer(models.Model):
 class AnswerSpanish(models.Model):
     question = models.ForeignKey(QuestionsSpanish, on_delete=models.CASCADE, related_name='question_to_ask_spanish')
     answer = models.CharField(max_length=200, null=True)
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     
     
     def __str__(self) -> str:
@@ -62,7 +62,7 @@ class Referal(models.Model):
     patient = models.CharField(max_length=40)
     answer = models.CharField(max_length=50)
     comment = models.CharField(max_length=200)
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     
     
     
@@ -80,7 +80,7 @@ class Mom_data(models.Model):
     device_token = models.CharField(max_length=100)
     app_password = models.CharField(max_length=100)
     client_reference = models.CharField(max_length=100)
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     
     
     def __str__(self):
@@ -96,7 +96,7 @@ class Disease_result(models.Model):
     date_generated = models.DateTimeField(auto_now_add=True)
     point = models.CharField(max_length=20)
     token = models.CharField(max_length=20, null=True)
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
    
     
     def __str__(self):
@@ -115,7 +115,7 @@ class Result_owner(models.Model):
     auth_password = models.CharField(max_length=20)
     email = models.EmailField()
     age = models.CharField(max_length=10)
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
    
         
     def __str__(self):
@@ -128,7 +128,7 @@ class BMI(models.Model):
     weight = models.CharField(max_length=10)
     token = models.CharField(max_length=30)
     full_name = models.CharField(max_length=40)
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     
     def __str__(self):
         return str(self.token)
@@ -139,7 +139,7 @@ class ContactSubmission(models.Model):
     email = models.EmailField()
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    pks = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return self.name
