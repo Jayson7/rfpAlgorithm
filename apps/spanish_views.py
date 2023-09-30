@@ -155,8 +155,9 @@ def question1Spanish(request):
                                         d = Disease.objects.get(disease = 'Intrahepatic cholestasis', user_diagnosed=token_of_user)
                                         d.points += 1
                                         d.save()
+                                        
                                     elif x >=40:
-                             
+
                                         d = Disease.objects.get(disease = 'thrombosis', user_diagnosed=token_of_user)
                                         d.points += 2
                                         d.save()
@@ -235,13 +236,33 @@ def question2Spanish(request):
                                         elif bmi >= 25 and bmi <= 29.9:
                                             BMI_rate = 'Over Weight'
                                         elif bmi >= 30 and bmi <= 34.9:
-                                            BMI_rate = 'Obesity (Class I)'                   
+                                            BMI_rate = 'Obesity (Class I)'
+                                                               
                                         elif bmi >= 35 and bmi <= 39.9:
-                                            BMI_rate = 'Obesity (Class II)'                                       
+                                            BMI_rate = 'Obesity (Class II)'
+                                                            
                                         elif bmi >= 40:
                                             BMI_rate = 'Obesity (Extreme Obesity)'    
                                         
-                    
+                                        if bmi >= 30:
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                            d.points += 1
+                                            d.save()
+                                            
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                            d.points +=1
+                                            d.save()          
+                                        
+                                        elif bmi >= 35:
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                            d.points += 1
+                                            d.save()
+                                        
+                                        elif bmi >= 40:
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                            d.points += 2
+                                            d.save()
+                                            
                                         request.session['q2s'] = [BMI_rate, height, weight]
                                         
                                         request.session['questions_answered_spanish'] = [1,2]

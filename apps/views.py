@@ -381,7 +381,25 @@ def question2(request):
                                         except:
                                             pass 
                                         
+                                                 
+                                        if bmi >= 30:
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                            d.points += 1
+                                            d.save()
+                                            
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
+                                            d.points +=1
+                                            d.save()          
                                         
+                                        elif bmi >= 35:
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'preeclampsia')
+                                            d.points += 1
+                                            d.save()
+                                        
+                                        elif bmi >= 40:
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'thrombosis')
+                                            d.points += 2
+                                            d.save()
                                         
                                         # save bmi to database
                                         
