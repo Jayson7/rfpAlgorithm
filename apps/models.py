@@ -92,7 +92,6 @@ class Disease_result(models.Model):
     disease = models.CharField(max_length=30)
     point = models.CharField(max_length=20)
     mom_full_name = models.CharField(max_length=20)
-   
     date_generated = models.DateTimeField(auto_now_add=True)
     point = models.CharField(max_length=20)
     token = models.CharField(max_length=20, null=True)
@@ -128,7 +127,7 @@ class BMI(models.Model):
     weight = models.CharField(max_length=10)
     token = models.CharField(max_length=30)
     full_name = models.CharField(max_length=40)
-    id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True, null = False)
     
     def __str__(self):
         return str(self.token)

@@ -22,7 +22,7 @@ class RegisterClient(models.Model):
     
     
     def __str__(self) -> str:
-        return self.id
+        return self.client_name
 
 
 # =========================================================================

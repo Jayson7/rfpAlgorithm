@@ -536,14 +536,17 @@ def create_user(request):
 
 def removeAccess(request, pk):
     # locate the primary key on password storage 
-    user = PasswordStorage.objects.get(id=pks)
+    try:
+        user = PasswordStorage.objects.get(id=pk)
+    except:
+       user =  None
     if user:
         user.usage_count = 0
         user.save()
         messages.success(request, 'Access removed')
         return redirect('manage_access')
     else:
-        messages.warning(request, 'Account does not exist')
+        messages.warning(request, 'Access does not exist')
         return redirect('manage_access')
     
 
@@ -551,9 +554,13 @@ def removeAccess(request, pk):
 
 def regenerate_password(request, pk):
     basic_user_auth_check_admin(request)
+    try:
+        user = RegisterClient.objects.get(id=pk)
+        find_pass_profile = PasswordStorage.objects.get(client=user)
+    except:
+        messages.warning(request, 'Cant locate user password account')
+        return redirect('manage_access')
     
-    user = RegisterClient.objects.get(id=pk)
-    find_pass_profile = PasswordStorage.objects.get(client=user)
     print(find_pass_profile)
     if find_pass_profile:
        
