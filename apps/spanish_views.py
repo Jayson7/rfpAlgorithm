@@ -26,8 +26,7 @@ def question1Spanish(request):
     context = {}
 
     if request.user.is_authenticated:
-        
-        try:
+     
             # locate user on token 
             token_of_user = request.session['token_ses']
         
@@ -179,9 +178,6 @@ def question1Spanish(request):
                     messages.warning(request, 'Acceso denegado')
                     return redirect('loginspanish')           
 
-        except:
-            messages.warning(request, 'Error')
-            return redirect('loginspanish')     
     else:
         messages.warning(request, 'Autenticacion requerida')
         return redirect('loginspanish')
@@ -252,7 +248,11 @@ def question2Spanish(request):
                                             d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
                                             d.points +=1
                                             d.save()          
-                                        
+
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
+                                            d.points += 1
+                                            d.save()
+
                                         elif bmi >= 35:
                                             d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'preeclampsia')
                                             d.points += 1
@@ -1828,7 +1828,7 @@ def question16Spanish(request):
 
 
 # after success of test show page
-@login_required(login_url="login")
+@login_required(login_url="loginspanish")
 def success_page_spanish(request):
     request.session.set_expiry(300)
     context = {}
@@ -1986,7 +1986,7 @@ class ViewPDFSpanish(View):
             pdf = render_to_pdf_spanish('pages/generate_pdf_spanish.html', context)
             return HttpResponse(pdf, content_type='application/pdf')
         else:
-            return redirect('login')
+            return redirect('loginspanish')
 
 #Automatically downloads to PDF file
 

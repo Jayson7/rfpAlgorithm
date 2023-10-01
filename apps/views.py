@@ -127,8 +127,7 @@ def question1(request):
     # try:
         
     if request.user.is_authenticated:
-        
-            try:
+       
                 # locate user on token 
                 token_of_user = request.session['token_ses']
             
@@ -291,12 +290,7 @@ def question1(request):
                         logout(request)
                         return redirect('login')           
 
-            except:
-                messages.warning(request, 'Error')
-                
-                request.session.flush()
-                logout(request)
-                return redirect('login')     
+         
     
     # except:
     #     messages.warning(request, 'User unverified')
@@ -390,6 +384,10 @@ def question2(request):
                                             d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Hyperemesis gravidarum')
                                             d.points +=1
                                             d.save()          
+
+                                            d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'Diabetes Mellitus')
+                                            d.points += 1
+                                            d.save()
                                         
                                         elif bmi >= 35:
                                             d = Disease.objects.get(user_diagnosed=token_of_user, disease = 'preeclampsia')
@@ -463,9 +461,9 @@ def question3(request):
     if request.user.is_authenticated:
         user = request.user 
         token_of_user = request.session['token_ses']
-        try:
+  
         
-            if token_of_user:
+        if token_of_user:
 
                         question3 = Questions.objects.filter(id = 3).first()
                         
@@ -550,7 +548,7 @@ def question3(request):
                         # request.session.flush()
                         # logout(request)
                         # return redirect('login')           
-            else:
+        else:
                     messages.warning(request, 'User not verified')
             # except:
             #     messages.warning(request, 'Error')
@@ -558,9 +556,6 @@ def question3(request):
             # request.session.flush()
             # logout(request)
             # return redirect('login')     
-        except:
-            messages.warning(request, 'User not verified')
-            return redirect('login')
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -583,7 +578,6 @@ def question4(request):
 
     if request.user.is_authenticated:
 
-        try:     
             user = request.user 
             token_of_user = request.session['token_ses']
         
@@ -656,9 +650,7 @@ def question4(request):
                         
             else:
                     messages.warning(request, 'User not verified')
-        except:
-            messages.warning(request, 'Error')
-            return redirect('login')     
+
     else:
         messages.warning(request, 'Authentication required')
         return redirect('login')
@@ -678,10 +670,9 @@ def question5(request):
     
     basic_user_auth_check(request)
     details_checker_questions(request)
-    
-    try:
+
         
-        if request.user.is_authenticated:
+    if request.user.is_authenticated:
 
             token_of_user = request.session['token_ses']
             user = request.user 
@@ -695,10 +686,7 @@ def question5(request):
             else:
                     pass
             
-        
-            
-        
-            
+    
             if token_of_user:
         
                         # prepare question
@@ -754,12 +742,10 @@ def question5(request):
             # request.session.flush()
             # logout(request)
             # return redirect('login')     
-        else:
+    else:
             messages.warning(request, 'Authentication required')
             return redirect('login')
-    except:
-        messages.warning(request, 'Authentication required')
-        return redirect('login')
+
     
     return render(request, 'questions/question4.html', context)
 
@@ -777,8 +763,8 @@ def question6(request):
     details_checker_questions(request)
     
     
-    try:
-        if request.user.is_authenticated:
+
+    if request.user.is_authenticated:
 
             
             user = request.user 
@@ -864,13 +850,11 @@ def question6(request):
             # request.session.flush()
             # logout(request)
             # return redirect('login')     
-        else:
+    else:
             messages.warning(request, 'Authentication required')
             return redirect('login')
         
-    except:
-        messages.warning(request, 'Authentication required')
-        return redirect('login')
+
     
     return render(request, 'questions/question4.html', context)
 
@@ -886,9 +870,9 @@ def question7(request):
     details_checker_questions(request)
     
     context = {}
-    try:
+
             
-        if request.user.is_authenticated:
+    if request.user.is_authenticated:
 
             user = request.user 
             # locate user on token 
@@ -960,12 +944,10 @@ def question7(request):
             # request.session.flush()
             # logout(request)
             # return redirect('login')     
-        else:
+    else:
             messages.warning(request, 'Authentication required')
             return redirect('login')
-    except:
-        messages.warning(request, 'User not verified')
-        return redirect('login')
+
     return render(request, 'questions/question4.html', context)
 
 
@@ -2174,6 +2156,9 @@ class ViewPDF(View):
         
         else:
             return redirect('login')
+
+
+
 
 #Automatically downloads to PDF file
 
