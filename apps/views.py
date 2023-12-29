@@ -1961,12 +1961,7 @@ def question16(request):
 def save_result_user(request):
     
     # get all sessions 
-    
-
     token = request.session['token_ses']
-    
-    
-    
     
     # get all diseases
     diseases = Disease.objects.filter(user_diagnosed = token)
@@ -2168,8 +2163,9 @@ class DownloadPDF(View):
         disease = Disease.objects.filter(token=request.session['token_ses'])
         refers = Referal.objects.filter(token=request.session['token_ses'])
         datas = Result_owner.objects.filter(token=request.session['token_ses'])
-        for i in datas:
-            print(i)
+        
+        # for i in datas:
+        #     print(i)
        
         bmi= BMI.objects.filter(token=request.session['token_ses'])
         context['mom_data'] = datas
@@ -2275,8 +2271,9 @@ class DownloadPDF(View):
         
         
         
-        
+        # edit
         context['refer'] = refers
+        # 
         context['disease'] = disease
         context['mom_data'] = Result_owner.objects.filter(token=request.session['token_ses'])
         pdf = render_to_pdf('pages/generate_pdf.html', context)
@@ -2397,4 +2394,14 @@ def contact(request):
     return render(request, 'pages/contact.html', context)
     
     
+
+def schedule_data(request):
+    if request.user.is_superuser:
+       pass 
     
+    
+    
+    else:
+
+        return redirect('home')
+     

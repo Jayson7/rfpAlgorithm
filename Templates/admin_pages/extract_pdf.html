@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<head>
+<style>
+
+
+    @page {
+        size: a4 portrait;
+        @frame header_frame {           /* Static Frame */
+            -pdf-frame-content: header_content;
+            left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+        }
+        @frame content_frame {          /* Content Frame */
+            left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+        }
+        @frame footer_frame {           /* Another static Frame */
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+        }
+    }
+
+</style>
+</head>
+
+<body>
+    
+  
+
+    <br>
+    <br>
+    <br>
+
+
+
+
+
+<center class="image-logo">
+    <img src="https://res.cloudinary.com/dlvlxpja3/image/upload/v1683170388/logo3_bzlnnu.png" alt="">
+</center>
+
+
+
+<style>
+    .image-logo{
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .image-logo img {
+        width: 150px;
+        height: 150px;
+    }
+</style>
+
+
+
+
+
+    <div id="footer_content">(c) rfplgorithm  - page <pdf:pagenumber>
+        of <pdf:pagecount>
+    </div>
+
+   
+    <table>
+    		
+    	
+    		<tr>
+    			
+    			<td>Medical Report</td>
+    		</tr>
+    </table>
+
+    <hr>
+
+   
+
+
+
+
+</body>
+</html>

@@ -142,3 +142,8 @@ class ContactSubmission(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class SaveAnwersTemporarily(models.Model):
+        pass 
+    
+
