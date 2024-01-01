@@ -99,7 +99,7 @@ class Disease_result(models.Model):
    
     
     def __str__(self):
-        return self.mom_full_name    
+        return f"Disease_result {self.id}"
   
     
 class Result_owner(models.Model):
