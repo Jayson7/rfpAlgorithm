@@ -2008,6 +2008,10 @@ def save_result_user(request):
     else:
         messages.warning(request, 'Login required')
         return redirect('login')
+
+
+
+
     
 # ####################################################################
 #generate PDF
@@ -2028,7 +2032,7 @@ data = {
 	"website": "rfpalgorithm.com",
 	}
 
-#Opens up page as PDF
+#Opens up page as PDF///////////////////////////////////////////////
 class ViewPDF(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -2394,14 +2398,71 @@ def contact(request):
     return render(request, 'pages/contact.html', context)
     
     
+# this view will print out current data in the admin and make it available on request.
 
-def schedule_data(request):
-    if request.user.is_superuser:
-       pass 
-    
-    
-    
-    else:
 
-        return redirect('home')
+# def schedule_data(request):
+#     if request.user.is_superuser:
+       
+#        pass 
+    
+    
+    
+#     else:
+
+#         return redirect('home')
      
+     
+
+def render_to_pdf_admin(template_src, context_dict={}):
+    
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+	    return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+    data = {
+	"company": "RFP-Algorithm",
+	"address": "United Kingdom",
+	"website": "rfpalgorithm.com",
+	}
+
+
+
+
+
+
+#Automatically downloads to PDF file when called 
+
+class DownloadPDFAdmin(View):
+    
+    def get(self, request, *args, **kwargs):
+        context = {}
+        all_mom_data= Mom_data.objects.all()
+        all_bmi = BMI.objects.all()
+        
+        
+        # #####################################################################
+  
+        
+        for i in disease:
+        ####################################################### 
+            pass
+             
+   
+  
+        pdf = render_to_pdf('pages/generate_pdf.html', context)
+        response = HttpResponse(pdf, content_type='application/pdf')
+        
+        filename = "All_data_RFP-Algorithm_%s.pdf" %("01")
+        content = "attachment; filename='%s'" %(filename)
+        response['Content-Disposition'] = content
+        return response
+
+
+
+
+

@@ -96,10 +96,14 @@ class Disease_result(models.Model):
     point = models.CharField(max_length=20)
     token = models.CharField(max_length=20, null=True)
     id = models.AutoField(primary_key=True)
-   
+    
+    @property
+    def id_alias(self):
+        return self._id
+
     
     def __str__(self):
-        return f"Disease_result {self.id}"
+        return f"Disease_result {self.id_alias}"
   
     
 class Result_owner(models.Model):
