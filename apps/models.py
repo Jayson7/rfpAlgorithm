@@ -103,7 +103,7 @@ class Disease_result(models.Model):
 
     
     def __str__(self):
-        return f"Disease_result {self.id_alias}"
+        return f"Disease_result {self.id}"
   
     
 class Result_owner(models.Model):

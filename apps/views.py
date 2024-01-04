@@ -2365,7 +2365,6 @@ def choose_language_spanish(request):
     return redirect('loginspanish')
     
     
-
     
 def choose_language_english(request):
     
@@ -2431,10 +2430,6 @@ def render_to_pdf_admin(template_src, context_dict={}):
 	}
 
 
-
-
-
-
 #Automatically downloads to PDF file when called 
 
 class DownloadPDFAdmin(View):
@@ -2444,16 +2439,25 @@ class DownloadPDFAdmin(View):
         all_mom_data= Mom_data.objects.all()
         all_bmi = BMI.objects.all()
         
+        # filter all token 
+        get_all_token = all_mom_data.values_list('device_token', flat=True)
+        context['all_token'] = get_all_token 
+
+        #  get all disease result 
+    
+        get_all_disease_result = Disease.objects.all()
+        context['disease_result'] = get_all_disease_result 
+        
+        #  filter token from mom data and use it to get user details from result owners
+        get_all_Result_owner = Result_owner.objects.all()
+        context['all_result_owner'] = get_all_Result_owner 
         
         # #####################################################################
-  
         
-        for i in disease:
-        ####################################################### 
-            pass
-             
-   
-  
+        # filter bmi
+        get_all_bmi= BMI.objects.all()
+        context['bmi'] = get_all_bmi 
+
         pdf = render_to_pdf('pages/generate_pdf.html', context)
         response = HttpResponse(pdf, content_type='application/pdf')
         
