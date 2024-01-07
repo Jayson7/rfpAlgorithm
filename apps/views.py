@@ -2414,14 +2414,14 @@ def contact(request):
      
 
 def render_to_pdf_admin(template_src, context_dict={}):
-    
     template = get_template(template_src)
-    html  = template.render(context_dict)
+    html = template.render(context_dict)
     result = BytesIO()
     pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
     if not pdf.err:
-	    return HttpResponse(result.getvalue(), content_type='application/pdf')
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
     return None
+
 
     data = {
 	"company": "RFP-Algorithm",
@@ -2433,39 +2433,50 @@ def render_to_pdf_admin(template_src, context_dict={}):
 #Automatically downloads to PDF file when called 
 
 class DownloadPDFAdmin(View):
-    
     def get(self, request, *args, **kwargs):
         context = {}
-        all_mom_data= Mom_data.objects.all()
+        
+        # Fetch all data
+        all_mom_data = Mom_data.objects.all()
         all_bmi = BMI.objects.all()
+        all_disease_result = Disease_result.objects.all()
+        all_result_owner = Result_owner.objects.all()
         
-        # filter all token 
-        get_all_token = all_mom_data.values_list('device_token', flat=True)
-        context['all_token'] = get_all_token 
+        # Prepare context data
+        context['all_mom_data'] = all_mom_data
+        context['all_bmi'] = all_bmi
+        context['all_disease_result'] = all_disease_result
+        context['result_owner'] = all_result_owner
 
-        #  get all disease result 
-    
-        get_all_disease_result = Disease.objects.all()
-        context['disease_result'] = get_all_disease_result 
-        
-        #  filter token from mom data and use it to get user details from result owners
-        get_all_Result_owner = Result_owner.objects.all()
-        context['all_result_owner'] = get_all_Result_owner 
-        
-        # #####################################################################
-        
-        # filter bmi
-        get_all_bmi= BMI.objects.all()
-        context['bmi'] = get_all_bmi 
+        # Create a dictionary for disease points
+        disease_points = {disease_result.disease: disease_result.point for disease_result in all_disease_result}
+        context['disease_data'] = [
+            {
+                'mom_data': mom_data,
+                'bmi_data': next((bmi_data for bmi_data in all_bmi if bmi_data.token == mom_data.token), None),
+                'disease_result': disease_result,
+                'disease_point': disease_points.get(disease_result.disease, 'N/A'),
+                'result_owner': next((result_owner for result_owner in all_result_owner if result_owner.token == mom_data.token), None)
 
-        pdf = render_to_pdf('pages/generate_pdf.html', context)
+            }
+            for mom_data in all_mom_data
+            for disease_result in all_disease_result
+            if disease_result.token == mom_data.token
+            if disease_result.token == mom_data.token
+        ]
+
+
+        # Create a dictionary for disease points
+        disease_points = {disease_result.disease: disease_result.point for disease_result in all_disease_result}
+        context['disease_points'] = disease_points
+        
+        pdf = render_to_pdf_admin('admin_pages/extract_pdf.html', context)
         response = HttpResponse(pdf, content_type='application/pdf')
         
-        filename = "All_data_RFP-Algorithm_%s.pdf" %("01")
-        content = "attachment; filename='%s'" %(filename)
+        filename = "All_data_RFP-Algorithm_%s.pdf" % ("01")
+        content = "attachment; filename='%s'" % (filename)
         response['Content-Disposition'] = content
         return response
-
 
 
 

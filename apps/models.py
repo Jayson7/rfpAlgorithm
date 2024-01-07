@@ -77,7 +77,7 @@ class Referal(models.Model):
 class Mom_data(models.Model):
     full_name = models.CharField(max_length=100)
     browser = models.CharField(max_length=100)
-    device_token = models.CharField(max_length=100)
+    token = models.CharField(max_length=100)
     app_password = models.CharField(max_length=100)
     client_reference = models.CharField(max_length=100)
     id = models.AutoField(primary_key=True)
@@ -93,7 +93,7 @@ class Disease_result(models.Model):
     point = models.CharField(max_length=20)
     mom_full_name = models.CharField(max_length=20)
     date_generated = models.DateTimeField(auto_now_add=True)
-    point = models.CharField(max_length=20)
+
     token = models.CharField(max_length=20, null=True)
     id = models.AutoField(primary_key=True)
     
@@ -115,7 +115,7 @@ class Result_owner(models.Model):
     browser = models.CharField(max_length=100)
     device = models.CharField(max_length=50)
     user_profile = models.CharField(max_length=20)
-    auth_password = models.CharField(max_length=20)
+    
     email = models.EmailField()
     age = models.CharField(max_length=10)
     id = models.AutoField(primary_key=True)

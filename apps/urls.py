@@ -55,9 +55,13 @@ urlpatterns = [
     # result
     path('results', ViewPDFSpanish.as_view(), name='vresults'),
     path('result', ViewPDF.as_view(), name='vresult'),
+    # spanish
     path('downloads', DownloadPDFSpanish.as_view(), name='dresults'),
+    # english
     path('download', DownloadPDF.as_view(), name='dresult'),
     
+    # download admin
+    path('download_admin', DownloadPDFAdmin.as_view(), name='dresultadmin'),
 ]
     
     
