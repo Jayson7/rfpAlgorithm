@@ -63,7 +63,7 @@ urlpatterns = [
     
     # download admin
     path('download_admin', DownloadPDFAdmin.as_view(), name='dresultadmin'),
-    path('chart_download', ChartDownloadView.as_view(), name='chart_download_view'),
+    # path('chart_download', ChartDownloadView.as_view(), name='chart_download_view'),
 ]
     
 
