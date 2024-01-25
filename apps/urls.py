@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import *
 from .spanish_views import *
-from .chart_view import ChartDownloadView
+
 
 
 # 
