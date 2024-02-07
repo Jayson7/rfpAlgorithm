@@ -9,7 +9,6 @@ Author == "Jayson"
 jaysontechsolutions@gmail.com
 
 #################  All Rights Reserved ###########
-
 '''
 
 # SECURITY WARNING: keep the secret key used in production secret!
