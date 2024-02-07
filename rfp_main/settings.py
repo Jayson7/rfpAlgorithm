@@ -159,7 +159,6 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# messaging platform
 
 from django.contrib.messages import constants as messages
 
