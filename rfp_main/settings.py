@@ -143,12 +143,12 @@ USE_TZ = True
 
 import os
 # static file and static configuration
-STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-] 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+
+
+STATIC_URL = '/static/'
+STATIC_ROOT = 'static'
+
 
 # media files (images, videos, etc.)
 MEDIA_ROOT = BASE_DIR / 'media'
