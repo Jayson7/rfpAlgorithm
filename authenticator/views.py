@@ -229,10 +229,10 @@ def complete_user_info(request):
    
             
     if request.method == 'POST':
-             if 'email' in request.session:
-                 return redirect('question1')
+            if 'email' in request.session:
+                return redirect('question1')
              
-             else:
+            else:
                 email = request.POST['email']
                 if email == '':
                     messages.warning(request, 'email cannot be empty')
