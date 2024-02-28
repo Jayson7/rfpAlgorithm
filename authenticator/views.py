@@ -225,10 +225,10 @@ def login_page(request):
 def complete_user_info(request):
     # confirm authentication status    
     basic_user_auth_check(request)
-    try:        
+  
    
             
-        if request.method == 'POST':
+    if request.method == 'POST':
              if 'email' in request.session:
                  return redirect('question1')
              
@@ -251,9 +251,7 @@ def complete_user_info(request):
                     create_mom_data.save()
                     return redirect('question1')
  
-    except:
-        messages.warning(request, 'Authentication required fail')
-        return redirect('logins')
+  
     return render(request, 'auth_pages/complete_profile.html')
 
 
