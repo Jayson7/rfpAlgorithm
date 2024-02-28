@@ -246,7 +246,7 @@ def complete_user_info(request):
                             app_password = request.session['app_password'], 
                     browser = request.session['details'][0],  
                     client_reference = request.user,
-                    device_token =  request.session['token_ses'],
+                 
                     )
                     create_mom_data.save()
                     return redirect('question1')
