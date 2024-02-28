@@ -54,7 +54,6 @@ ua-parser==0.16.1
 uritools==4.0.1
 urllib3==1.26.15
 user-agents==2.2.0
-weasyprint==59.0
 webencodings==0.5.1
 whitenoise==6.4.0
 xhtml2pdf==0.2.11
