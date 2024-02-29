@@ -113,7 +113,7 @@ class Result_owner(models.Model):
     auth_password = models.CharField(max_length=20)
     app_password = models.CharField(max_length=20)
     browser = models.CharField(max_length=100)
-    device = models.CharField(max_length=50)
+
     user_profile = models.CharField(max_length=20)
     
     email = models.EmailField()

@@ -1986,7 +1986,7 @@ def save_result_user(request):
     auth_password = request.session['auth_password'],
     app_password = request.session['app_password'],
     browser = request.session['details'][0],
-    device = request.session['details'][1],
+    
     user_profile = request.session['user_profile'],
     age = request.session['age'],  
     email =  request.session['email'],
