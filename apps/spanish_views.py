@@ -1870,7 +1870,11 @@ data = {
 	"website": "rfpalgorithm.com",
 	}
 
+
+
 #Opens up page as PDF
+
+
 class ViewPDFSpanish(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -1883,7 +1887,7 @@ class ViewPDFSpanish(View):
           
              
             for i in disease:
-        ####################################################### 
+            ####################################################### 
                 
                     if i.disease == 'preeclampsia':
                       
@@ -1973,8 +1977,7 @@ class ViewPDFSpanish(View):
                         elif int(i.point) == 0:
                             context['intrahepatic_b']  = 'yes'
    
-   
-        
+          
    
    
    
@@ -1990,6 +1993,8 @@ class ViewPDFSpanish(View):
 
 #Automatically downloads to PDF file
 
+
+
 class DownloadPDFSpanish(View):
     def get(self, request, *args, **kwargs):
         context = {}
@@ -2001,7 +2006,7 @@ class DownloadPDFSpanish(View):
         
          
         for i in disease:
-        ####################################################### 
+            ####################################################### 
                 
                     if i.disease == 'preeclampsia':
                       
@@ -2091,7 +2096,7 @@ class DownloadPDFSpanish(View):
                         elif int(i.point) == 0:
                             context['intrahepatic_b']  = 'yes'
    
-   
+     
   
         ####################################################### 
           
